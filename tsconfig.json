@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "noUnusedParameters": false,
+        "noUnusedLocals": true,
+        "module": "commonjs",
+        "target": "es2015",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "outDir": "./appJS",
+        "watch": true,
+        "baseUrl": ".", // This must be specified if "paths" is.
+        "paths": {
+          "@data/*": ["./app/data/*"],
+          "@OAuth/*": ["./app/OAuth/*"],
+          "@User/*": ["./app/User/*"]
+        }
+    },
+    "include": [
+        "app/**/*.ts"
+    ],
+    "exclude" : [
+        "./appJS",
+        "./node_modules"
+    ]
+}

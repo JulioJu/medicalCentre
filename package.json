@@ -1,0 +1,31 @@
+{
+  "name": "cabinet",
+  "version": "1.0.0",
+  "description": "Projet M2 MIASHS de cabinet médical",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./appJS/server.js",
+    "compile": "node ./node_modules/typescript/bin/tsc",
+    "lint": "node ./node_modules/tslint/bin/tslint --config \"./tslint.json\" \"app/**/*.ts\"",
+    "watch:lint": "node ./node_modules/chokidar-cli/index.js ./app/**/*.ts -c \"npm run lint\" --initial --verbose",
+    "compileAndLint": "npm-run-all --parallel watch:lint compile"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "fs-extra": "^4.0.1",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.26",
+    "chokidar-cli": "^1.2.0",
+    "module-alias": "^2.0.1",
+    "npm-run-all": "^4.1.1",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
+  }
+}
