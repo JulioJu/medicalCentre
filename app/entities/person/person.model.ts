@@ -1,4 +1,4 @@
-import {PersonJSON} from './personJSON';
+import {PersonJSON} from './person.json';
 
 export abstract class Person {
 

@@ -1,7 +1,7 @@
-import {NurseJSON} from './nurseJSON';
-import {Person} from './person';
+import { NurseJSON} from '../nurse';
+import { Person } from '../person';
 
-export abstract class Nurse extends Person {
+export class Nurse extends Person {
 
     constructor(
         private _id: number,

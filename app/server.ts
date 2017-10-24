@@ -1,12 +1,14 @@
 import "module-alias/register"; // Used to take into account path declaration for modules
 // See declarations in package.json
 
-import * as http from "http";                   // HTTP server
-import * as https from "https";                 // HTTPS server
-import * as express from "express";             // The application server
-import * as bodyParser from "body-parser";      // Parse HTTP GET and POST variables
-import * as path from "path";                   // Deal with system paths
-import * as fs from "fs-extra";                 // Acces to files
+import * as http from 'http';                   // HTTP server
+import * as https from 'https';                 // HTTPS server
+import * as express from 'express';             // The application server
+import * as bodyParser from 'body-parser';      // Parse HTTP GET and POST variables
+import * as path from 'path';                   // Deal with system paths
+import * as fs from 'fs-extra';                 // Acces to files
+// import Nurse from './dataModel/nurses'
+import { Patient } from './entities/patient'
 
 const app: express.Application = express();
 
@@ -52,7 +54,8 @@ app.get("/testParam", (req, res) => {
 
 app.get("/testParam2", (req, res) => {
     console.log(req.query);
-    if (res.query || req.query.prenom || req.query.nom) {
+    if (req.query && Object.keys(req.body).length == 2
+        && req.query.prenom && req.query.nom) {
         res.json( {message: req.query} );
     }
     else {
@@ -61,18 +64,36 @@ app.get("/testParam2", (req, res) => {
 });
 
 app.post("/addPatient", (req, res, next) => {
-    // console.log(req.body);
-    if (res.body || req.body.name || req.query.forName
-        || req.body.socialSecurity || req.body.patientSex
-        || req.body.birthday || req.body.adress ) {
-        res.send("Ça marche");
+    console.log(req.body);
+    console.log(Object.keys(req.body).length);
+    // TODO check if data are well formed
+    if (req.body && Object.keys(req.body).length != 6) {
+        res.status(400).send("Bad request: number of variables not correct");
+    }
+    else if (!req.body.idSSN) {
+        res.status(400).send("Bad request: parameter \"idSSN\" missing");
+    }
+    else if (!req.body.firstname) {
+        res.status(400).send("Bad request: parameter \"firstname\" missing");
+    }
+    else if (!req.body.lastname) {
+        res.status(400).send("Bad request: parameter \"lastname\" missing");
+    }
+    else if (!req.body.isMale) {
+        res.status(400).send("Bad request: parameter \"isMale\" missing");
+    }
+    else if (!req.body.birthday) {
+        res.status(400).send("Bad request: parameter \"birthday\" missing");
+    }
+    else if (!req.body.adress) {
+        res.status(400).send("Bad request: parameter \"adress\" missing");
     }
     else {
-        res.status(400).send('ééééwBad Request');
+        res.send("Ça marche");
+        new Patient(req.body.idSSN, req.body.firstname, req.body.lastname,
+            req.body.isMale, req.body.birthday, req.body.adress);
     }
 });
-
-
 
 const dataPath = path.join(__dirname, "/../app/data");
 console.log("dataPath" + dataPath);
