@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "noUnusedParameters": false,
+        "noUnusedParameters": false, // express neads"app.get("/", (req, res) => {" even if req or res is not used
         "noUnusedLocals": true,
         "module": "commonjs",
         "target": "es2015",
@@ -8,7 +8,7 @@
         "sourceMap": false,
         "outDir": "./appJS",
         "watch": true,
-        "baseUrl": ".", // This must be specified if "paths" is.
+        "baseUrl": ".",
         "paths": {
           "@data/*": ["./app/data/*"],
           "@OAuth/*": ["./app/OAuth/*"],

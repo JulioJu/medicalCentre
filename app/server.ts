@@ -35,7 +35,7 @@ app.use(bodyParser.json()); // get information from html forms (post)
 app.use(bodyParser.urlencoded({extended: true})); // get
 
 app.get("/", (req, res) => {
-   res.json( {message: "Il va falloir implémenter tout ça..."} );
+    res.json( {message: "Il va falloir implémenter tout ça..."} );
 });
 
 app.get("/test", (req, res) => {
