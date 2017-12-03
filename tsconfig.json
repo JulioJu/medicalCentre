@@ -5,9 +5,9 @@
         "module": "commonjs",
         "target": "es2015",
         "noImplicitAny": false,
-        "sourceMap": false,
+        "sourceMap": true,
         "outDir": "./appJS",
-        "watch": true,
+        "watch": false,
         "baseUrl": ".",
         "paths": {
           "@data/*": ["./app/data/*"],
