@@ -1,4 +1,4 @@
-import { Patient, dbGetPatients, dbAddPatient  } from './';
+import { outerPromise, nonnnnnPromise, Patient, /* dbGetPatients, */ dbAddPatient  } from './';
 
 export const patientRoute = (app) => {
     app.post("/addPatient", (req, res, next) => {
@@ -43,10 +43,23 @@ export const patientRoute = (app) => {
     });
 
     app.get("/getPatients", (req, res) => {
-        console.log('coucou');
-        dbGetPatients().then(str => {
-            res.send(str)
-        }).catch ((e) => res.send(e)) ;
+        console.log('n°1 coucou'); // 1
+        outerPromise()
+            .then((myVariable: string) => {
+                console.log("n°6 Notre promesse finale est tenue. On est heureux");
+                console.log("n°7 on raffiche la variable récupérée dans l'inner" +
+                    " promise fakeMongoInnerPromise" + myVariable);
+            })
+            .catch((e: string) => {
+                console.log('on est dans le catch de la fin du monde');
+                res.send(e);
+            });
+
+        nonnnnnPromise(); // 3 (affiche « coucou non promise »)
+        console.log("n° 2 kon écrit après la non promesse"); // 2
+        // dbGetPatients().then(str => {
+        //     res.send(str)
+        // }).catch ((e) => res.send(e)) ;
     });
 
 };
