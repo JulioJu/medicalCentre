@@ -37,6 +37,7 @@ export const routeMain = (app) => {
 
     // To serve static files such as images, CSS files, and JavaScript files,
     // use the express.static built-in middleware function in Express.
+    // http://expressjs.com/en/starter/static-files.html
     const dataPath = path.join(__dirname, "/../app/data");
     console.log("dataPath" + dataPath);
     app.use('/data', express.static(dataPath));

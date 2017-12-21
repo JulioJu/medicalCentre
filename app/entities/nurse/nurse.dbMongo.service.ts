@@ -1,19 +1,21 @@
 import { Nurse } from './';
+import { MongoClient } from 'mongodb';
 
-let MongoClient = require('mongodb').MongoClient;
-
-export let dbAddNurse = function (myNurse: Nurse) : Promise<any> {
+export const dbAddNurse = (myNurse: Nurse) : Promise<any>  => {
     return new Promise ((resolve, reject) => {
-        MongoClient.connect('mongodb://localhost/test', function(error, db){
-            if (error) reject(error)
-            let obj = myNurse.toJSON();
-            db.collection('nurse').insert(obj, null, function(error, res){
+        MongoClient.connect('mongodb://localhost/test', (error, db) => {
+            if (error) {
+                db.close();
+                reject(error);
+            }
+            const obj = myNurse.toJSON();
+            db.collection('nurse').insert(obj, null, (error, res) => {
                 if (error) {
-                    console.log('coucouFromError');
+                    db.close();
                     reject(error);
                 }
                 else {
-                    console.log('coucouFromSucces');
+                    db.close();
                     resolve();
                 }
             });
@@ -21,15 +23,22 @@ export let dbAddNurse = function (myNurse: Nurse) : Promise<any> {
     });
 };
 
-export let dbGetNurses = function (): Promise<any> {
+export const dbGetNurses = (): Promise<any> => {
     return new Promise((resolve, reject) => {
-        MongoClient.connect('mongodb://localhost/test', function(error, db){
-            if (error) reject(error);
-            db.collection('nurse').find().toArray(function (error, res) {
-                if (error)
+        MongoClient.connect('mongodb://localhost/test', (error, db) => {
+            if (error) {
+                db.close();
+                reject(error);
+            }
+            db.collection('nurse').find().toArray((error, res) => {
+                if (error) {
+                    db.close();
                     reject(error);
-                else
+                }
+                else {
+                    db.close();
                     resolve(res);
+                }
             })
         });
     });
