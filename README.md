@@ -12,4 +12,6 @@
 4. Declare the route
 
 # TODO
-Use an hot reload.
+* Use an hot reload.
+* entities/address is not used. Include it.
+* regex for some req.body.*
