@@ -8,7 +8,8 @@ import * as bodyParser from 'body-parser';      // Parse HTTP GET and POST varia
 import * as path from 'path';                   // Deal with system paths
 import * as fs from 'fs-extra';                 // Acces to files
 // import Nurse from './dataModel/nurses'
-import { patientRoute } from './entities/patient'
+import { patientRoute } from './entities/patient';
+import { nurseRoute } from './entities/nurse';
 import { dbMongoInit } from './shared';
 
 const app: express.Application = express();
@@ -73,5 +74,6 @@ function main() {
 dbMongoInit().then(() => {
     main();
     patientRoute(app);
+    nurseRoute(app);
 });
 

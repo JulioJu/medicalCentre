@@ -1,5 +1,5 @@
-import { NurseJSON} from '../nurse';
-import { Person } from '../person';
+import {NurseJSON} from './nurse.json';
+import {Person} from '../person';
 
 export class Nurse extends Person {
 
@@ -20,7 +20,7 @@ export class Nurse extends Person {
     }
 
     toJSON(): NurseJSON {
-        return Object.assign({}, {id: this._id}, super.toJSON());
+        return Object.assign({}, {id: this.id}, super.toJSON());
     }
 
 }
