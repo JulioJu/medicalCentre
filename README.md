@@ -10,3 +10,6 @@
 3. Change the model, and the json associated.
 4. From the model, change the file route
 4. Declare the route
+
+# TODO
+Use an hot reload.

@@ -10,7 +10,7 @@ import * as fs from 'fs-extra';                 // Acces to files
 // import Nurse from './dataModel/nurses'
 import { patientRoute } from './entities/patient';
 import { nurseRoute } from './entities/nurse';
-import { dbMongoInit } from './shared';
+import { routeMain, dbMongoInit } from './shared';
 
 const app: express.Application = express();
 
@@ -36,44 +36,11 @@ serverHTTPS.listen(portHTTPS, () => {
 app.use(bodyParser.json()); // get information from html forms (post)
 app.use(bodyParser.urlencoded({extended: true})); // get
 
-function main() {
-    app.get("/", (req, res) => {
-        res.json( {message: "Il va falloir implémenter tout ça..."} );
-    });
-
-    app.get("/test", (req, res) => {
-    res.json( {message: "ok tout va bien"} );
-    });
-
-    app.get("/testParam", (req, res) => {
-        res.header("Content-Type", "text/html; charset=utf-8");
-        for (let att in req.query) {
-            res.write(`${att}:${req.query[att]}\n`)
-        }
-        res.write("éééé");
-        res.end();
-    });
-
-
-    app.get("/testParam2", (req, res) => {
-        console.log(req.query);
-        if (req.query && Object.keys(req.body).length == 2
-            && req.query.prenom && req.query.nom) {
-            res.json( {message: req.query} );
-        }
-        else {
-            res.status(400).send('éééBad Request');
-        }
-    });
-
-    const dataPath = path.join(__dirname, "/../app/data");
-    console.log("dataPath" + dataPath);
-    app.use('/data', express.static(dataPath));
-}
-
 dbMongoInit().then(() => {
-    main();
     patientRoute(app);
     nurseRoute(app);
+    // Keep routeMain at the and of this list: have a route /* for pages not
+    // found.
+    routeMain(app);
 });
 
