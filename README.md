@@ -1,5 +1,9 @@
 # Utilisation
-* Do not forget to start the Mongo service
+* If the application is compiled, `yarn start` or `npm start`.
+* If the port 8080 is already in use, exit with error code 2.
+* If you have forgotten to start MongoDB service, or if there is a problem
+    to be connected to the database, the application exit with error code 3.
+
 
 # Compilation
 * This project use a Makefile
@@ -17,9 +21,11 @@
 * regex for some req.body.*
 * delete commonjs in tsconfig.js and other files.
 * Implement an abstract dbMongo.service.ts
+* Test if MongoDB is running
+    https://stackoverflow.com/questions/39599063/check-if-mongodb-is-connected
+    and adapt dbMongo.ts
 
 # MongoDB
-* Do not forget to start the mongo service
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
 * See http://mongodb.github.io/node-mongodb-native/2.2/quick-start/quick-start/
     (we have thought a lot of about this link, and remake the example with
@@ -53,3 +59,4 @@ error-handling middleware)
 * GET /testParam
 * GET /testParam2
 * GET /* 404
+

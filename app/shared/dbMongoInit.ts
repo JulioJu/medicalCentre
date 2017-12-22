@@ -8,8 +8,11 @@ export const dbMongoInit = (): Promise<any> => {
             .connect('mongodb://localhost/test', (error, db) => {
                 if (error) {
                     console.log("rejected from dbMongo.ts");
-                    console.log(error);
-                    db.close();
+                    // console.log(error);
+                    // Do not close. If there is an error it could be because
+                    // the MonboDB service isn't running, therefore it could
+                    // not be closed.
+                    // db.close();
                     reject();
                 }
                 else {
