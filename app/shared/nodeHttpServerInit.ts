@@ -34,8 +34,8 @@ const connectToServer = (resolve, reject, server, PORT) => {
         }
     });
     // https://nodejs.org/api/net.html#net_event_listening
-    server.on('listening', (e: any) => {
-        console.log(e);
+    server.once('listening', (e: any) => {
+        // console.log(e);
         console.log(`HTTP server running on port ${PORT}.`);
         resolve();
     });

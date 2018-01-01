@@ -1,4 +1,4 @@
-import {PersonJSON} from '../person';
+import { PersonJSON } from '../person';
 
 export interface PatientJSON extends PersonJSON {
     idSSN: number;

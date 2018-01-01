@@ -1,5 +1,5 @@
-import {NurseJSON} from './nurse.json';
-import {Person} from '../person';
+import { NurseJSON } from './nurse.json';
+import { Person } from '../person';
 
 export class Nurse extends Person {
 

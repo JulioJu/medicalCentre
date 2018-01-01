@@ -24,6 +24,11 @@
 * Test if MongoDB is running
     https://stackoverflow.com/questions/39599063/check-if-mongodb-is-connected
     and adapt dbMongo.ts
+* In France, the Sécurité sociale use not the Social security number as key
+    (too complex). Like them, do not use SSN. In file
+    ./shared/abstract.entity.ts, add "id: number". Only with Mongo it seems not
+    be possible to have a field UNIQUE, except if this field is the identifier.
+    Use Mongoose or JSON Schema to resolve that.
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

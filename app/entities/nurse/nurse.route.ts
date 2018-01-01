@@ -1,9 +1,12 @@
-import { Nurse, dbGetNurses, dbAddNurse  } from './';
+import { Nurse, NurseService } from './';
 
 export const nurseRoute = (app) => {
+
+    const nurseService = new NurseService();
+
     app.route("/nurses")
         .get((res, req) => {
-            dbGetNurses().then(str => {
+            nurseService.getNurses().then(str => {
                 res.send(str)
             }).catch ((e) => res.send(e)) ;
         })
@@ -33,7 +36,7 @@ export const nurseRoute = (app) => {
             else {
                 const myNurse = new Nurse(req.body.id, req.body.firstname,
                     req.body.lastname, req.body.adress);
-                dbAddNurse(myNurse).then(() => res.send("Nurse added"))
+                nurseService.addNurse(myNurse).then(() => res.send("Nurse added"))
                     .catch(
                         (e) => {
                             console.log('on est bien dans l\'erreur');

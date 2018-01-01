@@ -1,6 +1,7 @@
-import {PersonJSON} from './person.json';
+import { AbstractModel } from '../abstract';
+import { PersonJSON } from './person.json';
 
-export abstract class Person {
+export abstract class Person implements AbstractModel {
 
     constructor(protected _firstname: string,
     protected _lastname: string,

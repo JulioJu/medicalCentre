@@ -1,9 +1,12 @@
-import { Patient, dbGetPatients, dbAddPatient  } from './';
+import { Patient, PatientService } from './';
 
 export const patientRoute = (app) => {
+
+    const patientService = new PatientService();
+
     app.route("/patients")
         .get((res, req) => {
-            dbGetPatients().then(str => {
+            patientService.getPatients().then(str => {
                 res.send(str)
             }).catch ((e) => res.send(e)) ;
         })
@@ -43,7 +46,8 @@ export const patientRoute = (app) => {
                 const myPatient = new Patient(req.body.idSSN, req.body.firstname,
                     req.body.lastname, req.body.isMale, req.body.birthday,
                     req.body.adress);
-                dbAddPatient(myPatient).then(() => res.send("Patient added"))
+                patientService.addPatient(myPatient).then(() =>
+                    res.send("Patient added"))
                     .catch(
                         (e) => {
                             res.send(e)
