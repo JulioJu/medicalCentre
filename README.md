@@ -3,6 +3,7 @@
 * If the port 8080 is already in use, exit with error code 2.
 * If you have forgotten to start MongoDB service, or if there is a problem
     to be connected to the database, the application exit with error code 3.
+* You should not have two same idSSN. My code check that idSSN should be UNIQUE.
 
 
 # Compilation
@@ -17,18 +18,21 @@
 
 # TODO
 * Use an hot reload.
-* entities/address is not used. Include it.
+* Add an entity address.
 * regex for some req.body.*
 * delete commonjs in tsconfig.js and other files.
-* Implement an abstract dbMongo.service.ts
+* ~~ Implement an abstract dbMongo.service.ts ~~ Done.
 * Test if MongoDB is running
     https://stackoverflow.com/questions/39599063/check-if-mongodb-is-connected
     and adapt dbMongo.ts
-* In France, the Sécurité sociale use not the Social security number as key
+* ~~In France, the Sécurité sociale use not the Social security number as key
     (too complex). Like them, do not use SSN. In file
     ./shared/abstract.entity.ts, add "id: number". Only with Mongo it seems not
     be possible to have a field UNIQUE, except if this field is the identifier.
-    Use Mongoose or JSON Schema to resolve that.
+    Use Mongoose or JSON Schema to resolve that.~~
+    mongodb automatically add an identifier with field '_id'. my code check that
+    idssn is unique.
+* Secure abstract.service.ts against SQL injections.
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

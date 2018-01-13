@@ -2,8 +2,8 @@ import "module-alias/register"; // Used to take into account path declaration fo
 // See declarations in package.json
 
 import * as express from 'express';             // The application server
-import { patientRoute } from './entities/patient';
-import { nurseRoute } from './entities/nurse';
+import { PatientRoute } from './entities/patient';
+import { NurseRoute } from './entities/nurse';
 import { nodeHttpServerInit, routeMain, dbMongoInit } from './shared';
 
 const app: express.Application = express();
@@ -26,16 +26,16 @@ nodeHttpServerInit(app)
             .then(() => {
                 console.log("Great! You have not forgotten to start your" +
                     " MonogoDB! Congratulation!");
-                patientRoute(app);
-                nurseRoute(app);
-                // Keep routeMain at the and of this list: have a route /* for pages not
-                // found.
+                new PatientRoute(app).routes();
+                new NurseRoute(app).routes();
+                // Keep routeMain at the and of this list: have a route /* for
+                // pages not found.
                 routeMain(app);
             })
             .catch(() => {
-                console.log("Connot connect to the database. Maybe your MongoDB server"
-                    + " is not running, or your database is not created. " +
-                    "NodeJS is stopping with error code 15.");
+                console.log("Connot connect to the database. Maybe your MongoDB"
+                    + " server is not running, or there is a problem with your"
+                    + " database. NodeJS is stopping with error code 15.");
                 process.exit(15);
             });
     })

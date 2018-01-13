@@ -1,58 +1,24 @@
+import * as express from 'express';
 import { Nurse, NurseService } from './';
+import { AbstractRoute } from '../abstract';
 
-export const nurseRoute = (app) => {
+export class NurseRoute extends AbstractRoute {
 
-    const nurseService = new NurseService();
+    private nurseService: NurseService;
 
-    app.route("/nurses")
-        .get((res, req) => {
-            nurseService.getNurses().then(str => {
-                res.send(str)
-            }).catch ((e) => res.send(e)) ;
-        })
-        .put((req, res, next) => {
-            console.log(req.body);
-            console.log(Object.keys(req.body).length);
-            // TODO check if data are well formed
-            if (req.body && Object.keys(req.body).length != 4) {
-                res.status(400)
-                    .send("Bad request: number of variables not correct");
-            }
-            else if (!req.body.id) {
-                res.status(400).send("Bad request: parameter \"id\" missing");
-            }
-            else if (!req.body.firstname) {
-                res.status(400)
-                    .send("Bad request: parameter \"firstname\" missing");
-            }
-            else if (!req.body.lastname) {
-                res.status(400)
-                    .send("Bad request: parameter \"lastname\" missing");
-            }
-            else if (!req.body.adress) {
-                res.status(400)
-                    .send("Bad request: parameter \"adress\" missing");
-            }
-            else {
-                const myNurse = new Nurse(req.body.id, req.body.firstname,
-                    req.body.lastname, req.body.adress);
-                nurseService.addNurse(myNurse).then(() => res.send("Nurse added"))
-                    .catch(
-                        (e) => {
-                            console.log('on est bien dans l\'erreur');
-                            res.send(e)
-                        }
-                    );
-            }
-        });
+    constructor(private app: express.Application) {
+        super();
+        this.nurseService = new NurseService();
+        this.app = app;
+    }
 
-    app.route("/nurses/:id")
-        .get((res, req) => {
-            console.log(req.params);
-            console.log(req.params.id);
-        });
-        // .delete((res, req) => {
-        //
-        // })
+    routes() {
+        const putMandatoryParameters = ["_firstname", "_lastname",
+            "_address"];
+        const putAllParametersOrdered = ["_id", "_firstname", "_lastname",
+            "_address"]
+        super.someRoutes<Nurse>(Nurse, "Nurse", this.app, "/nurses",
+            this.nurseService, putMandatoryParameters, putAllParametersOrdered);
+    }
 
-};
+}

@@ -3,12 +3,12 @@ import { AbstractService } from '../abstract/abstract.service';
 
 export class NurseService extends AbstractService {
 
-    addNurse(myNurse: Nurse): Promise<any> {
-        return super.addEntity(myNurse, 'nurse');
+    insertOrUpdate(myNurse: Nurse): Promise<any> {
+        return super.insertOrUpdateNested(myNurse, 'nurse');
     }
 
-    getNurses(): Promise<any> {
-        return super.getEntity('nurse');
+    getRecords(): Promise<any> {
+        return super.getRecordsNested('nurse');
     }
 
 }

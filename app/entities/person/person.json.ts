@@ -1,7 +1,7 @@
 import { AbstractJSON } from '../abstract/abstract.json';
 
 export interface PersonJSON extends AbstractJSON {
-    firstname: string;
-    lastname: string;
-    address: string;
+    _firstname: string;
+    _lastname: string;
+    _address: string;
 }

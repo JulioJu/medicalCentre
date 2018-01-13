@@ -1,5 +1,6 @@
 import * as http from 'http';                   // HTTP server
 import * as https from 'https';                 // HTTPS server
+import * as express from 'express';             // The application server
 import * as bodyParser from 'body-parser';      // Parse HTTP GET and POST variables
 import * as path from 'path';                   // Deal with system paths
 import * as fs from 'fs-extra';                 // Acces to files
@@ -42,7 +43,7 @@ const connectToServer = (resolve, reject, server, PORT) => {
     server.listen(PORT, null);
 };
 
-export const nodeHttpServerInit = (app): Promise<any> => {
+export const nodeHttpServerInit = (app: express.Application): Promise<any> => {
     return new Promise((resolve, reject) => {
 
         // HTTP
@@ -63,4 +64,5 @@ export const nodeHttpServerInit = (app): Promise<any> => {
         app.use(bodyParser.json()); // get information from html forms (post)
         app.use(bodyParser.urlencoded({extended: true})); // get
     });
-};
+}
+

@@ -1,12 +1,14 @@
 import { AbstractModel } from '../abstract';
 import { PersonJSON } from './person.json';
 
-export abstract class Person implements AbstractModel {
+export abstract class Person extends AbstractModel {
 
-    constructor(protected _firstname: string,
-    protected _lastname: string,
-    protected _address: string) {
-
+    constructor(
+        _id,
+        private _firstname: string,
+        private _lastname: string,
+        private _address: string) {
+        super(_id);
     }
 
     get firstname(): string {
@@ -34,10 +36,10 @@ export abstract class Person implements AbstractModel {
     }
 
     toJSON(): PersonJSON {
-        return {
-            firstname: this._firstname,
-            lastname: this._lastname,
-            address: this._address,
-        }
+        return Object.assign({}, {
+            _firstname: this._firstname,
+            _lastname: this._lastname,
+            _address: this._address,
+        }, super.toJSON());
     }
 }

@@ -4,23 +4,15 @@ import { Person } from '../person';
 export class Nurse extends Person {
 
     constructor(
-        private _id: number,
-        protected _firstname: string,
-        protected _lastname: string,
-        protected _address: string) {
-        super(_firstname, _lastname, _address);
-    }
-
-    get id(): number {
-        return this._id;
-    }
-
-    set id(id: number) {
-        this._id = id;
+        _id: string,
+        _firstname: string,
+        _lastname: string,
+        _address: string) {
+        super(_id, _firstname, _lastname, _address);
     }
 
     toJSON(): NurseJSON {
-        return Object.assign({}, {id: this.id}, super.toJSON());
+        return Object.assign({}, super.toJSON());
     }
 
 }

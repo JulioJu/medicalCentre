@@ -1,33 +1,46 @@
 import { AbstractJSON, AbstractModel } from './';
 import { MongoClient } from 'mongodb';
+import { URLMONGODB } from '../../shared';
 
 export abstract class AbstractService {
 
-    addEntity(abstractModel: AbstractModel, tableName: string): Promise<any> {
+    abstract insertOrUpdate(myEntity: AbstractModel);
+
+    abstract getRecords();
+
+    protected insertOrUpdateNested(abstractModel: AbstractModel, tableName:
+        string): Promise<any> {
         return new Promise ((resolve, reject) => {
-            MongoClient.connect('mongodb://localhost/test', (error, db) => {
+            MongoClient.connect(URLMONGODB, (error, db) => {
                 if (error) {
                     db.close();
                     reject(error);
                 }
                 const obj: AbstractJSON = abstractModel.toJSON();
-                db.collection(tableName).insert(obj, null, (error, res) => {
+                db.collection(tableName).save(obj, null, (error, res) => {
                     if (error) {
                         db.close();
                         reject(error);
                     }
                     else {
-                        db.close();
-                        resolve();
+                        if (res === 1) {
+                            console.log(`${tableName} inserted`);
+                            db.close();
+                            resolve(true);
+                        } else {
+                            console.log(`${tableName} updated`);
+                            db.close();
+                            resolve(false);
+                        }
                     }
                 });
             });
         });
     }
 
-    getEntity(tableName: string): Promise<any> {
+    protected getRecordsNested(tableName: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            MongoClient.connect('mongodb://localhost/test', (error, db) => {
+            MongoClient.connect(URLMONGODB, (error, db) => {
                 if (error) {
                     db.close();
                     reject(error);

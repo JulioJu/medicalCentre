@@ -4,13 +4,14 @@ import { Person } from '../person';
 export class Patient extends Person {
 
     constructor(
+         _id: string,
         private _idSSN: number,
-        protected _firstname: string,
-        protected _lastname: string,
-        protected _isMale: boolean,
-        protected _birthday: string,
-        protected _address: string) {
-        super(_firstname, _lastname, _address);
+        _firstname: string,
+        _lastname: string,
+        private _isMale: boolean,
+        private _birthday: string,
+        _address: string) {
+        super(_id, _firstname, _lastname, _address);
     }
 
     get idSSN(): number {
@@ -38,8 +39,8 @@ export class Patient extends Person {
     }
 
     toJSON(): PatientJSON {
-        return Object.assign({}, {idSSN: this._idSSN, isMale: this._isMale,
-            birthday: this._birthday}, super.toJSON());
+        return Object.assign({}, {_idSSN: this._idSSN, _isMale: this._isMale,
+            _birthday: this._birthday}, super.toJSON());
     }
 
 }
