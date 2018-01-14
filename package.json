@@ -6,9 +6,12 @@
   "scripts": {
     "start": "node ./appJS/server.js",
     "compile": "node ./node_modules/typescript/bin/tsc",
+    "compileWatch": "node ./node_modules/typescript/bin/tsc --watch",
     "lint": "node ./node_modules/tslint/bin/tslint --config \"./tslint.json\" \"app/**/*.ts\"",
-    "watch:lint": "node ./node_modules/chokidar-cli/index.js ./app/**/*.ts -c \"npm run lint\" --initial --verbose",
-    "compileAndLint": "npm-run-all --parallel watch:lint compile"
+    "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
+    "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
+    "tscwatch":"node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js'",
+    "tscwatchNoLint":"node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js'"
   },
   "author": "",
   "license": "ISC",
@@ -19,7 +22,8 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "mongodb": "^2.2.33",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "tsc-watch": "^1.0.13"
   },
   "devDependencies": {
     "@types/node": "^8.0.26",

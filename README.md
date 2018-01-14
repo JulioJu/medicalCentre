@@ -7,7 +7,13 @@
 
 
 # Compilation
-* This project use a Makefile
+* This project could use a Makefile
+* **If you develop with VisualStudio Code, do not forget to instal vscode-tslint**.
+* With Vim/Neovim, use the plugin ALE and
+    `:let g:ale_typescript_tslint_config_path = 'tslint.json'`.
+* If you have tslint available in your editor, you could run `yarn tscwatchNoLint`
+    or `yarn tscwatchNoLint`.
+* See also https://stackoverflow.com/questions/38276862/is-there-a-way-to-use-npm-scripts-to-run-tsc-watch-nodemon-watch
 
 # Create a new Entity herited from Person
 1. `cp -R patient nurse`
@@ -17,7 +23,7 @@
 4. Declare the route
 
 # TODO
-* Use an hot reload.
+* ~~Use an hot reload~~. Done.
 * Add an entity address.
 * regex for some req.body.*
 * delete commonjs in tsconfig.js and other files.

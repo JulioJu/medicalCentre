@@ -2,10 +2,12 @@
     "compilerOptions": {
         "noUnusedParameters": false, // express neads"app.get("/", (req, res) => {" even if req or res is not used
         "noUnusedLocals": true,
-        "module": "commonjs",
+        // couldn't be es6: https://medium.com/the-node-js-collection/an-update-on-es6-modules-in-node-js-42c958b890c
+        // Transpiler transpile from es6 to commonJS.
+        "module": "commonJS",
         "target": "es2015",
         "noImplicitAny": false,
-        "sourceMap": true,
+        "sourceMap": false,
         "outDir": "./appJS",
         "watch": false,
         "baseUrl": ".",

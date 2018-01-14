@@ -14,9 +14,11 @@ console.log(`This process is pid ${process.pid}`);
 // https://nodejs.org/api/process.html#process_event_exit
 process.on('exit', (code) => {
     console.log(`This process have pid ${process.pid}`);
-    console.log('This process have two parents: node and your' +
-        ' shell. That\'s why when we type \`echo $?\' we might not have ' +
-        'the exit code ' + code + '.');
+    console.log('If you run with npm or yarn, this process have one parent:'
+        + '"node /usr/bin/yarn" (or npm)' +
+        '. That\'s why when we type \`echo $?\' we might not have ' +
+        'the exit code ' + code + ', but we have the exit code of yarn/npm.'
+        + ' You could run directly `node ./appJS/server.js\'');
 });
 
 // First promise
