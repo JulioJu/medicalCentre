@@ -4,7 +4,7 @@ export abstract class AbstractModel {
     // not mandatory, because it's better if MongoDB create it's own id.
     // We could instantiate an AbstractModel without _id.
 
-    constructor (private _id: string){
+    constructor(private _id: string) {
     }
 
     get id(): string {

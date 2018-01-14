@@ -13,11 +13,11 @@ export class NurseRoute extends AbstractRoute {
     }
 
     routes() {
-        const putMandatoryParameters = ["_firstname", "_lastname",
-            "_address"];
-        const putAllParametersOrdered = ["_id", "_firstname", "_lastname",
-            "_address"]
-        super.someRoutes<Nurse>(Nurse, "Nurse", this.app, "/nurses",
+        const putMandatoryParameters = ['_firstname', '_lastname',
+            '_address'];
+        const putAllParametersOrdered = ['_id', '_firstname', '_lastname',
+            '_address']
+        super.someRoutes<Nurse>(Nurse, 'Nurse', this.app, '/nurses',
             this.nurseService, putMandatoryParameters, putAllParametersOrdered);
     }
 

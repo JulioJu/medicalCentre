@@ -12,14 +12,13 @@ export class PatientRoute extends AbstractRoute {
     }
 
     routes() {
-        const putMandatoriesParameters = ["_idSSN", "_firstname", "_lastname",
-            "_isMale", "_birthday", "_address"];
-        const putAllParametersOrdered = ["_id", "_idSSN", "_firstname",
-            "_lastname", "_isMale", "_birthday", "_address"]
-        super.someRoutes<Patient>(Patient, "Patient", this.app, "/patients",
+        const putMandatoriesParameters = ['_idSSN', '_firstname', '_lastname',
+            '_isMale', '_birthday', '_address'];
+        const putAllParametersOrdered = ['_id', '_idSSN', '_firstname',
+            '_lastname', '_isMale', '_birthday', '_address']
+        super.someRoutes<Patient>(Patient, 'Patient', this.app, '/patients',
             this.patientService, putMandatoriesParameters,
             putAllParametersOrdered);
     }
 
 }
-

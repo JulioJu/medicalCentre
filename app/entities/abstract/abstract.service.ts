@@ -17,12 +17,11 @@ export abstract class AbstractService {
                     reject(error);
                 }
                 const obj: AbstractJSON = abstractModel.toJSON();
-                db.collection(tableName).save(obj, null, (error, res) => {
-                    if (error) {
+                db.collection(tableName).save(obj, null, (err, res) => {
+                    if (err) {
                         db.close();
-                        reject(error);
-                    }
-                    else {
+                        reject(err);
+                    } else {
                         if (res === 1) {
                             console.log(`${tableName} inserted`);
                             db.close();
@@ -45,13 +44,11 @@ export abstract class AbstractService {
                     db.close();
                     reject(error);
                 }
-                db.collection(tableName).find().toArray((error, res) => {
-                    if (error) {
+                db.collection(tableName).find().toArray((err, res) => {
+                    if (err) {
                         db.close();
-                        reject(error);
-                    }
-                    else {
-                        db.close();
+                        reject(err);
+                    } else { db.close();
                         resolve(res);
                     }
                 })
@@ -60,4 +57,3 @@ export abstract class AbstractService {
     }
 
 }
-

@@ -1,4 +1,5 @@
-import "module-alias/register"; // Used to take into account path declaration for modules
+// Used to take into account path declaration for modules
+import 'module-alias/register';
 // See declarations in package.json
 
 import * as express from 'express';             // The application server
@@ -24,8 +25,8 @@ nodeHttpServerInit(app)
         // Second promise
         dbMongoInit()
             .then(() => {
-                console.log("Great! You have not forgotten to start your" +
-                    " MonogoDB! Congratulation!");
+                console.log('Great! You have not forgotten to start your' +
+                    ' MonogoDB! Congratulation!');
                 new PatientRoute(app).routes();
                 new NurseRoute(app).routes();
                 // Keep routeMain at the and of this list: have a route /* for
@@ -33,9 +34,9 @@ nodeHttpServerInit(app)
                 routeMain(app);
             })
             .catch(() => {
-                console.log("Connot connect to the database. Maybe your MongoDB"
-                    + " server is not running, or there is a problem with your"
-                    + " database. NodeJS is stopping with error code 15.");
+                console.log('Connot connect to the database. Maybe your MongoDB'
+                    + ' server is not running, or there is a problem with your'
+                    + ' database. NodeJS is stopping with error code 15.');
                 process.exit(15);
             });
     })
