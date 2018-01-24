@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./appJS/server.js",
-    "compile": "node ./node_modules/typescript/bin/tsc",
-    "compileWatch": "node ./node_modules/typescript/bin/tsc --watch",
+    "compile": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc",
+    "compileWatch": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc --watch",
     "lint": "node ./node_modules/tslint/bin/tslint --config \"./tslint.json\" \"app/**/*.ts\"",
     "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
-    "tscwatch":"node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js'",
-    "tscwatchNoLint":"node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js'"
+    "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js'",
+    "tscwatchNoLint": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js'"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +31,6 @@
     "module-alias": "^2.0.1",
     "npm-run-all": "^4.1.1",
     "tslint": "^5.7.0",
-    "typescript": "^2.7.0-dev.20171128"
+    "typescript": "^2.6.2"
   }
 }

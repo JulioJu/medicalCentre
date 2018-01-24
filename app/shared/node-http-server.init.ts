@@ -31,6 +31,8 @@ const connectToServer = (resolve, reject, server, PORT) => {
                 }, 1000);
                 // process.exit(2);
             }
+        } else {
+            console.log(e);
         }
     });
     // https://nodejs.org/api/net.html#net_event_listening
@@ -52,8 +54,8 @@ export const nodeHttpServerInit = (app: express.Application): Promise<any> => {
 
         // HTTPS
         const portHTTPS = 8443;
-        const TLS_SSL =	{
-            key : fs.readFileSync( path.join('./app/MM.pem'		 )),
+        const TLS_SSL = {
+            key : fs.readFileSync( path.join('./app/MM.pem'      )),
             cert: fs.readFileSync( path.join('./app/certificat.pem'))
         };
         const serverHTTPS = https.createServer(TLS_SSL, app);

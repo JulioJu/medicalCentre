@@ -3,11 +3,14 @@ import { URLMONGODB } from './';
 
 export const dbMongoInit = (): Promise<any> => {
     return new Promise((resolve, reject) => {
-        // See
-        // github.com/mongodb/node-mongodb-native/blob/3.0.0/lib/mongo_client.js
+        // tslint:disable-next-line
+        // See https://github.com/mongodb/node-mongodb-native/blob/3.0.0/lib/mongo_client.js
         MongoClient
             .connect(URLMONGODB, (error, db) => {
                 if (error) {
+                    console.log('=== Message from Mongo server ===');
+                    console.log(error);
+                    console.log('===');
                     console.log('rejected from dbMongo.ts');
                     // console.log(error);
                     // Do not close. If there is an error it could be because

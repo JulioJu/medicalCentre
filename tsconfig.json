@@ -5,7 +5,7 @@
         // couldn't be es6: https://medium.com/the-node-js-collection/an-update-on-es6-modules-in-node-js-42c958b890c
         // Transpiler transpile from es6 to commonJS.
         "module": "commonJS",
-        "target": "es2015",
+        "target": "es2017",
         "noImplicitAny": false,
         "sourceMap": false,
         "outDir": "./appJS",

@@ -1,4 +1,4 @@
-import { PatientJSON } from './patient.json';
+import { PatientJSON } from './';
 import { Person } from '../person';
 
 export class Patient extends Person {

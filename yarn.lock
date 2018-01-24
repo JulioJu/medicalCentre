@@ -1681,13 +1681,9 @@ type-is@~1.6.15:
     media-typer "0.3.0"
     mime-types "~2.1.15"
 
-typescript@*:
+typescript@*, typescript@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
-
-typescript@^2.7.0-dev.20171128:
-  version "2.7.0-dev.20171128"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.0-dev.20171128.tgz#55ebfe6a14cae76e91616bfadee0f9d4439eada6"
 
 uid-number@^0.0.6:
   version "0.0.6"

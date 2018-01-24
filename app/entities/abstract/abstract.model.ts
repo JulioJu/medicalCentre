@@ -17,5 +17,5 @@ export abstract class AbstractModel {
 
     toJSON(): AbstractJSON {
         return {_id: this._id};
-    };
+    }
 }

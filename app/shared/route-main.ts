@@ -13,10 +13,12 @@ export const routeMain = (app) => {
 
     app.get('/testParam', (req, res) => {
         res.header('Content-Type', 'text/html; charset=utf-8');
+        res.write('Are you in UTF-8? éééé');
+        res.write('Bellow, list params; <ul>');
         for (const att of Object.keys(req.query)) {
-            res.write(`${att}:${req.query[att]}\n`)
+            res.write(`<li>${att}:${req.query[att]}\n</li>`)
         }
-        res.write('éééé');
+        res.write('</ul>')
         res.end();
     });
 

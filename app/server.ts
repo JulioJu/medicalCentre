@@ -29,10 +29,8 @@ nodeHttpServerInit(app)
             .then(() => {
                 console.log('Great! You have not forgotten to start your' +
                     ' MonogoDB! Congratulation!');
-                new PatientRoute(app).routes();
-                new NurseRoute(app).routes();
-                // Keep routeMain at the and of this list: have a route /* for
-                // pages not found.
+                app.use(PatientRoute())
+                app.use(NurseRoute())
                 routeMain(app);
             })
             .catch(() => {

@@ -25,12 +25,14 @@
 # TODO
 * ~~Use an hot reload~~. Done.
 * Add an entity address.
-* regex for some req.body.*
+* regex for some req.body.*. See:
+    * https://docs.mongodb.com/manual/core/schema-validation/
+    * https://mongodb.github.io/node-mongodb-native/api-generated/collection.html
 * delete commonjs in tsconfig.js and other files.
 * ~~ Implement an abstract dbMongo.service.ts ~~ Done.
-* Test if MongoDB is running
+* ~~Test if MongoDB is running
     https://stackoverflow.com/questions/39599063/check-if-mongodb-is-connected
-    and adapt dbMongo.ts
+    and adapt dbMongo.ts~~ Done.
 * ~~In France, the Sécurité sociale use not the Social security number as key
     (too complex). Like them, do not use SSN. In file
     ./shared/abstract.entity.ts, add "id: number". Only with Mongo it seems not
@@ -39,17 +41,28 @@
     mongodb automatically add an identifier with field '_id'. my code check that
     idssn is unique.
 * Secure abstract.service.ts against SQL injections.
+* See how to secure server against XSS injection.
+* In MongoDB 2.2 and MongoDB 3.0, save method is deprecated. Change method
+    insertOrUpdateNested with method updateOne. Use behaviour of JHipster.
+* Update to Node.js MongoDB Driver 3.0
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
 * See http://mongodb.github.io/node-mongodb-native/2.2/quick-start/quick-start/
     (we have thought a lot of about this link, and remake the example with
     promise (not use callback))
-
+* DO NOT USE DOCUMENTATION AT
+    https://mongodb.github.io/node-mongodb-native/markdown-docs/
+    BECAUSE IT'S A VERY OLD DOCUMENTATION.
+    USE INSTEAD:
+    https://mongodb.github.io/node-mongodb-native/
 # Routes implemented
 See
 * http://expressjs.com/en/guide/using-middleware.html#middleware.router
 * http://expressjs.com/en/guide/routing.html
+* It's case insensitive.
+* For the implementation, be careful to circular dependencies. See:
+    * https://github.com/Microsoft/TypeScript/issues/21225#issuecomment-358593942
 
 ### Routes patients
 (with express.Router middleware, Router-level middleware, could have
