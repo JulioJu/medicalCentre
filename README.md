@@ -5,7 +5,6 @@
     to be connected to the database, the application exit with error code 3.
 * You should not have two same idSSN. My code check that idSSN should be UNIQUE.
 
-
 # Compilation
 * This project could use a Makefile
 * **If you develop with VisualStudio Code, do not forget to instal vscode-tslint**.
@@ -45,6 +44,8 @@
 * In MongoDB 2.2 and MongoDB 3.0, save method is deprecated. Change method
     insertOrUpdateNested with method updateOne. Use behaviour of JHipster.
 * Update to Node.js MongoDB Driver 3.0
+* Publish console-debug in npm, or ask author of console.info to do this.
+* Maybe try to use a logger…
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
@@ -56,6 +57,7 @@
     BECAUSE IT'S A VERY OLD DOCUMENTATION.
     USE INSTEAD:
     https://mongodb.github.io/node-mongodb-native/
+
 # Routes implemented
 See
 * http://expressjs.com/en/guide/using-middleware.html#middleware.router

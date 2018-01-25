@@ -1,0 +1,17 @@
+{
+  "name": "console-debug",
+  "version": "0.0.5",
+  "description": "console.debug",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "keywords": [
+    "console",
+    "beautify",
+    "built-in"
+  ],
+  "author": "Abdennour TOUMI <http://abdennoor.com>",
+  "contributor": "JulioJu <https://github.com/JulioJu",
+  "license": "MIT"
+}

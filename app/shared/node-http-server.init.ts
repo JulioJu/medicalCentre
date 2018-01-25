@@ -13,14 +13,14 @@ const connectToServer = (resolve, reject, server, PORT) => {
     // https://nodejs.org/api/net.html#net_server_listen
     // https://nodejs.org/api/events.html#events_emitter_on_eventname_listener
     server.on('error', (e: any) => {
-        console.log('There is an error during the instatiation of the server'
+        console.error('There is an error during the instatiation of the server'
             + ' with port ' + PORT + ' (error \'' + e.code + '\').');
         if (e.code === 'EADDRINUSE') {
-            console.log('Port ' + PORT + ' in use, retrying... (n°'
+            console.info('Port ' + PORT + ' in use, retrying... (n°'
                 + connectToPort + ')');
             ++connectToPort;
             if (connectToPort > 3) {
-                console.log('More than 3 retrying with the port ' + PORT +
+                console.error('More than 3 retrying with the port ' + PORT +
                     ' (too much). It is in used.' +
                     ' Therefore nodeJS will be stoped with error code 2.');
                 reject();
@@ -32,13 +32,13 @@ const connectToServer = (resolve, reject, server, PORT) => {
                 // process.exit(2);
             }
         } else {
-            console.log(e);
+            console.error(e);
         }
     });
     // https://nodejs.org/api/net.html#net_event_listening
     server.once('listening', (e: any) => {
         // console.log(e);
-        console.log(`HTTP server running on port ${PORT}.`);
+        console.info(`HTTP server running on port ${PORT}.`);
         resolve();
     });
     server.listen(PORT, null);
