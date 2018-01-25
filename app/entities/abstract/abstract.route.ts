@@ -7,11 +7,21 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
     Array<any>, putAllParametersOrdered: Array<any>)  => {
 
     router.get(routeName, (req, res) => {
-            abstractService.getRecords()
-                .then((str) => {
-                    res.send(str)
-                })
-                .catch((e) => res.send(e));
+        abstractService.getRecords()
+            .then((str) => res.send(str))
+            .catch((e) => res.send(e));
+    });
+
+    router.get(routeName + '/:_id', (req, res) => {
+        abstractService.getRecord(req.params['_id'])
+            .then((str) => res.send(str))
+            .catch((e) => res.send(e));
+    });
+
+    router.delete(routeName + '/:_id', (req, res) => {
+        abstractService.deleteRecord(req.params['_id'])
+            .then((str) => res.send(str))
+            .catch((e) => res.send(e));
     });
 
     router.put(routeName, (req, res, next) => {

@@ -20,7 +20,7 @@
     "console-error": "^0.0.4",
     "console-info": "^0.0.5",
     "console-warn": "^0.0.4",
-    "express": "^4.15.4",
+    "express": "^4.16.2",
     "fs-extra": "^4.0.1",
     "http": "0.0.0",
     "https": "^1.0.0",
