@@ -1,5 +1,6 @@
 # Utilisation
-* If the application is compiled, `yarn start` or `npm start`.
+* Code must be run with `node appJS/server.js db=mongoose\' or
+    `node appJS/server.js db=baremongo\'
 * If the port 8080 is already in use, exit with error code 2.
 * If you have forgotten to start MongoDB service, or if there is a problem
     to be connected to the database, the application exit with error code 3.
@@ -13,6 +14,7 @@
 * If you have tslint available in your editor, you could run `yarn tscwatchNoLint`
     or `yarn tscwatchNoLint`.
 * See also https://stackoverflow.com/questions/38276862/is-there-a-way-to-use-npm-scripts-to-run-tsc-watch-nodemon-watch
+* tsc --watch won't compile server.ts, but compile good all other files. Why??
 
 # Create a new Entity herited from Person
 1. `cp -R patient nurse`
@@ -46,6 +48,11 @@
 * Update to Node.js MongoDB Driver 3.0
 * Publish console-debug in npm, or ask author of console.info to do this.
 * Maybe try to use a logger…
+* tsc --watch won't compile server.ts, but compile good all other files. Why??
+* Why we must have "const mongoose = require('mongoose');" in
+    utils/db-mongoose.init.ts?
+* Try to use two different DB name for code used by the bare MongoDB Node.js
+    Driver and Mongoose
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

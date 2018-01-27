@@ -11,7 +11,8 @@
     "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
     "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js'",
-    "tscwatchNoLint": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js'"
+    "tscwatchNoLintBareMongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js db=baremongo'",
+    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js db=mongoose'"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +26,7 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "mongodb": "^2.2.33",
+    "mongoose": "^5.0.1",
     "path": "^0.12.7"
   },
   "devDependencies": {

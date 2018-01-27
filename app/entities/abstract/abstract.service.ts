@@ -1,7 +1,7 @@
 import { AbstractJSON, AbstractModel } from './';
 import { MongoClient } from 'mongodb';
 import { ObjectID } from 'bson';
-import { URLMONGODB } from '../../shared';
+import { URLMONGODB } from '../../utils';
 
 export abstract class AbstractService {
 
