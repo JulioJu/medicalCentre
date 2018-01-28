@@ -10,7 +10,7 @@
         "sourceMap": false,
         "outDir": "./appJS",
         "watch": false,
-        "baseUrl": ".",
+        "baseUrl": ".", // This must be specified if "paths" is.
         "paths": {
           "@data/*": ["./app/data/*"],
           "@OAuth/*": ["./app/OAuth/*"],
@@ -18,7 +18,9 @@
         }
     },
     "include": [
-        "app/**/*.ts"
+        "app/**/*.ts",
+        // should be in this order.
+        "app/*.ts"
     ],
     "exclude" : [
         "./appJS",

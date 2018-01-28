@@ -1,6 +1,8 @@
 # Utilisation
 * Code must be run with `node appJS/server.js db=mongoose\' or
     `node appJS/server.js db=baremongo\'
+    * Mongoose and the bare MongoDB Node.js Driver have different DB, it's more
+    safe.
 * If the port 8080 is already in use, exit with error code 2.
 * If you have forgotten to start MongoDB service, or if there is a problem
     to be connected to the database, the application exit with error code 3.
@@ -14,7 +16,6 @@
 * If you have tslint available in your editor, you could run `yarn tscwatchNoLint`
     or `yarn tscwatchNoLint`.
 * See also https://stackoverflow.com/questions/38276862/is-there-a-way-to-use-npm-scripts-to-run-tsc-watch-nodemon-watch
-* tsc --watch won't compile server.ts, but compile good all other files. Why??
 
 # Create a new Entity herited from Person
 1. `cp -R patient nurse`
@@ -29,7 +30,6 @@
 * regex for some req.body.*. See:
     * https://docs.mongodb.com/manual/core/schema-validation/
     * https://mongodb.github.io/node-mongodb-native/api-generated/collection.html
-* delete commonjs in tsconfig.js and other files.
 * ~~ Implement an abstract dbMongo.service.ts ~~ Done.
 * ~~Test if MongoDB is running
     https://stackoverflow.com/questions/39599063/check-if-mongodb-is-connected
@@ -47,12 +47,13 @@
     insertOrUpdateNested with method updateOne. Use behaviour of JHipster.
 * Update to Node.js MongoDB Driver 3.0
 * Publish console-debug in npm, or ask author of console.info to do this.
-* Maybe try to use a logger…
-* tsc --watch won't compile server.ts, but compile good all other files. Why??
+* ~~Maybe try to use a logger…~~. => Maybe we could use https://stackoverflow.com/questions/45395369/how-to-get-console-log-line-numbers-shown-in-nodejs.
+* ~~tsc --watch won't compile server.ts,
+    but compile good all other files.~~ fixed by write in package.json
+    "app/*.ts" after "app/**/*.ts".
+* See also https://github.com/Microsoft/TypeScript/issues/21444.
 * Why we must have "const mongoose = require('mongoose');" in
     utils/db-mongoose.init.ts?
-* Try to use two different DB name for code used by the bare MongoDB Node.js
-    Driver and Mongoose
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
