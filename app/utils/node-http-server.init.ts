@@ -5,7 +5,8 @@ import * as bodyParser from 'body-parser'; // Parse HTTP GET and POST variables
 import * as path from 'path';              // Deal with system paths
 import * as fs from 'fs-extra';            // Acces to files
 
-const connectToServer = (resolve, reject, server, PORT) => {
+const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
+        void, server: http.Server | https.Server, PORT: string | number) => {
     let connectToPort = 0;
     // See solution at https://github.com/expressjs/express/issues/1569
     // See documentations
@@ -55,8 +56,8 @@ export const nodeHttpServerInit = (app: express.Application): Promise<any> => {
         // HTTPS
         const portHTTPS = 8443;
         const TLS_SSL = {
-            key : fs.readFileSync( path.join('./app/MM.pem'      )),
-            cert: fs.readFileSync( path.join('./app/certificat.pem'))
+            key : fs.readFileSync(path.join('./app/MM.pem')),
+            cert: fs.readFileSync(path.join('./app/certificat.pem'))
         };
         const serverHTTPS = https.createServer(TLS_SSL, app);
         connectToServer(resolve, reject, serverHTTPS, portHTTPS);

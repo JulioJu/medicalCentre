@@ -1,19 +1,21 @@
 import { AbstractJSON, AbstractModel } from './';
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db, MongoError ,
+    DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
 import { URLMONGODB } from '../../utils';
 
 export abstract class AbstractService {
 
-    abstract getRecords();
+    abstract getRecords(): Promise<any>;
 
-    abstract getRecord(_id: string);
+    abstract getRecord(_id: string): Promise<any>;
 
-    abstract deleteRecord(_id: string);
+    abstract deleteRecord(_id: string): Promise<any>;
 
-    abstract insertOrUpdate(myEntity: AbstractModel);
+    abstract insertOrUpdate(myEntity: AbstractModel): Promise<any>;
 
-    private promiseConnectToMongo(callback: (db: any, reject: any, resolve: any)
+    private promiseConnectToMongo(callback: (db: Db, resolve: (val?: any) =>
+            void, reject: (err?: any) => void)
         => void): Promise<any> {
         return new Promise ((resolve, reject) => {
             MongoClient.connect(URLMONGODB, (error, db) => {
@@ -28,7 +30,9 @@ export abstract class AbstractService {
         });
     }
 
-    private ifMongoConnected(db, err, res, resolve, reject) {
+    private ifMongoConnected(db: Db, err: MongoError, res: any[] |
+        DeleteWriteOpResultObject, resolve: (val?: any) => any, reject: (err?:
+            any) => any): void {
         if (err) {
             db.close();
             console.error(err);
@@ -76,7 +80,7 @@ export abstract class AbstractService {
                         // tslint:disable-next-line
                         // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
                         // delete abstractModel._id
-                        abstractModel.id = new ObjectID();
+                        abstractModel.id = new ObjectID().toHexString();
                     }
                     const obj: AbstractJSON = abstractModel.toJSON();
                     // tslint:disable-next-line

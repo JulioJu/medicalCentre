@@ -1,14 +1,14 @@
 import * as express from 'express';             // The application server
 import * as path from 'path';                   // Deal with system paths
 
-export const routeMain = (app) => {
+export const routeMain = (app: express.Application) => {
 
     app.get('/', (req, res) => {
-        res.json( {message: 'Il va falloir implémenter tout ça...'} );
+        res.json({message: 'Il va falloir implémenter tout ça...'});
     });
 
     app.get('/test', (req, res) => {
-    res.json( {message: 'ok tout va bien'} );
+    res.json({message: 'ok tout va bien'});
     });
 
     app.get('/testParam', (req, res) => {
@@ -26,7 +26,7 @@ export const routeMain = (app) => {
         console.log(req.query);
         if (req.query && Object.keys(req.body).length === 2
             && req.query.prenom && req.query.nom) {
-            res.json( {message: req.query} );
+            res.json({message: req.query});
         } else {
             res.status(400).send('éééBad Request');
         }

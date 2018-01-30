@@ -4,7 +4,7 @@ import { PersonJSON } from './person.json';
 export abstract class Person extends AbstractModel {
 
     constructor(
-        _id,
+        _id: string,
         private _firstname: string,
         private _lastname: string,
         private _address: string) {
@@ -15,20 +15,20 @@ export abstract class Person extends AbstractModel {
         return this._firstname;
     }
 
-    get lastname(): string {
-        return this._lastname;
-    }
-
-    get address(): string {
-        return this._address;
-    }
-
     set firstname(firstname: string) {
         this.firstname = firstname;
     }
 
-    set lastname(lastname: string ) {
+    get lastname(): string {
+        return this._lastname;
+    }
+
+    set lastname(lastname: string) {
         this.lastname = lastname;
+    }
+
+    get address(): string {
+        return this._address;
     }
 
     set address(address: string) {

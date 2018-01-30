@@ -1,12 +1,10 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, MongoError, Db } from 'mongodb';
 import { URLMONGODB } from './';
 
 export const dbMongoInit = (): Promise<any> => {
     return new Promise((resolve, reject) => {
-        // tslint:disable-next-line
-        // See https://github.com/mongodb/node-mongodb-native/blob/3.0.0/lib/mongo_client.js
         MongoClient
-            .connect(URLMONGODB, (error, db) => {
+            .connect(URLMONGODB, (error: MongoError, db: Db) => {
                 if (error) {
                     console.error(`=== Message from Mongo server ===
                     ${error}
@@ -19,7 +17,7 @@ export const dbMongoInit = (): Promise<any> => {
                     reject();
                 } else {
                     db.collection('patient')
-                        .createIndex( { '_idSSN': 1 }, { unique: true } );
+                        .createIndex({ _idSSN: 1 }, { unique: true });
                     db.close();
                     resolve();
                 }

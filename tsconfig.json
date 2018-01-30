@@ -1,13 +1,12 @@
 {
     "compilerOptions": {
-        "noUnusedParameters": false, // express neads"app.get("/", (req, res) => {" even if req or res is not used
-        "noUnusedLocals": true,
         // couldn't be es6: https://medium.com/the-node-js-collection/an-update-on-es6-modules-in-node-js-42c958b890c
         // Transpiler transpile from es6 to commonJS.
         "module": "commonJS",
         "target": "es2017",
-        "noImplicitAny": false,
+        "pretty": true,
         "sourceMap": false,
+        "inlineSourceMap": true,
         "outDir": "./appJS",
         "watch": false,
         "baseUrl": ".", // This must be specified if "paths" is.
@@ -15,7 +14,17 @@
           "@data/*": ["./app/data/*"],
           "@OAuth/*": ["./app/OAuth/*"],
           "@User/*": ["./app/User/*"]
-        }
+        },
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false, // express neads"app.get("/", (req, res) => {" even if req or res is not used
+        "strictNullChecks": false,
+        "strictFunctionTypes": true
     },
     "include": [
         "app/**/*.ts",

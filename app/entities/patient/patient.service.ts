@@ -7,11 +7,11 @@ export class PatientService extends AbstractService {
         return super.getRecordsNested('patient');
     }
 
-    getRecord(_id) {
+    getRecord(_id: string) {
         return super.getRecordNested('patient', _id);
     }
 
-    deleteRecord(_id) {
+    deleteRecord(_id: string) {
         return super.deleteRecordNested('patient', _id);
     }
 

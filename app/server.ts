@@ -1,7 +1,3 @@
-// Used to take into account path declaration for modules
-import 'module-alias/register';
-// See declarations in package.json
-
 import * as express from 'express';             // The application server
 import { PatientRoute } from './entities/patient';
 import { NurseRoute } from './entities/nurse';
