@@ -6,7 +6,7 @@
         "target": "es2017",
         "pretty": true,
         "sourceMap": false,
-        "inlineSourceMap": true,
+        "inlineSourceMap": false,
         "outDir": "./appJS",
         "watch": false,
         "baseUrl": ".", // This must be specified if "paths" is.

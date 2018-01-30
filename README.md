@@ -102,3 +102,7 @@ error-handling middleware)
 * GET /testParam2
 * GET /* 404
 
+# Notes
+* Be careful to circular dependencies with index.ts. Read:
+    ./AnotherCircularDependenciesError/README.md
+    and https://github.com/Microsoft/TypeScript/issues/21225

@@ -1,4 +1,6 @@
 import { URLMONGOOSE } from './';
+// import { Patient } from '../entities/patient/'
+import { Nurse } from '../entities/nurse'
 import * as mongoose from 'mongoose';
 
 export const dbMongooseInit = (): Promise<any> => {
@@ -16,9 +18,12 @@ export const dbMongooseInit = (): Promise<any> => {
         });
 
         const initSchema = () => {
+            // console.log(new Patient( 'abcd', 7, 'abcd', 'abcd', true, 'abcd', 'abcd' ));
+            console.log(new Nurse('abcd', 'abcd', 'abcd', 'abcd'));
             const nurseMyShema = {
                 name: String,
             }
+            console.log(nurseMyShema);
             console.debug(nurseMyShema);
             const nurseSchema = new mongoose.Schema({
                 nurseMyShema
