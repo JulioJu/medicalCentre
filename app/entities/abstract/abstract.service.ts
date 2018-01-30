@@ -2,7 +2,8 @@ import { AbstractJSON, AbstractModel } from './';
 import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
-import { URLMONGODB } from '../../utils';
+// FIX circular dependencies. See ../../../AnotherCircularDependenciesError
+import { URLMONGODB } from '../../utils/const';
 
 export abstract class AbstractService {
 
