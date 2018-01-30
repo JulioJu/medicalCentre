@@ -39,8 +39,10 @@ export class Patient extends Person {
     }
 
     toJSON(): PatientJSON {
-        return Object.assign({}, {_idSSN: this._idSSN, _isMale: this._isMale,
-            _birthday: this._birthday}, super.toJSON());
+        // return Object.assign({}, {_idSSN: this._idSSN, _isMale: this._isMale,
+        //     _birthday: this._birthday}, super.toJSON());
+        return {...{_idSSN: this._idSSN, _isMale: this._isMale,
+            _birthday: this._birthday}, ...super.toJSON()};
     }
 
 }

@@ -10,9 +10,11 @@
 
 # Compilation
 * This project could use a Makefile
+* This project use tsconfig.yaml and tslint.yaml. You could convert thanks for
+    example https://www.json2yaml.com/
 * **If you develop with VisualStudio Code, do not forget to instal vscode-tslint**.
 * With Vim/Neovim, use the plugin ALE and
-    `:let g:ale_typescript_tslint_config_path = 'tslint.json'`.
+    `:let g:ale_typescript_tslint_config_path = 'tslint.yaml'`.
 * If you have tslint available in your editor, you could run `yarn tscwatchNoLint`
     or `yarn tscwatchNoLint`.
 * See also https://stackoverflow.com/questions/38276862/is-there-a-way-to-use-npm-scripts-to-run-tsc-watch-nodemon-watch
@@ -54,6 +56,8 @@
 * See also https://github.com/Microsoft/TypeScript/issues/21444.
 * Why we must have "const mongoose = require('mongoose');" in
     utils/db-mongoose.init.ts?
+* TODO Maybe delete duplications in tslint.yaml (but actually could see choosen
+    rules)
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

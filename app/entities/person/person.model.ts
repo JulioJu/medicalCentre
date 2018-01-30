@@ -36,10 +36,15 @@ export abstract class Person extends AbstractModel {
     }
 
     toJSON(): PersonJSON {
-        return Object.assign({}, {
+        // return Object.assign({}, {
+        //     _firstname: this._firstname,
+        //     _lastname: this._lastname,
+        //     _address: this._address,
+        // }, super.toJSON());
+        return {...{
             _firstname: this._firstname,
             _lastname: this._lastname,
             _address: this._address,
-        }, super.toJSON());
+        }, ...super.toJSON()}
     }
 }
