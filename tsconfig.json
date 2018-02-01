@@ -27,8 +27,8 @@
         "strictFunctionTypes": true
     },
     "include": [
+        "app/*.ts",
         "app/**/*.ts",
-        // should be in this order.
         "app/*.ts"
     ],
     "exclude" : [

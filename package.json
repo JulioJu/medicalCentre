@@ -11,17 +11,14 @@
     "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
     "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js'",
-    "tscwatchNoLintBareMongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js db=baremongo'",
-    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js db=mongoose'"
+    "tscwatchNoLintBareMongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js db=baremongo'",
+    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js db=mongoose'"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
     "bson": "^1.0.4",
-    "console-error": "^0.0.4",
-    "console-info": "^0.0.5",
-    "console-warn": "^0.0.4",
     "express": "^4.16.2",
     "fs-extra": "^4.0.1",
     "mongodb": "2.2",

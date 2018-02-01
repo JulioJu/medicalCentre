@@ -19,6 +19,16 @@
     or `yarn tscwatchNoLint`.
 * See also https://stackoverflow.com/questions/38276862/is-there-a-way-to-use-npm-scripts-to-run-tsc-watch-nodemon-watch
 
+## Debugger
+* Use https://nodejs.org/en/docs/inspector/
+* The addon Node.js V8 doesn't work with Chromium. It's a shit !
+* Use too Open-as-Popup to doesn't show the shit ~~Google Chrome~~ layout and
+    logos !
+* ~~TODO try to use Firefox debugger instead, but I've not found really cool
+    documentation on it.~~. There is
+    https://github.com/devtools-html/debugger.html/blob/master/docs/getting-setup.md#starting-node.
+    I've tested but doesn't seems to work well.
+
 # Create a new Entity herited from Person
 1. `cp -R patient nurse`
 2. `sed -i -e 's/patient/nurse/g' *`
@@ -48,16 +58,19 @@
 * In MongoDB 2.2 and MongoDB 3.0, save method is deprecated. Change method
     insertOrUpdateNested with method updateOne. Use behaviour of JHipster.
 * Update to Node.js MongoDB Driver 3.0
-* Publish console-debug in npm, or ask author of console.info to do this.
+* ~~Publish console-debug in npm, or ask author of console.info to do this.~~
+    Use instead https://nodejs.org/en/docs/inspector/
 * ~~Maybe try to use a logger…~~. => Maybe we could use https://stackoverflow.com/questions/45395369/how-to-get-console-log-line-numbers-shown-in-nodejs.
 * ~~tsc --watch won't compile server.ts,
-    but compile good all other files.~~ fixed by write in package.json
-    "app/*.ts" after "app/**/*.ts".
-* See also https://github.com/Microsoft/TypeScript/issues/21444.
+    but compile good all other files.~~ ~~fixed by write in package.json
+    "app/*.ts" before and after « "app/**/*.ts", ».~~ doesn't work very well.
+    Work until next Node.js reboot.
+    * See also https://github.com/Microsoft/TypeScript/issues/21444.
 * Why we must have "const mongoose = require('mongoose');" in
     utils/db-mongoose.init.ts?
 * TODO Maybe delete duplications in tslint.yaml (but actually could see choosen
     rules)
+* TODO: see under subtitle "Debugger" above.
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

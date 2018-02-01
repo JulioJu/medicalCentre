@@ -3,11 +3,12 @@ import { PatientRoute } from './entities/patient';
 import { NurseRoute } from './entities/nurse';
 import { nodeHttpServerInit, routeMain, dbMongoInit,
     dbMongooseInit } from './utils';
+// Use instead https://nodejs.org/en/docs/inspector/
 // CommonJS module declaration because otherwise tsc raise false positive.
-require('console-info');
-require('console-warn');
-require('console-error');
-require('../console-debug');
+// require('console-info');
+// require('console-warn');
+// require('console-error');
+// require('../console-debug');
 
 const app: express.Application = express();
 
