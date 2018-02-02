@@ -1,6 +1,7 @@
-import { URLMONGOOSE } from './';
+import * as assert from 'assert'
+import { URLMONGOOSE } from './const';
 // import { Patient } from '../entities/patient/'
-import { Nurse } from '../entities/nurse'
+import { NurseSchema } from '../entities/nurse'
 import * as mongoose from 'mongoose';
 
 export const dbMongooseInit = (): Promise<any> => {
@@ -19,15 +20,10 @@ export const dbMongooseInit = (): Promise<any> => {
 
         const initSchema = () => {
             // console.log(new Patient( 'abcd', 7, 'abcd', 'abcd', true, 'abcd', 'abcd' ));
-            console.log(new Nurse('abcd', 'abcd', 'abcd', 'abcd'));
-            const nurseMyShema = {
-                name: String,
-            }
-            console.log(nurseMyShema);
-            console.debug(nurseMyShema);
-            const nurseSchema = new mongoose.Schema({
-                nurseMyShema
-            });
+            console.log(new NurseSchema());
+            const nurseSchema = new mongoose.Schema(
+                new NurseSchema() as any, {timestamps: true}
+            );
             // NOTE: methods must be added to the schema before compiling it
             // with mongoose.model()
             // De not use Arrow function because we have a this ! And Arrow
@@ -39,26 +35,60 @@ export const dbMongooseInit = (): Promise<any> => {
                 console.debug(greeting);
             }
 
-            const Kitten = mongoose.model('Kitten', nurseSchema);
-            const silence: any = new Kitten({ name: 'Silence' });
-            console.debug(silence.name);
-            const fluffy = new Kitten({ name: 'fluffy' });
-            fluffy.save((err, saved: any) => {
+            const nurseModel = mongoose.model('nurseModel', nurseSchema);
+            // name not saved
+            const validateNonOk = new nurseModel({ _id: null,
+                name: 'validateNonOk' });
+            console.log(validateNonOk.id);
+            console.log(validateNonOk._id);
+            validateNonOk.save((err, saved: any) => {
                 if (err) {
-                    return console.error(err);
+                     // console.error(err);
+                    try {
+                        assert.equal(err.errors['_firstname'].message,
+                            'Path `name` is required.', null);
+                    } catch(error) {
+                        console.error(error);
+                    }
+                } else {
+                    // console.log(err);
+                    // assert.equal(err.errors['name'].message,
+                    //     'Path `name` is required.');
+                    saved.speak();
+                    console.debug('You have saved:');
+                    console.debug(saved);
                 }
-                console.debug('coucou');
-                saved.speak();
-                console.debug('coucou');
             });
 
+            const vaildateOk = new nurseModel({ _id: null,
+                _firstname: 'vaildateOk', _lastname: 'ok' });
+            console.log(vaildateOk.id);
+            console.log(vaildateOk._id);
+            vaildateOk.save((err, saved: any) => {
+                if (err) {
+                     // console.error(err);
+                    try {
+                        assert.equal(err.errors['_firstname'].message,
+                            'Path `name` is required.', null);
+                    } catch(error) {
+                        console.error(error);
+                    }
+                } else {
+                    // console.log(err);
+                    // assert.equal(err.errors['name'].message,
+                    //     'Path `name` is required.');
+                    saved.speak();
+                    console.debug('You have saved:');
+                    console.debug(saved);
+                }
+            });
             setTimeout(() => {
-                Kitten.find((err, kittFind) => {
+                nurseModel.find((err, kittFind) => {
                     if (err) {
                         return console.error(err);
                     }
-                    console.debug('coucou2');
-                    console.debug('coucou2');
+                    console.debug('Elements nurseModel:');
+                    console.debug(kittFind);
                 });
             }, 2000);
         }
