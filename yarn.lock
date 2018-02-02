@@ -387,6 +387,18 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
 
+console-error@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/console-error/-/console-error-0.0.4.tgz#1f3857db78d4a25cccac2bc6d012f7082bd67d1c"
+
+console-info@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/console-info/-/console-info-0.0.5.tgz#539a93bed104be25dfdbc3dc5c9b2418496b2c83"
+
+console-warn@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/console-warn/-/console-warn-0.0.4.tgz#ded2c1f16c07bbb4a7341950170dc59589304d0a"
+
 content-disposition@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.2.tgz#0cf68bb9ddf5f2be7961c3a85178cb85dba78cb4"

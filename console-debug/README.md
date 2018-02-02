@@ -1,5 +1,5 @@
-# DEPRECATED
-* Use instead https://nodejs.org/en/docs/inspector/
+~~# DEPRECATED~~
+* You could use instead https://nodejs.org/en/docs/inspector/
 * The addon Node.js V8 doesn't work with Chromium. It's a shit !
 * Use too Open-as-Popup to doesn't show the shit ~~Google Chrome~~ layout !
 * ~~TODO try to use Firefox debugger instead, but I've not found really cool

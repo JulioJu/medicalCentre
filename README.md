@@ -1,4 +1,6 @@
 # Utilisation
+* DO NOT USE NODE 8 https://github.com/nodejs/node/issues/12675:
+    (console.debug not displayed).
 * Code must be run with `node appJS/server.js db=mongoose\' or
     `node appJS/server.js db=baremongo\'
     * Mongoose and the bare MongoDB Node.js Driver have different DB, it's more
@@ -20,8 +22,14 @@
 * See also https://stackoverflow.com/questions/38276862/is-there-a-way-to-use-npm-scripts-to-run-tsc-watch-nodemon-watch
 
 ## Debugger
-* Use https://nodejs.org/en/docs/inspector/
+* You could use https://nodejs.org/en/docs/inspector/
+    * If you use one of this, comment require(console-*) in server.ts (and which
+    corresponds to in package.json)
 * The addon Node.js V8 doesn't work with Chromium. It's a shit !
+    * I've seen some intempestives and unexpected deconnexion, so I come back
+        to my terminal. But I think it could be very cool to see all variables
+        values at a break point and « pause on exception ». No regret to see
+        this, I could come back. But some « pros » code with console.* !
 * Use too Open-as-Popup to doesn't show the shit ~~Google Chrome~~ layout and
     logos !
 * ~~TODO try to use Firefox debugger instead, but I've not found really cool
@@ -70,7 +78,7 @@
     utils/db-mongoose.init.ts?
 * TODO Maybe delete duplications in tslint.yaml (but actually could see choosen
     rules)
-* TODO: see under subtitle "Debugger" above.
+* ~~TODO: see under subtitle "Debugger" above.~~
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
