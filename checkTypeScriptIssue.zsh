@@ -55,22 +55,22 @@ isDiff=`echo $?`
 echo "echo \$? = " $isDiff
 if [ $isDiff -eq 0 ]
 then
-    echo ${RED}'~/essaiTS/app/file.ts et ~/essaiTS/app/file.js sont identiques \
-        ça ne me convient pas du tout$ :(.'${NC}.
+    echo ${RED}'~/essaiTS/app/file.ts et ~/essaiTS/app/file.js are the same.\
+    '${NC}
 else
-    echo ${RED}'~/essaiTS/app/file.ts et ~/essaiTS/app/file.js sont différents.\
-        Trop de la balle pour moi!!!'${NC}
+    echo ${RED}'~/essaiTS/app/file.ts et ~/essaiTS/app/file.js are different.\
+        '${NC}
 fi
 echo -n '\n\n'
-echo 'Contenu du fichier ~/essaiTS/app/file.ts'
+echo 'File ~/essaiTS/app/file.ts'
 echo '≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠'
 cat ~/essaiTS/app/file.ts
-echo '---fin du fichier--'
+echo '---End of file--'
 echo -n '\n\n'
-echo 'Contenu du fichier ~/essaiTS/app/file.js'
+echo 'File ~/essaiTS/app/file.js'
 echo '≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠'
 cat ~/essaiTS/app/file.js
-echo '---fin du fichier--'
+echo '---End of file--'
 
 echo -n '\n\n---Stopping Typescript compiler---'
 kill $!
@@ -78,4 +78,3 @@ echo -n '\n--Done---\n\n'
 echo -n ${RED}'Your typescript version is: '\
     `eval 'node node_modules/typescript/bin/tsc\
     --version'`'\n\n'
-echo 'Please send me the reslut :-)'${NC}
