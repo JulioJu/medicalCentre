@@ -5,7 +5,7 @@ export class Patient extends Person {
 
     constructor(
          _id: string,
-        private _idSSN: number,
+        private _idSSN: string,
         _firstname: string,
         _lastname: string,
         private _isMale: boolean,
@@ -14,11 +14,11 @@ export class Patient extends Person {
         super(_id, _firstname, _lastname, _address);
     }
 
-    get idSSN(): number {
+    get idSSN(): string {
         return this._idSSN;
     }
 
-    set idSSN(idSSN: number) {
+    set idSSN(idSSN: string) {
         this._idSSN = idSSN;
     }
 

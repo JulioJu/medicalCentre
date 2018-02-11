@@ -79,6 +79,7 @@
 * TODO Maybe delete duplications in tslint.yaml (but actually could see choosen
     rules)
 * ~~TODO: see under subtitle "Debugger" above.~~
+* In patient.schema.ts and patient.model.ts, change \_birthday to type Date.
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

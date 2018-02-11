@@ -6,4 +6,3 @@ export class NurseSchema implements PersonSchema {
     _lastname = {type: String, required: true};
     _address    = String;
 }
-

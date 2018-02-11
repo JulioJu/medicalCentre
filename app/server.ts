@@ -14,6 +14,18 @@ const app: express.Application = express();
 
 console.debug(`This process is pid ${process.pid}`);
 
+const nodeversion = process.versions.node
+console.info(`You use version ${nodeversion} of Node.js`);
+
+// https://github.com/parshap/check-node-version/issues/6
+// Function parseFloat parse correctly if nodeversion === '9.5.8'.
+// tslint:disable-next-line
+// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
+if (parseFloat(nodeversion) < 9.5) {
+    console.error('Please use a node >= 9.5.0');
+    process.exit(20);
+}
+
 // https://nodejs.org/api/process.html#process_event_exit
 process.on('exit', (code) => {
     console.debug(`This process have pid ${process.pid}`);
