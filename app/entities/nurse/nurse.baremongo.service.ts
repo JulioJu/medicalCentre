@@ -1,7 +1,7 @@
 import { Nurse } from './';
-import { AbstractService } from '../abstract/abstract.service';
+import { AbstractBaremongoService } from '../abstract';
 
-export class NurseService extends AbstractService {
+export class NurseBaremongoService extends AbstractBaremongoService {
 
     getRecords(): Promise<any> {
         return super.getRecordsNested('nurse');

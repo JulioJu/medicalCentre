@@ -5,7 +5,7 @@ import { ObjectID } from 'bson';
 // FIX circular dependencies. See ../../../AnotherCircularDependenciesError
 import { URLMONGODB } from '../../utils/const';
 
-export abstract class AbstractService {
+export abstract class AbstractBaremongoService {
 
     abstract getRecords(): Promise<any>;
 
