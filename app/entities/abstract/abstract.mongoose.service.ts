@@ -1,21 +1,16 @@
-import { AbstractSchema } from './';
+import { AbstractService, AbstractSchema } from './';
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'bson';
 
-interface AbstractServiceMongooseType {
+interface AbstractServiceMongooseType extends AbstractService {
     mongooseModel: mongoose.Model<any>;
     constructorStatic<U extends AbstractSchema>(abstractSchemaTy: new
         (...args: any[]) => U, collection: string): void;
-    getRecords<U extends AbstractSchema>(abstractSchemaTy: new (...args:
-        any[]) => U, collection: string): Promise<any>;
-    getRecord(_id: string): Promise<any>;
-    deleteRecord(_id: string): Promise<any>;
-    insertOrUpdate<U extends AbstractSchema>(abstractSchemaTy: new (...args:
-        any[]) => U, collection: string,
-        myEntity: any): Promise<any>;
 }
 
 export const AbstractServiceMongoose: AbstractServiceMongooseType = {
+
+    collection: null,
 
     mongooseModel: null,
 
@@ -29,9 +24,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
         }
     },
 
-    getRecords<U extends AbstractSchema>(abstractSchemaTy: new (...args:
-        any[]) => U, collection: string): Promise<any> {
-        this.constructorStatic(abstractSchemaTy, collection);
+    getRecords(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
                 this.mongooseModel.find((err, found) => {
                     if (err) {
@@ -52,12 +45,9 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
 
     // Only insert, not update !!
     // tslint:disable-next-line
-    insertOrUpdate<U extends AbstractSchema>(abstractSchemaTy: new (...args:
-        any[]) => U, collection: string, myEntity: any):
+    insertOrUpdate(myEntity: any):
         Promise<any> {
-            this.constructorStatic(abstractSchemaTy, collection);
             return new Promise<any>((resolve, reject) => {
-                this.constructorStatic(abstractSchemaTy, collection);
                 if (!myEntity._id) {
                     // Defined here, because with Mongoose 5, variable
                     // defined 4 lines below have null variable.
@@ -71,7 +61,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
                             const errorString = err.toString();
                             console.error('The object', myEntity,
                                 'wasn\'t saved in the collection "',
-                                collection, '" because:\n',
+                                this.collection, '" because:\n',
                                 errorString.split('\n', 1)[0]);
                         } else {
                             console.info('You have tried to save the object',

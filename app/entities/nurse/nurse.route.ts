@@ -8,6 +8,6 @@ export const NurseRoute = (): express.Router => {
     const putAllParametersOrdered = ['_id', '_firstname', '_lastname',
         '_address']
     return AbstractRoute<Nurse>(Nurse, 'Nurse', express.Router(),
-        '/nurses', new NurseBaremongoService(), putMandatoriesParameters,
+        '/nurses', NurseBaremongoService, putMandatoriesParameters,
         putAllParametersOrdered);
 }

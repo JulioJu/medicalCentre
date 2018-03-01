@@ -1,81 +1,74 @@
-import { AbstractJSON, AbstractModel } from './';
+import { AbstractService, AbstractJSON, AbstractModel } from './';
 import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
 // FIX circular dependencies. See ../../../AnotherCircularDependenciesError
 import { URLMONGODB } from '../../utils/const';
 
-export abstract class AbstractBaremongoService {
-
-    abstract getRecords(): Promise<any>;
-
-    abstract getRecord(_id: string): Promise<any>;
-
-    abstract deleteRecord(_id: string): Promise<any>;
-
-    abstract insertOrUpdate(myEntity: AbstractModel): Promise<any>;
-
-    private promiseConnectToMongo(callback: (db: Db, resolve: (val?: any) =>
-            void, reject: (err?: any) => void)
-        => void): Promise<any> {
-        return new Promise ((resolve, reject) => {
-            MongoClient.connect(URLMONGODB, (error, db) => {
-                if (error) {
-                    // Do not try to close db, if MongoDB is shutdown, db is
-                    // null
-                    reject(error);
-                } else {
-                    callback(db, resolve, reject);
-                }
-            });
+const promiseConnectToMongo = (callback: (db: Db, resolve: (val?: any) =>
+        void, reject: (err?: any) => void)
+    => void): Promise<any> => {
+    return new Promise ((resolve, reject) => {
+        MongoClient.connect(URLMONGODB, (error, db) => {
+            if (error) {
+                // Do not try to close db, if MongoDB is shutdown, db is
+                // null
+                reject(error);
+            } else {
+                callback(db, resolve, reject);
+            }
         });
-    }
+    });
+}
 
-    private ifMongoConnected(db: Db, err: MongoError, res: any[] |
-        DeleteWriteOpResultObject, resolve: (val?: any) => any, reject: (err?:
-            any) => any): void {
-        if (err) {
-            db.close();
-            console.error(err);
-            reject(err);
-        } else {
-            db.close();
-            resolve(res);
-        }
+const ifMongoConnected = (db: Db, err: MongoError, res: any[] |
+    DeleteWriteOpResultObject, resolve: (val?: any) => any, reject: (err?:
+        any) => any): void => {
+    if (err) {
+        db.close();
+        console.error(err);
+        reject(err);
+    } else {
+        db.close();
+        resolve(res);
     }
+}
 
-    protected getRecordsNested(tableName: string): Promise<any> {
-        return this.promiseConnectToMongo(
+export const AbstractBaremongoService: AbstractService = {
+
+    collection: null,
+
+    getRecords(): Promise<any> {
+        return promiseConnectToMongo(
             (db, resolve, reject) => {
-                db.collection(tableName).find().toArray((err, res) => {
-                    this.ifMongoConnected(db, err, res, resolve, reject);
+                db.collection(this.collection).find().toArray((err, res) => {
+                    ifMongoConnected(db, err, res, resolve, reject);
                 })
             });
-    }
+    },
 
-    protected getRecordNested(tableName: string, id: string): Promise<any> {
-        return this.promiseConnectToMongo(
+    getRecord(id: string): Promise<any> {
+        return promiseConnectToMongo(
             (db, resolve, reject) => {
-                db.collection(tableName)
+                db.collection(this.collection)
                     .findOne({_id: id}, {}, ((err, res) => {
-                        this.ifMongoConnected(db, err, res, resolve, reject);
+                        ifMongoConnected(db, err, res, resolve, reject);
                     }));
             });
-    }
+    },
 
-    protected deleteRecordNested(tableName: string, id: string): Promise<any> {
-        return this.promiseConnectToMongo(
+    deleteRecord(id: string): Promise<any> {
+        return promiseConnectToMongo(
             (db, resolve, reject) => {
-                db.collection(tableName)
+                db.collection(this.collection)
                     .deleteOne({_id: id}, null, ((err, res) => {
-                        this.ifMongoConnected(db, err, res, resolve, reject);
+                        ifMongoConnected(db, err, res, resolve, reject);
                     }));
             });
-    }
+    },
 
-    protected insertOrUpdateNested(tableName: string, abstractModel:
-        AbstractModel): Promise<any> {
-            return this.promiseConnectToMongo(
+    insertOrUpdate(abstractModel: AbstractModel): Promise<any> {
+            return promiseConnectToMongo(
                 (db, resolve, reject) => {
                     if (!abstractModel.id) {
                         // tslint:disable-next-line
@@ -101,25 +94,26 @@ export abstract class AbstractBaremongoService {
                     // Or more examples at mongodb client documentation 2.2
                     // tslint:disable-next-line
                     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#save
-                    db.collection(tableName).save(obj, null, (err, res) => {
-                        if (err) {
-                            db.close();
-                            console.error(err);
-                            reject(err);
-                        } else {
-                            if (res.result.nModified === 1) {
-                                console.log(`${tableName} updated`);
-                                console.log(`result: ${res}`);
+                    db.collection(this.collection)
+                        .save(obj, null, (err, res) => {
+                            if (err) {
                                 db.close();
-                                resolve(true);
+                                console.error(err);
+                                reject(err);
                             } else {
-                                console.log(`${tableName} inserted`);
-                                console.log(`result: ${res}`);
-                                db.close();
-                                resolve(false);
+                                if (res.result.nModified === 1) {
+                                    console.log(`${this.collection} updated`);
+                                    console.log(`result: ${res}`);
+                                    db.close();
+                                    resolve(true);
+                                } else {
+                                    console.log(`${this.collection} inserted`);
+                                    console.log(`result: ${res}`);
+                                    db.close();
+                                    resolve(false);
+                                }
                             }
-                        }
-                    });
+                        });
                 }
             );
     }

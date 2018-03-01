@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { AbstractModel, AbstractBaremongoService } from './';
+import { AbstractModel, AbstractService } from './';
 
 export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
     (...args: any[]) => T, entityName: string,  router: Router,
-    routeName: string, abstractService: AbstractBaremongoService,
+    routeName: string, abstractService: AbstractService,
     putMandatoriesParameters: Array<any>,
     putAllParametersOrdered: Array<any>) => {
 

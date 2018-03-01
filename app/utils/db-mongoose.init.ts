@@ -1,6 +1,6 @@
 import { URLMONGOOSE } from './const';
-import { NurseMongooseService, NurseSchema } from '../entities/nurse'
-import { PatientMongooseService, PatientSchema } from '../entities/patient';
+import { NurseMongooseService } from '../entities/nurse'
+import { PatientMongooseService } from '../entities/patient';
 
 import * as mongoose from 'mongoose';
 
@@ -12,8 +12,7 @@ export const dbMongooseInit = (): Promise<any> => {
             // ========
             // Patients
             // ========
-            PatientMongooseService.insertOrUpdate(PatientSchema,
-                'patient',
+            PatientMongooseService.insertOrUpdate(
                 {
                     _id: null,
                     _idSSN: '223456789123456',
@@ -32,25 +31,27 @@ export const dbMongooseInit = (): Promise<any> => {
 
             // // Nurse not saved
             // // ==========================
-            NurseMongooseService.insertOrUpdate(NurseSchema, 'nurse',
-                {_id: null, name: 'nurseNonSaved' });
+            NurseMongooseService.insertOrUpdate(
+                {_id: null, name: 'nurseNonSaved' }
+            );
 
             // // Nurse saved
-            NurseMongooseService.insertOrUpdate(NurseSchema, 'nurse',
+            NurseMongooseService.insertOrUpdate(
                 {_id: null, _firstname: 'nurseSaved', _lastname: 'ok'
-                    , _address: 'Gap' });
+                    , _address: 'Gap' }
+            );
 
             // Find patients and nurses
             // =======================
             // =======================
             setTimeout(() => {
-                PatientMongooseService.getRecords(PatientSchema, 'patient')
+                PatientMongooseService.getRecords()
                     .then((found: any) => {
                         console.debug
                         ('Collection patientModel:\n ——————————————\n' , found);
                     })
                     .catch((error: any) => console.error(error));
-                NurseMongooseService.getRecords(NurseSchema, 'nurse')
+                NurseMongooseService.getRecords()
                     .then((found: any) => {
                         console.debug
                         ('Collection nurseModel:\n ——————————————\n', found);
