@@ -37,65 +37,86 @@ process.on('exit', (code) => {
 });
 
 // Tests args
-const baremongoArg = 'db=baremongo';
-const mongooseArg = 'db=mongoose';
+const baremongoArg = 'baremongo';
+const mongooseArg = 'mongoose';
 const errorMessageArg = () => {
-    console.error('You must have one argument, either "' + baremongoArg
-        + '", or "' + mongooseArg + '"".'
+    console.error('You must use at least one database, either "' + baremongoArg
+        + '", or "' + mongooseArg + '"". You could use both.'
         + ' With Yarn you could write `yarn start ' + baremongoArg + '\' or'
-        + ' `yarn start ' + mongooseArg + '\'.'
+        + ' `yarn start ' + mongooseArg + '\' or'
+        + ' `yarn start ' + baremongoArg + ' ' + mongooseArg + '\'.'
     );
 }
-let firstArg;
-if (process.argv.length !== 3) {
+let useMongoose = false;
+let useBaremongo = false;
+if (process.argv.length !== 3 &&  process.argv.length !== 4) {
     errorMessageArg();
     process.exit(17)
 } else {
-    firstArg = process.argv[2]
-    if (firstArg !== baremongoArg && firstArg !== mongooseArg) {
+    if (baremongoArg === process.argv[2] || baremongoArg === process.argv[3]) {
+        useBaremongo = true;
+    }
+    if (mongooseArg === process.argv[2] || mongooseArg === process.argv[3]) {
+        useMongoose = true;
+    }
+    if (!useMongoose && !useBaremongo) {
         errorMessageArg();
     }
 }
 
-// Execution
-// We can't use both bare MongoDB  Node.js Driver and Mongoose.
-// Maybe because we use the same DB?
-if (firstArg === baremongoArg) {
-    console.info('===================================');
-    console.info('| You use bare MongoDB Node.js Driver');
-    console.info('| You could also try this app with argument ' + mongooseArg
-        + ': you would use Mongoose');
-    console.info('===================================');
-    // First promise
-    nodeHttpServerInit(app)
-        .then(() => {
-            // Second promise
-            dbMongoInit()
-                .then(() => {
-                    console.info('Great! You have not forgotten to start your' +
-                        ' MonogoDB! Congratulation!');
-                    app.use(PatientRoute())
-                    app.use(NurseRoute())
-                    routeMain(app);
-                })
-                .catch(() => {
-                    console.error('Connot connect to the database. Maybe your'
-                        + ' MongoDB server is not running, or there is a'
-                        + ' problem with your'
-                        + ' database. NodeJS is stopping with error code 15.');
-                    process.exit(15);
-                });
-        })
-        .catch(() => {
-            console.error('Error during the instatiation of the HTTP Server.' +
-                ' Node is stopping with error code 16');
-            process.exit(16);
-        });
-} else if (firstArg === mongooseArg) {
-    console.info('===================================');
-    console.info('| You use Mongoose');
-    console.info('| You could also try this app with argument ' + baremongoArg
-        + ': you would use Mongoose');
-    console.info('===================================');
-    dbMongooseInit();
+const mongoConnectionSuccess = (name: string, url: string) => {
+    console.info('\n  ===================================\n',
+    '| You use ' + name + '. \n',
+    '| You could access to their functionnalities thanks URLs "/'
+    + url + '/*"\n',
+    '===================================\n');
 }
+
+const mongoConnectionError = () => {
+    console.error('Connot connect to the database. Maybe your'
+        + ' MongoDB server is not running, or there is a'
+        + ' problem with your'
+        + ' database. NodeJS is stopping with error code 15.');
+    process.exit(15);
+}
+
+const mongoStatements = () => {
+    if (useBaremongo) {
+        dbMongoInit()
+            .then(() => {
+                mongoConnectionSuccess('bare MongoDB Node.JS Driver',
+                    'baremongo')
+                console.debug(app);
+                app.use('/baremongo', PatientRoute())
+                app.use('/baremongo', NurseRoute())
+                if (!useMongoose) {
+                    // should be at the end
+                    routeMain(app);
+                }
+            })
+        .catch (() => {mongoConnectionError()})
+    }
+}
+
+const mongooseStatements = () => {
+    if (useMongoose) {
+        dbMongooseInit().then(() => {
+            mongoConnectionSuccess('Mongoose', 'mongoose')
+            // should be at the end
+            routeMain(app);
+        })
+        .catch (() => {mongoConnectionError()})
+    }
+}
+
+// First promise
+nodeHttpServerInit(app)
+    .then(() => {
+        mongooseStatements();
+        mongoStatements();
+    })
+    .catch(() => {
+        console.error('Error during the instatiation of the HTTP Server.' +
+            ' Node is stopping with error code 16');
+        process.exit(16);
+    });

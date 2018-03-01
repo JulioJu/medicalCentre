@@ -10,9 +10,10 @@
     "lint": "node ./node_modules/tslint/bin/tslint --config \"./tslint.yaml\" \"app/**/*.ts\"",
     "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
-    "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js'",
-    "tscwatchNoLintBareMongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js db=baremongo'",
-    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js db=mongoose'"
+    "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js baremongo mongoose'",
+    "tscwatchNoLint": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js baremongo mongoose' ",
+    "tscwatchNoLintBaremongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js baremongo'",
+    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js mongoose'"
   },
   "author": "",
   "license": "ISC",
@@ -39,6 +40,6 @@
     "npm-run-all": "^4.1.1",
     "tsc-watch": "^1.0.13",
     "tslint": "^5.9.1",
-    "typescript": "^2.6.2"
+    "typescript": "^2.8.0-dev.20180301"
   }
 }
