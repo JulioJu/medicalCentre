@@ -1,6 +1,7 @@
 import * as express from 'express';             // The application server
-import { PatientRoute } from './entities/patient';
-import { NurseRoute } from './entities/nurse';
+import { PatientBaremongoRoute,
+    PatientMongooseRoute } from './entities/patient';
+import { NurseBaremongoRoute, NurseMongooseRoute } from './entities/nurse';
 import { nodeHttpServerInit, routeMain, dbMongoInit,
     dbMongooseInit } from './utils';
 // You could instead use https://nodejs.org/en/docs/inspector/
@@ -86,9 +87,8 @@ const mongoStatements = () => {
             .then(() => {
                 mongoConnectionSuccess('bare MongoDB Node.JS Driver',
                     'baremongo')
-                console.debug(app);
-                app.use('/baremongo', PatientRoute())
-                app.use('/baremongo', NurseRoute())
+                app.use('/baremongo', PatientBaremongoRoute())
+                app.use('/baremongo', NurseBaremongoRoute())
                 if (!useMongoose) {
                     // should be at the end
                     routeMain(app);
@@ -102,6 +102,8 @@ const mongooseStatements = () => {
     if (useMongoose) {
         dbMongooseInit().then(() => {
             mongoConnectionSuccess('Mongoose', 'mongoose')
+            app.use('/mongoose', PatientMongooseRoute())
+            app.use('/mongoose', NurseMongooseRoute())
             // should be at the end
             routeMain(app);
         })
