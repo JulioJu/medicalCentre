@@ -9,20 +9,20 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
 
     router.get(routeName, (req: Request, res: Response) => {
         abstractService.getRecords()
-            .then((str) => res.send(str))
-            .catch((e) => res.send(e));
+            .then((str) => res.json(str))
+            .catch((e) => res.json(e));
     });
 
     router.get(routeName + '/:_id', (req: Request, res: Response) => {
         abstractService.getRecord(req.params['_id'])
-            .then((str) => res.send(str))
-            .catch((e) => res.send(e));
+            .then((str) => res.json(str))
+            .catch((e) => res.json(e));
     });
 
     router.delete(routeName + '/:_id', (req: Request, res: Response) => {
         abstractService.deleteRecord(req.params['_id'])
-            .then((str) => res.send(str))
-            .catch((e) => res.send(e));
+            .then((str) => res.json(str))
+            .catch((e) => res.json(e));
     });
 
     router.put(routeName, (req: Request, res: Response, next: NextFunction) => {
@@ -39,7 +39,7 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 ' parameters, and you should have at least ' + minParam +
                 ' and at the most ' + maxParam + '.\n';
         }
-        Object.keys(putAllParametersOrdered).forEach((i: any) => {
+        Object.keys(putMandatoriesParameters).forEach((i: any) => {
             const parameter = req.body[putMandatoriesParameters[i]]
             if (!parameter) {
                 errorMessage = errorMessage + 'Bad request: parameter ' +
@@ -69,7 +69,7 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                         res.send(`${entityName} inserted`)
                     }
                 })
-                .catch((e) => res.send(e));
+                .catch((e) => res.json(e));
         }
     });
 

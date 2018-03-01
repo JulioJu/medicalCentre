@@ -1,4 +1,4 @@
-import { AbstractService, AbstractJSON, AbstractModel } from './';
+import { testId, AbstractService, AbstractJSON, AbstractModel } from './';
 import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
@@ -50,6 +50,7 @@ export const AbstractBaremongoService: AbstractService = {
     getRecord(id: string): Promise<any> {
         return promiseConnectToMongo(
             (db, resolve, reject) => {
+                testId(id, reject);
                 db.collection(this.collection)
                     .findOne({_id: id}, {}, ((err, res) => {
                         ifMongoConnected(db, err, res, resolve, reject);
@@ -60,6 +61,7 @@ export const AbstractBaremongoService: AbstractService = {
     deleteRecord(id: string): Promise<any> {
         return promiseConnectToMongo(
             (db, resolve, reject) => {
+                testId(id, reject);
                 db.collection(this.collection)
                     .deleteOne({_id: id}, null, ((err, res) => {
                         ifMongoConnected(db, err, res, resolve, reject);
