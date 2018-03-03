@@ -1,0 +1,11 @@
+--- tsc-watch.js	2018-03-03 20:52:55.701048030 +0100
++++ tsc-watch.js2	2018-03-03 20:52:23.411708453 +0100
+@@ -97,7 +97,7 @@
+ let args = cleanArgs(allArgs);
+ args.push('--watch'); // force watch
+ 
+-const bin = require.resolve('typescript/bin/tsc');
++const bin = require.resolve('../../typescript/bin/tsc');
+ const tscProcess = spawn(bin, [...args]);
+ 
+ tscProcess.stdout.on('data', buffer => {

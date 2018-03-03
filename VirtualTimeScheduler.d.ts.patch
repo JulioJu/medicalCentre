@@ -1,0 +1,11 @@
+--- VirtualTimeScheduler.d.ts	2018-03-02 19:54:42.452426989 +0100
++++ VirtualTimeScheduler.d.ts2	2018-03-02 19:48:29.118790519 +0100
+@@ -21,7 +21,7 @@
+  */
+ export declare class VirtualAction<T> extends AsyncAction<T> {
+     protected scheduler: VirtualTimeScheduler;
+-    protected work: (this: VirtualAction<T>, state?: T) => void;
++    protected work: (this: AsyncAction<T>, state?: T) => void;
+     protected index: number;
+     protected active: boolean;
+     constructor(scheduler: VirtualTimeScheduler, work: (this: VirtualAction<T>, state?: T) => void, index?: number);

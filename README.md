@@ -9,6 +9,13 @@
 * If you have forgotten to start MongoDB service, or if there is a problem
     to be connected to the database, the application exit with error code 3.
 * You should not have two same idSSN. My code check that idSSN should be UNIQUE.
+## Patches
+* RXJS SHOULD BE PATCH.
+    * `patch ./node_modules/rxjs/scheduler/VirtualTimeScheduler.d.ts < VirtualTimeScheduler.d.ts.patch`
+    * See also https://github.com/ReactiveX/rxjs/issues/3031
+* tsc-watch should be patch (TODO post an issue on the project)
+    `patch ./node_modules/tsc-watch/lib/tsc-watch.js < tsc-watch.js.patch`
+* WARNING. SHOULD BE PATCHED EACH TIME YOU EXECUTE `yarn add XXXXX`
 
 # Compilation
 * This project could use a Makefile
@@ -79,6 +86,13 @@
     rules)
 * ~~TODO: see under subtitle "Debugger" above.~~
 * In patient.schema.ts and patient.model.ts, change \_birthday to type Date.
+* Maybe post an issue in https://github.com/parshap/check-node-version/.
+    This plugin is totally buggy with es6 keyword import and my TypeScript
+    configuration.
+    I've used a safer and more correct solution in the file server.ts.
+* See section Patches above.
+* Post a PR in project mongoose. In file \*.d.ts Model.findById* havn't option
+    rawResult in its option.
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
