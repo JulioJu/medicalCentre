@@ -117,6 +117,7 @@ See
 ### Routes patients
 (with express.Router middleware, Router-level middleware, could have
 error-handling middleware)
+**"baremongo" and "mongoose" havn't the same database.**
 * « :driver » must be replaced either by « mongoose » or by « baremongo ».
     * « mongoose » use the mongoose Driver
     * « baremongo » use bare MongoDB Node.js Driver

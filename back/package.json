@@ -12,8 +12,8 @@
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
     "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js baremongo mongoose'",
     "tscwatchNoLint": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js baremongo mongoose' ",
-    "tscwatchNoLintBaremongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js baremongo'",
-    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js mongoose'"
+    "tscwatchNoLintBaremongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node  ./appJS/server.js baremongo'",
+    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js mongoose'"
   },
   "author": "",
   "license": "ISC",
