@@ -1,4 +1,5 @@
-import { testId, AbstractService, AbstractJSON, AbstractModel } from './';
+import { testId, AbstractService, AbstractModel } from './';
+import { AbstractInterface } from '../entities-interface'
 import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
@@ -78,7 +79,7 @@ export const AbstractBaremongoService: AbstractService = {
                         // delete abstractModel._id
                         abstractModel.id = new ObjectID().toHexString();
                     }
-                    const obj: AbstractJSON = abstractModel.toJSON();
+                    const obj: AbstractInterface = abstractModel.toJSON();
                     // tslint:disable-next-line
                     // Actually res.result is an object with the form:
                     // tslint:disable-next-line

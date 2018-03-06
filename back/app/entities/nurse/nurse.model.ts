@@ -1,4 +1,4 @@
-import { NurseJSON } from './nurse.json';
+import { NurseInterface } from '../entities-interface';
 import { Person } from '../person';
 
 export class Nurse extends Person {
@@ -11,7 +11,7 @@ export class Nurse extends Person {
         super(_id, _firstname, _lastname, _address);
     }
 
-    toJSON(): NurseJSON {
+    toJSON(): NurseInterface {
         // return Object.assign({}, super.toJSON());
         return {...super.toJSON()}
     }
