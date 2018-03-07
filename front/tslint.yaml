@@ -1,0 +1,122 @@
+# Inspired from JHipster 4.6.1 and angular-cli 1.7.2
+# Add custom rules.
+# Rules already in tslint:latest and tslint:recommanded on 07-03-2018 not added.
+---
+rulesDirectory:
+- node_modules/codelyzer
+extends:
+  # See https://github.com/palantir/tslint/tree/master/src/configs
+  "tslint:latest"
+rules:
+  # TSLINT
+  # https://palantir.github.io/tslint/rules/
+  # https://github.com/palantir/tslint/tree/master/test/rules
+  # =========================
+  # |    TypeScript-specific
+  # |    These rules find errors related to TypeScript features:
+  # =========================
+  no-empty-interface: false
+  no-inferrable-types:
+    - true
+    - ignore-params
+  no-folating-promise: false
+  no-non-null-assertion: true,
+  member-access: false
+  member-ordering:
+  - true
+  - order:
+    - static-field
+    - instance-field
+    - static-method
+    - instance-method
+  promise-function-async: true
+  # =========================
+  # |   Functionality
+  # |   These rules catch common errors in JS programming or otherwise confusing
+  # |   constructs that are prone to producing bugs:
+  # =========================
+  await-promise: true
+  no-console:
+    - false
+  no-floating-promises: false
+  no-for-in-array: true
+  no-implicit-dependencies: false
+  no-switch-case-fall-through: true
+  no-unbound-method: true
+  no-unnecessary-class: false
+  restrict-plus-operands: true
+  # =========================
+  # |   Maintainability
+  # |   These rules make code maintenance easier:
+  # =========================
+  deprecation: true
+  eofline: true
+  indent:
+    - true
+    - spaces
+  max-line-length:
+    - true
+    - 80
+  no-use-before-declare: true
+  trailing-comma:
+    - true
+    - multiline:
+        objects: never
+        arrays: never
+        functions: never
+        typeLiterals: never
+      esSpecCompliant: true
+  # =========================
+  # |   Style
+  # |   These rules enforce consistent style across your codebase:
+  # =========================
+  align: true
+  arrow-parens: false
+  binary-expression-operand-order: true
+  encoding: true
+  import-blacklist:
+    - true
+    - rxjs
+    - rxjs/Rx
+  interface-name: false
+  number-literal-format: true
+  object-literal-sort-keys: false
+  ordered-imports: false
+  prefer-method-signature: true
+  prefer-switch: true
+  quotemark:
+    - true
+    - single
+  space-before-function-paren: false
+  switch-final-break: true
+  type-literal-delimiter: true
+  no-submodule-imports: false
+  # =========
+  # |  COEDLYSER
+  # =========
+  # In angular-cli 1.7.2
+  directive-selector:
+    - true
+    - attribute
+    - app
+    - camelCase
+  component-selector:
+    - true
+    - element
+    - app
+    - kebab-case
+  no-output-on-prefix: true
+  use-input-property-decorator: true
+  use-output-property-decorator: true
+  use-host-property-decorator: true
+  no-input-rename: true
+  no-output-rename: true
+  use-life-cycle-interface: true
+  use-pipe-transform-interface: true
+  component-class-suffix: true
+  directive-class-suffix: true
+  # # In JHipster 4.6.1
+  # # Doesn't work
+  # no-access-missing-member: true
+  # templates-use-public: true
+  # invoke-injectable: true
