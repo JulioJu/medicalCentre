@@ -93,6 +93,12 @@
 * See section Patches above.
 * Post a PR in project mongoose. In file \*.d.ts Model.findById* havn't option
     rawResult in its option.
+* Not interesting to use type T[] instead of Array<any>
+   In file ../back/entities/abstract/abstract.route.ts when I use T[] I have
+   an error with spread notation.
+   On Github I've found that use Array<any> can give the same error.
+   TODO resolve it.
+   See tslint.yaml
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

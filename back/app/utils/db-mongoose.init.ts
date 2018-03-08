@@ -2,8 +2,8 @@ import { URLMONGOOSE } from './const';
 
 import * as mongoose from 'mongoose';
 
-export const dbMongooseInit = (): Promise<any> => {
-    return new Promise((resolve, reject) => {
+export const dbMongooseInit = (): Promise<any> =>
+    new Promise((resolve, reject) => {
 
         mongoose.connect(URLMONGOOSE);
         const dbMongoose = mongoose.connection;
@@ -17,5 +17,3 @@ export const dbMongooseInit = (): Promise<any> => {
         });
 
     });
-
-};

@@ -28,7 +28,7 @@ const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
             } else {
                 setTimeout(() => {
                     // server.close();
-                    server.listen(PORT, null);
+                    server.listen(PORT);
                 }, 1000);
                 // process.exit(2);
             }
@@ -42,11 +42,11 @@ const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
         console.info(`HTTP server running on port ${PORT}.`);
         resolve();
     });
-    server.listen(PORT, null);
+    server.listen(PORT);
 };
 
-export const nodeHttpServerInit = (app: express.Application): Promise<any> => {
-    return new Promise((resolve, reject) => {
+export const nodeHttpServerInit = (app: express.Application): Promise<any> =>
+    new Promise((resolve, reject) => {
 
         // HTTP
         const portHTTP = process.env.portHTTP || 8080;
@@ -66,4 +66,3 @@ export const nodeHttpServerInit = (app: express.Application): Promise<any> => {
         app.use(bodyParser.json()); // get information from html forms (post)
         app.use(bodyParser.urlencoded({extended: true})); // get
     });
-};

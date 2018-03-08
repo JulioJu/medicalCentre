@@ -1,45 +1,58 @@
-import { testId, AbstractService, AbstractSchema } from './';
+import { testId, checkCollection, AbstractService, AbstractSchema } from './';
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'bson';
 
+const checkMongooseModel = (value: any): mongoose.Model<any> => {
+    if (value) {
+        return value;
+    } else {
+        throw new Error('this.mongooseModel is not defined');
+    }
+};
+
 interface AbstractServiceMongooseType extends AbstractService {
-    mongooseModel: mongoose.Model<any>;
+    mongooseModel: mongoose.Model<any> | undefined;
     constructorStatic<U extends AbstractSchema>(abstractSchemaTy: new
         (...args: any[]) => U, collection: string): void;
 }
 
 export const AbstractServiceMongoose: AbstractServiceMongooseType = {
 
-    collection: null,
+    collection: undefined,
 
-    mongooseModel: null,
+    mongooseModel: undefined,
 
     constructorStatic<U extends AbstractSchema>(abstractSchemaTy: new
         (...args: any[]) => U, collection: string) {
+        this.collection = checkCollection(collection);
         if (!this.mongooseModel) {
             const abstractSchema = new mongoose.Schema(
                 new abstractSchemaTy() as any, {timestamps: true}
             );
-            this.mongooseModel = mongoose.model(collection, abstractSchema);
+            this.mongooseModel = mongoose
+                .model(this.collection, abstractSchema);
         }
-        this.collection = collection;
     },
 
     getRecords(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-                this.mongooseModel.find((err, found) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(found);
-                });
+            const thisMongooseModel: mongoose.Model<any> =
+                checkMongooseModel(this.mongooseModel);
+            thisMongooseModel.find((err, found) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(found);
+            });
         });
     },
 
     getRecord(_id: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             testId(_id, reject);
-            this.mongooseModel.findById(_id, (err, found) => {
+            const thisMongooseModel: mongoose.Model<any> =
+                checkMongooseModel(this.mongooseModel);
+            thisMongooseModel.findById(_id, (err, found) => {
                 if (err) {
                     console.error(err);
                     reject(err);
@@ -52,7 +65,9 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
     deleteRecord(_id: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             testId(_id, reject);
-            this.mongooseModel.findByIdAndRemove(_id,
+            const thisMongooseModel: mongoose.Model<any> =
+                checkMongooseModel(this.mongooseModel);
+            thisMongooseModel.findByIdAndRemove(_id,
                 (err: any, found: any) => {
                 if (err) {
                     console.error(err);
@@ -70,25 +85,28 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
     },
 
     // Only insert, not update !!
-    // tslint:disable-next-line
     insertOrUpdate(myEntity: any):
         Promise<any> {
             return new Promise<any>((resolve, reject) => {
                 if (!myEntity._id) {
                     // Defined here, because with Mongoose 5, variable
                     // defined 4 lines below have null variable.
-                    // TODO maybe it's a bug ? I have no idea, but it's strange
+                    // TODO maybe it's a bug? I have no idea, but it's strange
                     // because it's a very common example !
                     myEntity._id = new ObjectID().toHexString();
+                    const thisMongooseModel: mongoose.Model<any> =
+                        checkMongooseModel(this.mongooseModel);
                     const abstractModel: mongoose.Document =
-                        new this.mongooseModel(myEntity);
+                        new thisMongooseModel(myEntity);
                     abstractModel.save((err, saved) => {
                         if (err) {
                             const errorString = err.toString();
+                            const thisCollection =
+                                checkCollection(this.collection);
                             const mess = 'The object ' +
                                 JSON.stringify(myEntity) +
                                 ' wasn\'t saved in the collection « ' +
-                                this.collection + ' » because:\n' +
+                                thisCollection + ' » because:\n' +
                                 errorString.split('\n', 1)[0];
                             console.error(mess);
                             reject(mess);
@@ -103,7 +121,9 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
                     // tslint:disable-next-line
                     // https://silvantroxler.ch/2016/insert-or-update-with-mongodb-and-mongoose/
                     // http://mongoosejs.com/docs/api.html#Model
-                    this.mongooseModel.findByIdAndUpdate(
+                    const thisMongooseModel: mongoose.Model<any> =
+                        checkMongooseModel(this.mongooseModel);
+                    thisMongooseModel.findByIdAndUpdate(
                         myEntity._id, // find a document with that filter
                         myEntity, // document to insert when nothing was found
                         {upsert: true, new: true, runValidators: true

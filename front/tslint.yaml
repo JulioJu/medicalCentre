@@ -60,7 +60,8 @@ rules:
     - spaces
   max-line-length:
     - true
-    - 80
+    - limit:80
+      ignore-pattern: "^* http:// | ^// http:// | ^* https:// | ^// https://"
   no-use-before-declare: true
   trailing-comma:
     - true

@@ -6,7 +6,7 @@ import { nodeHttpServerInit, routeMain, dbMongoInit,
     dbMongooseInit } from './utils';
 // You could instead use https://nodejs.org/en/docs/inspector/
 // CommonJS module declaration because otherwise tsc raise false positive.
-// tslint:disable:no-var-requires
+// tslint:disable:no-var-requires no-require-imports
 require('console-info');
 require('console-warn');
 require('console-error');
@@ -21,7 +21,6 @@ console.info(`You use version ${nodeversion} of Node.js`);
 
 // https://github.com/parshap/check-node-version/issues/6
 // Function parseFloat parse correctly if nodeversion === '9.5.8'.
-// tslint:disable-next-line
 // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
 if (parseFloat(nodeversion) < 9.5) {
     console.error('Please use a node >= 9.5.0');
@@ -101,12 +100,13 @@ const mongoStatements = () => {
 
 const mongooseStatements = () => {
     if (useMongoose) {
-        dbMongooseInit().then(() => {
-            mongoConnectionSuccess('Mongoose', 'mongoose');
-            app.use('/mongoose', PatientMongooseRoute());
-            app.use('/mongoose', NurseMongooseRoute());
-            // should be at the end
-            routeMain(app);
+        dbMongooseInit()
+            .then(() => {
+                mongoConnectionSuccess('Mongoose', 'mongoose');
+                app.use('/mongoose', PatientMongooseRoute());
+                app.use('/mongoose', NurseMongooseRoute());
+                // should be at the end
+                routeMain(app);
         })
         .catch (() => { mongoConnectionError(); });
     }

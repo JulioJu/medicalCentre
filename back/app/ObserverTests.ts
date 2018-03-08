@@ -1,8 +1,10 @@
 
 // Some interesting examples to understand Promise and Observer mechamism
-function subscribe(observer: {next(x: any): void; complete(): void}) {
+const subscribe = (observer: {next(x: any): void; complete(): void}) => {
 // OR
-// function subscribe(observer: {next: (x:any) => void, complete:() => void}) {
+/*
+* function subscribe(observer: {next: (x:any) => void, complete:() => void}) {
+*/
     const intervalID = setInterval(() => {
         observer.next('hi');
     }, 1000);
@@ -12,7 +14,7 @@ function subscribe(observer: {next(x: any): void; complete(): void}) {
         clearInterval(intervalID);
         observer.complete();
     };
-}
+};
 
 const unsubscribe = subscribe({next: (x: any) => console.log(x),
     complete: () => {
@@ -21,7 +23,7 @@ const unsubscribe = subscribe({next: (x: any) => console.log(x),
 });
 
 // Later:
-setTimeout(() => unsubscribe(), 3000); // dispose the resources
+setTimeout(unsubscribe(), 3000); // Dispose the resources.
 
 const myPromise = new Promise((res, rej) => {
     console.info('Corps promise');
@@ -31,7 +33,7 @@ const myPromise = new Promise((res, rej) => {
 myPromise.then((x) => { console.log('PromiseThen' + x); });
 const myFunc = (callback: any) => {
     console.info('Corps promise');
-    if (callback != null) {
+    if (!callback) {
         callback(3);
     }
 };

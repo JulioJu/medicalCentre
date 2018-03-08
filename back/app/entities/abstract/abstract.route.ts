@@ -39,28 +39,32 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 ' parameters, and you should have at least ' + minParam +
                 ' and at the most ' + maxParam + '.\n';
         }
-        Object.keys(putMandatoriesParameters).forEach((i: any) => {
-            const parameter = req.body[putMandatoriesParameters[i]];
-            if (!parameter) {
-                errorMessage = errorMessage + 'Bad request: parameter ' +
+        Object.keys(putMandatoriesParameters)
+            .forEach((i: any) => {
+                const parameter = req.body[putMandatoriesParameters[i]];
+                if (!parameter) {
+                    errorMessage = errorMessage + 'Bad request: parameter ' +
                         putMandatoriesParameters[i] + ' missing.\n';
-                parametersAreOk = false;
-            }
-        });
-        if (!parametersAreOk) {
-                res.status(400).send(errorMessage);
-        } else {
-            const modelConstructor: T[any] = [];
-            Object.keys(putAllParametersOrdered).forEach((i: any) => {
-                let parameter = req.body[putAllParametersOrdered[i]];
-                if (parameter === undefined) {
-                    parameter = null;
+                    parametersAreOk = false;
                 }
-                modelConstructor.push(parameter);
             });
+        if (!parametersAreOk) {
+            res.status(400)
+                .send(errorMessage);
+        } else {
+            const modelConstructor: Array<any> = [];
+            Object.keys(putAllParametersOrdered)
+                .forEach((i: any) => {
+                    let parameter = req.body[putAllParametersOrdered[i]];
+                    if (parameter === undefined) {
+                        parameter = undefined;
+                    }
+                    modelConstructor.push(parameter);
+                });
             // TODO put args
             const myModel: AbstractModel =
                 new abstractModel(...modelConstructor);
+
             abstractService.insertOrUpdate(myModel)
                 .then((isUPdated: boolean) => {
                     if (isUPdated) {

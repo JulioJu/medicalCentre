@@ -1,10 +1,18 @@
 export interface AbstractService {
-    collection: string;
+    collection: string | undefined;
     getRecords(): Promise<any>;
     getRecord(_id: string): Promise<any>;
     deleteRecord(_id: string): Promise<any>;
     insertOrUpdate(myEntity: any): Promise<any>;
 }
+
+export const checkCollection = (value: any): string => {
+    if (value) {
+        return value;
+    } else {
+        throw new Error('collection is not defined');
+    }
+};
 
 export const testId = (_id: string, reject: any) => {
     if (!_id) {

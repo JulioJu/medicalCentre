@@ -5,9 +5,7 @@ export class PatientSchema implements PersonSchema {
     _idSSN = {type: String, required: true, unique: true,
         validate: {
           isAsync: false,
-          validator: (v: any) => {
-           return /^\d{15}$/.test(v);
-          },
+          validator: (v: any) => /^\d{15}$/.test(v),
          message: '{VALUE} is not a valid social security number!'
         }
     };
