@@ -7,14 +7,11 @@
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "target": "es6",
+        "target": "es2017",
         "typeRoots": [
             "node_modules/@types"
         ],
-        "lib": [
-            "es2017",
-            "dom"
-        ],
+        "lib": ["DOM","ES6","DOM.Iterable","ScriptHost","ES2017"],
         "pretty": true,
         "alwaysStrict": true,
         "forceConsistentCasingInFileNames": true,
@@ -24,6 +21,6 @@
         "noFallthroughCasesInSwitch": true,
         "noUnusedLocals": true,
         "noUnusedParameters": false,
-        "strictNullChecks": false
+        "strictNullChecks":true
         }
 }

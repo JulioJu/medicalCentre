@@ -6,7 +6,7 @@ rulesDirectory:
 - node_modules/codelyzer
 extends:
   # See https://github.com/palantir/tslint/tree/master/src/configs
-  "tslint:latest"
+  "tslint:all"
 rules:
   # TSLINT
   # https://palantir.github.io/tslint/rules/
@@ -15,11 +15,12 @@ rules:
   # |    TypeScript-specific
   # |    These rules find errors related to TypeScript features:
   # =========================
+  no-any: false
   no-empty-interface: false
   no-inferrable-types:
     - true
     - ignore-params
-  no-folating-promise: false
+  no-magic-numbers: false
   no-non-null-assertion: true,
   member-access: false
   member-ordering:
@@ -30,6 +31,17 @@ rules:
     - static-method
     - instance-method
   promise-function-async: true
+  typedef:
+    - true
+    - call-signature
+    - arrow-call-signature
+    - parameter
+    - arrow-parameter
+    - property-declaration
+      # - variable-declaration
+    - member-variable-declaration
+    - object-destructuring
+    - array-destructuring
   # =========================
   # |   Functionality
   # |   These rules catch common errors in JS programming or otherwise confusing
@@ -60,9 +72,15 @@ rules:
     - spaces
   max-line-length:
     - true
-    - limit:80
-      ignore-pattern: "^* http:// | ^// http:// | ^* https:// | ^// https://"
+    - limit: 80
+      # Chararcter '*' or '\*' doesn't work
+      ignore-pattern: '^\s*// http://|^\s*// https://|^\s*// See http://|^\s*// See https://'
+  # False in Angular cause type definition
+  no-unsafe-any: false
   no-use-before-declare: true
+  no-void-expression:
+    - true
+    - ignore-arrow-function-shorthand
   trailing-comma:
     - true
     - multiline:
@@ -76,20 +94,34 @@ rules:
   # |   These rules enforce consistent style across your codebase:
   # =========================
   align: true
+  # not interesting to use type T[] instead of Array<any>
+  # In file ../back/entities/abstract/abstract.route.ts when I use T[] I have
+  # an error with spread notation.
+  # On Github I've found that use Array<any> can give the same error.
+  # TODO resolve it.
+  array-type: false
   arrow-parens: false
-j # false in angular project
-  callable-types: true
+  # False in angular project because ng generate this
+  # An interface or literal type with just a call signature can be written as a function type.
+  callable-types: false
+  comment-format: false
+  completed-docs: false
   binary-expression-operand-order: true
   encoding: true
   import-blacklist:
     - true
     - rxjs
     - rxjs/Rx
-  interface-name: false
+  interface-name: false # could be true in a future project
+  # Disallows parameter properties in class constructors. (private myvar)
+  no-parameter-properties: false
   number-literal-format: true
   object-literal-sort-keys: false
   ordered-imports: false
+  # Warns for class methods that do not use ‘this’. Angular neads method ngOnInit.
+  prefer-function-over-method: false
   prefer-method-signature: true
+  prefer-template: false
   prefer-switch: true
   quotemark:
     - true

@@ -32,21 +32,16 @@ rules:
     - instance-method
   promise-function-async: true
   typedef:
-    type: array
-    items:
-      type: string
-      enum:
-      - call-signature
-      - arrow-call-signature
-      - parameter
-      - arrow-parameter
-      - property-declaration
-        # - variable-declaration
-      - member-variable-declaration
-      - object-destructuring
-      - array-destructuring
-    minLength: 0
-    maxLength: 7
+    - true
+    - call-signature
+    - arrow-call-signature
+    - parameter
+    - arrow-parameter
+    - property-declaration
+      # - variable-declaration
+    - member-variable-declaration
+    - object-destructuring
+    - array-destructuring
   # =========================
   # |   Functionality
   # |   These rules catch common errors in JS programming or otherwise confusing
@@ -80,7 +75,12 @@ rules:
     - limit: 80
       # Chararcter '*' or '\*' doesn't work
       ignore-pattern: '^\s*// http://|^\s*// https://|^\s*// See http://|^\s*// See https://'
+  # False in Angular project, cause type definition
+  no-unsafe-any: true
   no-use-before-declare: true
+  no-void-expression:
+    - true
+    - ignore-arrow-function-shorthand
   trailing-comma:
     - true
     - multiline:
@@ -102,7 +102,10 @@ rules:
   array-type: false
   arrow-parens: false
   # false in angular project because ng generate this
+  # An interface or literal type with just a call signature can be written as a function type.
   callable-types: true
+  # False in Angular cause type definition
+  completed-docs: false
   comment-format: false
   binary-expression-operand-order: true
   encoding: true
@@ -111,10 +114,13 @@ rules:
     - rxjs
     - rxjs/Rx
   interface-name: false # could be true in a future project
+  # Disallows parameter properties in class constructors. (private myvar)
   no-parameter-properties: false
   number-literal-format: true
   object-literal-sort-keys: false
   ordered-imports: false
+  # Warns for class methods that do not use ‘this’. Angular neads method ngOnInit.
+  prefer-function-over-method: true
   prefer-method-signature: true
   prefer-template: false
   prefer-switch: true

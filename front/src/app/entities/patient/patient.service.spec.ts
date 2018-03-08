@@ -11,6 +11,7 @@ describe('PatientService', () => {
 
     it('should be created',
         inject([PatientService], (service: PatientService) => {
-            expect(service).toBeTruthy();
+            expect(service)
+                .toBeTruthy();
         }));
 });
