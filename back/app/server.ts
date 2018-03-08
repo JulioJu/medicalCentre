@@ -6,6 +6,7 @@ import { nodeHttpServerInit, routeMain, dbMongoInit,
     dbMongooseInit } from './utils';
 // You could instead use https://nodejs.org/en/docs/inspector/
 // CommonJS module declaration because otherwise tsc raise false positive.
+// tslint:disable:no-var-requires
 require('console-info');
 require('console-warn');
 require('console-error');
@@ -15,7 +16,7 @@ const app: express.Application = express();
 
 console.debug(`This process is pid ${process.pid}`);
 
-const nodeversion = process.versions.node
+const nodeversion = process.versions.node;
 console.info(`You use version ${nodeversion} of Node.js`);
 
 // https://github.com/parshap/check-node-version/issues/6
@@ -47,12 +48,12 @@ const errorMessageArg = () => {
         + ' `yarn start ' + mongooseArg + '\' or'
         + ' `yarn start ' + baremongoArg + ' ' + mongooseArg + '\'.'
     );
-}
+};
 let useMongoose = false;
 let useBaremongo = false;
 if (process.argv.length !== 3 &&  process.argv.length !== 4) {
     errorMessageArg();
-    process.exit(17)
+    process.exit(17);
 } else {
     if (baremongoArg === process.argv[2] || baremongoArg === process.argv[3]) {
         useBaremongo = true;
@@ -71,7 +72,7 @@ const mongoConnectionSuccess = (name: string, url: string) => {
     '| You could access to their functionnalities thanks URLs "/'
     + url + '/*"\n',
     '===================================\n');
-}
+};
 
 const mongoConnectionError = () => {
     console.error('Connot connect to the database. Maybe your'
@@ -79,37 +80,37 @@ const mongoConnectionError = () => {
         + ' problem with your'
         + ' database. NodeJS is stopping with error code 15.');
     process.exit(15);
-}
+};
 
 const mongoStatements = () => {
     if (useBaremongo) {
         dbMongoInit()
             .then(() => {
                 mongoConnectionSuccess('bare MongoDB Node.JS Driver',
-                    'baremongo')
-                app.use('/baremongo', PatientBaremongoRoute())
-                app.use('/baremongo', NurseBaremongoRoute())
+                    'baremongo');
+                app.use('/baremongo', PatientBaremongoRoute());
+                app.use('/baremongo', NurseBaremongoRoute());
                 if (!useMongoose) {
                     // should be at the end
                     routeMain(app);
                 }
             })
-        .catch (() => {mongoConnectionError()})
+        .catch (() => { mongoConnectionError(); });
     }
-}
+};
 
 const mongooseStatements = () => {
     if (useMongoose) {
         dbMongooseInit().then(() => {
-            mongoConnectionSuccess('Mongoose', 'mongoose')
-            app.use('/mongoose', PatientMongooseRoute())
-            app.use('/mongoose', NurseMongooseRoute())
+            mongoConnectionSuccess('Mongoose', 'mongoose');
+            app.use('/mongoose', PatientMongooseRoute());
+            app.use('/mongoose', NurseMongooseRoute());
             // should be at the end
             routeMain(app);
         })
-        .catch (() => {mongoConnectionError()})
+        .catch (() => { mongoConnectionError(); });
     }
-}
+};
 
 // First promise
 nodeHttpServerInit(app)

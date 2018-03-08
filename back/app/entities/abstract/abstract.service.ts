@@ -16,4 +16,4 @@ export const testId = (_id: string, reject: any) => {
         console.error(mess);
         reject(new Error(mess));
     }
-}
+};

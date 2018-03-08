@@ -44,7 +44,7 @@ export abstract class Person extends AbstractModel {
         return {...{
             _firstname: this._firstname,
             _lastname: this._lastname,
-            _address: this._address,
-        }, ...super.toJSON()}
+            _address: this._address
+        }, ...super.toJSON()};
     }
 }

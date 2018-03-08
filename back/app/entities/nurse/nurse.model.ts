@@ -13,7 +13,7 @@ export class Nurse extends Person {
 
     toJSON(): NurseInterface {
         // return Object.assign({}, super.toJSON());
-        return {...super.toJSON()}
+        return {...super.toJSON()};
     }
 
 }

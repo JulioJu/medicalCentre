@@ -36,14 +36,17 @@ rules:
   # |   constructs that are prone to producing bugs:
   # =========================
   await-promise: true
+  # false in angular project because ng generate this.
   no-empty: false
   no-console:
     - false
+  # false in angular project because ng generate this.
   no-floating-promises: false
   no-for-in-array: true
-  no-implicit-dependencies: false
+  no-submodule-imports: false
   no-switch-case-fall-through: true
   no-unbound-method: true
+  # false in angular project (some "unecessary class" should exists)
   no-unnecessary-class: false
   restrict-plus-operands: true
   # =========================
@@ -73,6 +76,8 @@ rules:
   # =========================
   align: true
   arrow-parens: false
+j # false in angular project
+  callable-types: true
   binary-expression-operand-order: true
   encoding: true
   import-blacklist:
@@ -88,10 +93,15 @@ rules:
   quotemark:
     - true
     - single
-  space-before-function-paren: false
+  space-before-function-paren: false # not my style (myFunc())
   switch-final-break: true
   type-literal-delimiter: true
-  no-submodule-imports: false
+  variable-name:
+    options:
+      - ban-keywords
+      - check-format
+      - allow-pascal-case
+      - allow-leading-underscore
   # =========
   # |  COEDLYSER
   # =========

@@ -10,7 +10,7 @@ export class PatientSchema implements PersonSchema {
           },
          message: '{VALUE} is not a valid social security number!'
         }
-    }
+    };
     _firstname  = {type: String, required: true};
     _lastname   = {type: String, required: true};
     _isMale     = {type: String, required: true};

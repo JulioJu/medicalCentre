@@ -1,5 +1,5 @@
 import { testId, AbstractService, AbstractModel } from './';
-import { AbstractInterface } from '../entities-interface'
+import { AbstractInterface } from '../entities-interface';
 import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
@@ -20,7 +20,7 @@ const promiseConnectToMongo = (callback: (db: Db, resolve: (val?: any) =>
             }
         });
     });
-}
+};
 
 const ifMongoConnected = (db: Db, err: MongoError, res: any[] |
     DeleteWriteOpResultObject, resolve: (val?: any) => any, reject: (err?:
@@ -33,7 +33,7 @@ const ifMongoConnected = (db: Db, err: MongoError, res: any[] |
         db.close();
         resolve(res);
     }
-}
+};
 
 export const AbstractBaremongoService: AbstractService = {
 
@@ -44,7 +44,7 @@ export const AbstractBaremongoService: AbstractService = {
             (db, resolve, reject) => {
                 db.collection(this.collection).find().toArray((err, res) => {
                     ifMongoConnected(db, err, res, resolve, reject);
-                })
+                });
             });
     },
 
@@ -121,4 +121,4 @@ export const AbstractBaremongoService: AbstractService = {
             );
     }
 
-}
+};

@@ -16,9 +16,9 @@ export const routeMain = (app: express.Application) => {
         res.write('Are you in UTF-8? éééé');
         res.write('Bellow, list params; <ul>');
         for (const att of Object.keys(req.query)) {
-            res.write(`<li>${att}:${req.query[att]}\n</li>`)
+            res.write(`<li>${att}:${req.query[att]}\n</li>`);
         }
-        res.write('</ul>')
+        res.write('</ul>');
         res.end();
     });
 

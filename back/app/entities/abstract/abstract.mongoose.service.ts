@@ -45,7 +45,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
                     reject(err);
                 }
                 resolve(found);
-            })
+            });
         });
     },
 
@@ -65,7 +65,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
                     reject({n: 0});
                 }
                 resolve({n: 1, value: found});
-            })
+            });
         });
     },
 
@@ -116,7 +116,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
                                 let savedOrUpdated = 'saved';
                                 let isUpdated = false;
                                 if (doc.lastErrorObject.updatedExisting) {
-                                    savedOrUpdated = 'updated'
+                                    savedOrUpdated = 'updated';
                                     isUpdated = true;
                                 }
                                 console.info('You have', savedOrUpdated, ':\n',
@@ -128,4 +128,4 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
             });
     }
 
-}
+};

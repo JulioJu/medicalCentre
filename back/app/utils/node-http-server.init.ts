@@ -66,4 +66,4 @@ export const nodeHttpServerInit = (app: express.Application): Promise<any> => {
         app.use(bodyParser.json()); // get information from html forms (post)
         app.use(bodyParser.urlencoded({extended: true})); // get
     });
-}
+};

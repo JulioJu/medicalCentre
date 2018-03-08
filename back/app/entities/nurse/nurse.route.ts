@@ -5,14 +5,14 @@ import { AbstractRoute } from '../abstract';
 const putMandatoriesParameters = ['_firstname', '_lastname',
     '_address'];
 const putAllParametersOrdered = ['_id', '_firstname', '_lastname',
-    '_address']
+    '_address'];
 export const NurseBaremongoRoute = (): express.Router => {
     return AbstractRoute<Nurse>(Nurse, 'Nurse', express.Router(),
         '/nurses', NurseBaremongoService, putMandatoriesParameters,
         putAllParametersOrdered);
-}
+};
 export const NurseMongooseRoute = (): express.Router => {
     return AbstractRoute<Nurse>(Nurse, 'Nurse', express.Router(),
         '/nurses', NurseMongooseService, putMandatoriesParameters,
         putAllParametersOrdered);
-}
+};

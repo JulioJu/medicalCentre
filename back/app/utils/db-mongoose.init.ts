@@ -8,8 +8,8 @@ export const dbMongooseInit = (): Promise<any> => {
         mongoose.connect(URLMONGOOSE);
         const dbMongoose = mongoose.connection;
         dbMongoose.on('error', (e) => {
-            console.error.bind(console, 'connection error:')
-            reject(e)
+            console.error.bind(console, 'connection error:');
+            reject(e);
         });
         dbMongoose.once('open', () => {
             console.info('You are connected to ' + URLMONGOOSE + '.');
@@ -18,4 +18,4 @@ export const dbMongooseInit = (): Promise<any> => {
 
     });
 
-}
+};

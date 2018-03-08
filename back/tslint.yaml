@@ -1,158 +1,132 @@
+# Inspired from JHipster 4.6.1 and angular-cli 1.7.2
+# Add custom rules.
+# Rules already in tslint:latest and tslint:recommanded on 07-03-2018 not added.
+---
+# rulesDirectory:
+# - node_modules/codelyzer
 extends:
-# See https://github.com/palantir/tslint/tree/master/src/configs
+  # See https://github.com/palantir/tslint/tree/master/src/configs
   "tslint:latest"
-# rulesDirectory: [ node_modules/codelyzer ]
-# TODO delete duplications
 rules:
-  # Copied from JHipster
-  # ————————————————
-  class-name: true
-  comment-format:
+  # TSLINT
+  # https://palantir.github.io/tslint/rules/
+  # https://github.com/palantir/tslint/tree/master/test/rules
+  # =========================
+  # |    TypeScript-specific
+  # |    These rules find errors related to TypeScript features:
+  # =========================
+  no-empty-interface: false
+  no-inferrable-types:
     - true
-    - check-space
-  curly: true
+    - ignore-params
+  no-non-null-assertion: true,
+  member-access: false
+  member-ordering:
+  - true
+  - order:
+    - static-field
+    - instance-field
+    - static-method
+    - instance-method
+  promise-function-async: true
+  # =========================
+  # |   Functionality
+  # |   These rules catch common errors in JS programming or otherwise confusing
+  # |   constructs that are prone to producing bugs:
+  # =========================
+  await-promise: true
+  # false in angular project because ng generate this.
+  no-empty: true
+  no-console:
+    - false
+  # false in angular project because ng generate this.
+  no-floating-promises: true
+  no-for-in-array: true
+  no-submodule-imports: false
+  no-switch-case-fall-through: true
+  no-unbound-method: true
+  # false in angular project (some "unecessary class" should exists)
+  no-unnecessary-class: true
+  restrict-plus-operands: true
+  # =========================
+  # |   Maintainability
+  # |   These rules make code maintenance easier:
+  # =========================
+  deprecation: true
   eofline: true
-  forin: true
   indent:
     - true
     - spaces
-  label-position: true
   max-line-length:
     - true
     - 80
-  member-access: false
-  member-ordering:
-    - true
-    - static-before-instance
-    - variables-before-functions
-  no-arg: true
-  no-bitwise: true
-  no-console:
-    - false
-    - debug
-    - info
-    - time
-    - timeEnd
-    - trace
-  no-construct: true
-  no-debugger: true
-  no-duplicate-variable: true
-  no-empty: true
-  no-eval: true
-  no-inferrable-types:
-    - true
-  no-shadowed-variable: true
-  no-string-literal: false
-  no-switch-case-fall-through: true
-  no-trailing-whitespace: true
-  no-unused-expression: true
   no-use-before-declare: true
-  no-var-keyword: true
-  object-literal-sort-keys: false
-  one-line:
+  trailing-comma:
     - true
-    - check-open-brace
-    - check-catch
-    - check-else
-    - check-whitespace
-  quotemark:
-    - true
-    - single
-  radix: true
-  semicolon:
-    - always
-  triple-equals:
-    - true
-    - allow-null-check
-  typedef-whitespace:
-    - true:
-        call-signature: nospace
-        index-signature: nospace
-        parameter: nospace
-        property-declaration: nospace
-        variable-declaration: nospace
-  variable-name: false
-  whitespace:
-    - true
-    - check-branch
-    - check-decl
-    - check-operator
-    - check-separator
-    - check-type
-  prefer-const: true
-  arrow-parens:
-    - true
-  arrow-return-shorthand: true
-  import-spacing: true
-  no-consecutive-blank-lines:
-    - true
-  object-literal-shorthand: true
-  space-before-function-paren:
-    - true
-    - never
-  use-pipe-transform-interface: false
-  # Rules for codelyzer (Angular).
-  # - directive-selector: [true attributecamelCase]
-  # - component-selector: [true element kebab-case]
-  # - use-input-property-decorator: true
-  # - use-output-property-decorator: true
-  # - use-host-property-decorator: true
-  # - no-input-rename: true
-  # - no-output-rename: true
-  # - use-life-cycle-interface: true
-  # - component-class-suffix: true
-  # - directive-class-suffix: true
-  # - no-access-missing-member: true
-  # - templates-use-public: true
-  # - invoke-injectable: true
-  # Below selectionned by me from documentation
-  # —————————————————
-  # TypeScript-specific
-  # These rules find errors related to TypeScript features:
-  adjacent-overload-signatures: true
-  ban-comma-operator: true
-  no-duplicate-super: true
-  no-duplicate-switch-case: true
-  no-empty-interface: false
-  promise-function-async: true
-  unified-signatures: true
-  # Functionality
-  # These rules catch common errors in JS programming or otherwise confusing
-  # constructs that are prone to producing bugs:
-  await-promise: true
-  no-floating-promises: true
-  no-for-in-array: true
-  no-invalid-template-strings: true
-  no-string-throw: true
-  no-this-assignment: true
-  no-unbound-method: true
-  no-unnecessary-class: true
-  no-unsafe-finally: true
-  no-var-requires: false
-  prefer-object-spread: true
-  restrict-plus-operands: true
-  use-isnan: true
-  # Maintainability
-  # These rules make code maintenance easier:
-  deprecation: true
-  trailing-comma: false
-  # Style
-  # These rules enforce consistent style across your codebase:
+    - multiline:
+        objects: never
+        arrays: never
+        functions: never
+        typeLiterals: never
+      esSpecCompliant: true
+  # =========================
+  # |   Style
+  # |   These rules enforce consistent style across your codebase:
+  # =========================
   align: true
-  array-type: false
-  binary-expression-operand-order: true
+  arrow-parens: false
+  # false in angular project because ng generate this
   callable-types: true
+  binary-expression-operand-order: true
   encoding: true
-  interface-name: false
-  no-boolean-literal-compare: true
-  no-unnecessary-initializer: true
+  import-blacklist:
+    - true
+    - rxjs
+    - rxjs/Rx
+  interface-name: false # could be true in a future project
   number-literal-format: true
+  object-literal-sort-keys: false
   ordered-imports: false
   prefer-method-signature: true
   prefer-switch: true
+  quotemark:
+    - true
+    - single
+  space-before-function-paren: false # not my style (myFunc())
   switch-final-break: true
   type-literal-delimiter: true
-  no-submodule-imports:
-    - true
-    - "@angular/core"
-    - "rxjs"
+  variable-name:
+    options:
+      - ban-keywords
+      - check-format
+      - allow-pascal-case
+      - allow-leading-underscore
+  # # =========
+  # # |  COEDLYSER
+  # # =========
+  # # In angular-cli 1.7.2
+  # directive-selector:
+  #   - true
+  #   - attribute
+  #   - app
+  #   - camelCase
+  # component-selector:
+  #   - true
+  #   - element
+  #   - app
+  #   - kebab-case
+  # no-output-on-prefix: true
+  # use-input-property-decorator: true
+  # use-output-property-decorator: true
+  # use-host-property-decorator: true
+  # no-input-rename: true
+  # no-output-rename: true
+  # use-life-cycle-interface: true
+  # use-pipe-transform-interface: true
+  # component-class-suffix: true
+  # directive-class-suffix: true
+  # # # In JHipster 4.6.1
+  # # # Doesn't work
+  # # no-access-missing-member: true
+  # # templates-use-public: true
+  # # invoke-injectable: true

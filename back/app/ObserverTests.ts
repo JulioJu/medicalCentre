@@ -28,11 +28,11 @@ const myPromise = new Promise((res, rej) => {
     res('3');
 });
 // Promise is asynchrone
-myPromise.then((x) => {console.log('PromiseThen' + x)})
+myPromise.then((x) => { console.log('PromiseThen' + x); });
 const myFunc = (callback: any) => {
     console.info('Corps promise');
     if (callback != null) {
         callback(3);
     }
-}
+};
 myFunc((x: any) => console.info(x));
