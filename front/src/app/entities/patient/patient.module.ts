@@ -4,10 +4,10 @@ import { PatientComponent } from './patient.component';
 import { PatientService } from './patient.service';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [PatientComponent],
-  providers: [PatientService]
+    imports: [
+        CommonModule
+    ],
+    declarations: [PatientComponent],
+    providers: [PatientService]
 })
 export class PatientModule { }

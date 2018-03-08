@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-patient',
-  templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.css']
+    selector: 'app-patient',
+    templateUrl: './patient.component.html',
+    styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

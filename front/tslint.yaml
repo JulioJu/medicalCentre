@@ -36,6 +36,7 @@ rules:
   # |   constructs that are prone to producing bugs:
   # =========================
   await-promise: true
+  no-empty: false
   no-console:
     - false
   no-floating-promises: false
