@@ -45,7 +45,8 @@ const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
     server.listen(PORT);
 };
 
-export const nodeHttpServerInit = (app: express.Application): Promise<any> =>
+export const nodeHttpServerInit =
+    async (app: express.Application): Promise<any> =>
     new Promise((resolve, reject) => {
 
         // HTTP

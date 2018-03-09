@@ -6,7 +6,7 @@ import { ObjectID } from 'bson';
 // FIX circular dependencies. See ../../../AnotherCircularDependenciesError
 import { URLMONGODB } from '../../utils/const';
 
-const promiseConnectToMongo = (callback: (db: Db, resolve: (val?: any) =>
+const promiseConnectToMongo = async (callback: (db: Db, resolve: (val?: any) =>
         void, reject: (err?: any) => void)
     => void): Promise<any> =>
     new Promise ((resolve, reject) => {
@@ -37,7 +37,7 @@ export const AbstractBaremongoService: AbstractService = {
 
     collection: undefined,
 
-    getRecords(): Promise<any> {
+    async getRecords(): Promise<any> {
         return promiseConnectToMongo(
             (db, resolve, reject) => {
                 const thisCollection = checkCollection(this.collection);
@@ -49,7 +49,7 @@ export const AbstractBaremongoService: AbstractService = {
             });
     },
 
-    getRecord(id: string): Promise<any> {
+    async getRecord(id: string): Promise<any> {
         return promiseConnectToMongo(
             (db, resolve, reject) => {
                 testId(id, reject);
@@ -61,7 +61,7 @@ export const AbstractBaremongoService: AbstractService = {
             });
     },
 
-    deleteRecord(id: string): Promise<any> {
+    async deleteRecord(id: string): Promise<any> {
         return promiseConnectToMongo(
             (db, resolve, reject) => {
                 testId(id, reject);
@@ -73,7 +73,7 @@ export const AbstractBaremongoService: AbstractService = {
             });
     },
 
-    insertOrUpdate(abstractModel: AbstractModel): Promise<any> {
+    async insertOrUpdate(abstractModel: AbstractModel): Promise<any> {
             return promiseConnectToMongo(
                 (db, resolve, reject) => {
                     if (!abstractModel.id) {
@@ -97,6 +97,7 @@ export const AbstractBaremongoService: AbstractService = {
                     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#save
                     const thisCollection = checkCollection(this.collection);
                     db.collection(thisCollection)
+                    // tslint:disable:deprecation
                         .save(obj, (err, res) => {
                             if (err) {
                                 db.close();

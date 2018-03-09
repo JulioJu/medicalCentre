@@ -34,12 +34,12 @@ rules:
   typedef:
     - true
     - call-signature
-    - arrow-call-signature
+    # - arrow-call-signature
     - parameter
-    - arrow-parameter
+    # - arrow-parameter
     - property-declaration
-      # - variable-declaration
-    - member-variable-declaration
+    # - variable-declaration
+    # - member-variable-declaration
     - object-destructuring
     - array-destructuring
   # =========================
@@ -52,7 +52,7 @@ rules:
   no-empty: false
   no-console:
     - false
-  # false in angular project because ng generate this.
+  # I don't understand very well this rule.
   no-floating-promises: false
   no-for-in-array: true
   no-submodule-imports: false
@@ -60,7 +60,17 @@ rules:
   no-unbound-method: true
   # false in angular project (some "unecessary class" should exists)
   no-unnecessary-class: false
-  restrict-plus-operands: true
+  # Cause type definition
+  no-unsafe-any: false
+  no-use-before-declare: true
+  no-void-expression:
+    - true
+    - ignore-arrow-function-shorthand
+  # For console log
+  restrict-plus-operands: false
+  strict-boolean-expressions: false
+  # If I understand good, actually this rule can't work. TypeScript does not compile typages. @TODO check this.
+  strict-type-predicates: false
   # =========================
   # |   Maintainability
   # |   These rules make code maintenance easier:
@@ -75,12 +85,6 @@ rules:
     - limit: 80
       # Chararcter '*' or '\*' doesn't work
       ignore-pattern: '^\s*// http://|^\s*// https://|^\s*// See http://|^\s*// See https://'
-  # False in Angular cause type definition
-  no-unsafe-any: false
-  no-use-before-declare: true
-  no-void-expression:
-    - true
-    - ignore-arrow-function-shorthand
   trailing-comma:
     - true
     - multiline:

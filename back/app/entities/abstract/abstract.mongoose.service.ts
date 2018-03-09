@@ -23,7 +23,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
     mongooseModel: undefined,
 
     constructorStatic<U extends AbstractSchema>(abstractSchemaTy: new
-        (...args: any[]) => U, collection: string) {
+        (...args: any[]) => U, collection: string): void {
         this.collection = checkCollection(collection);
         if (!this.mongooseModel) {
             const abstractSchema = new mongoose.Schema(
@@ -34,7 +34,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
         }
     },
 
-    getRecords(): Promise<any> {
+    async getRecords(): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const thisMongooseModel: mongoose.Model<any> =
                 checkMongooseModel(this.mongooseModel);
@@ -47,7 +47,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
         });
     },
 
-    getRecord(_id: string): Promise<any> {
+    async getRecord(_id: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             testId(_id, reject);
             const thisMongooseModel: mongoose.Model<any> =
@@ -62,7 +62,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
         });
     },
 
-    deleteRecord(_id: string): Promise<any> {
+    async deleteRecord(_id: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             testId(_id, reject);
             const thisMongooseModel: mongoose.Model<any> =
@@ -85,7 +85,7 @@ export const AbstractServiceMongoose: AbstractServiceMongooseType = {
     },
 
     // Only insert, not update !!
-    insertOrUpdate(myEntity: any):
+    async insertOrUpdate(myEntity: any):
         Promise<any> {
             return new Promise<any>((resolve, reject) => {
                 if (!myEntity._id) {

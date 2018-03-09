@@ -23,14 +23,15 @@ const unsubscribe = subscribe({next: (x: any) => console.log(x),
 });
 
 // Later:
+// tslint:disable-next-line
 setTimeout(unsubscribe(), 3000); // Dispose the resources.
 
-const myPromise = new Promise((res, rej) => {
+const myPromise = new Promise<string>((res, rej) => {
     console.info('Corps promise');
     res('3');
 });
 // Promise is asynchrone
-myPromise.then((x) => { console.log('PromiseThen' + x); });
+myPromise.then((x) => console.log('PromiseThen' + x));
 const myFunc = (callback: any) => {
     console.info('Corps promise');
     if (!callback) {

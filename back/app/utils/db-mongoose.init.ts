@@ -2,8 +2,8 @@ import { URLMONGOOSE } from './const';
 
 import * as mongoose from 'mongoose';
 
-export const dbMongooseInit = (): Promise<any> =>
-    new Promise((resolve, reject) => {
+export const dbMongooseInit = async (): Promise<void> =>
+    new Promise<void>((resolve, reject) => {
 
         mongoose.connect(URLMONGOOSE);
         const dbMongoose = mongoose.connection;

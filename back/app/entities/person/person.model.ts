@@ -16,7 +16,7 @@ export abstract class Person extends AbstractModel {
     }
 
     set firstname(firstname: string) {
-        this.firstname = firstname;
+        this._firstname = firstname;
     }
 
     get lastname(): string {
@@ -24,7 +24,7 @@ export abstract class Person extends AbstractModel {
     }
 
     set lastname(lastname: string) {
-        this.lastname = lastname;
+        this._lastname = lastname;
     }
 
     get address(): string {

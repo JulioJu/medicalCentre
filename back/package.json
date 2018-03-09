@@ -7,7 +7,7 @@
     "start": "node ./appJS/server.js",
     "compile": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc",
     "compileWatch": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc --watch",
-    "lint": "node ./node_modules/tslint/bin/tslint --config \"./tslint.yaml\" \"app/**/*.ts\"",
+    "lint": "node ./node_modules/tslint/bin/tslint --project ./tsconfig.json --config \"./tslint.yaml\" \"app/**/*.ts\" --format verbose",
     "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
     "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js baremongo mongoose'",

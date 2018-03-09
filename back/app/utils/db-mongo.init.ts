@@ -1,8 +1,8 @@
 import { MongoClient, MongoError, Db } from 'mongodb';
 import { URLMONGODB } from './';
 
-export const dbMongoInit = (): Promise<any> =>
-    new Promise((resolve, reject) => {
+export const dbMongoInit = async (): Promise<void> =>
+    new Promise<void>((resolve, reject) => {
         MongoClient
             .connect(URLMONGODB, (error: MongoError, db: Db) => {
                 if (error) {
