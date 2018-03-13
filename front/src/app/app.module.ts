@@ -1,17 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import { PatientModule } from './entities/patient/patient.module';
+import { IpponAppRoutingModule} from './app-routing.module';
+import { IpponHomeModule } from './home';
+import {
+    JhiMainComponent,
+    NavbarComponent,
+    FooterComponent,
+} from './layouts';
 
 @NgModule({
     declarations: [
-        AppComponent
+        JhiMainComponent,
+        NavbarComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,
-        PatientModule
+        IpponAppRoutingModule,
+        IpponHomeModule
     ],
-    providers: [],
-    bootstrap: [AppComponent]
+    providers: [
+    ],
+    bootstrap: [JhiMainComponent]
 })
 export class AppModule { }

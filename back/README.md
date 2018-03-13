@@ -19,7 +19,7 @@
 
 # Compilation
 * This project could use a Makefile
-* This project use tsconfig.yaml and tslint.yaml. You could convert thanks for
+* This project use [./tsconfig.yaml](./tsconfig.yaml) and [./tslint.yaml](./tslint.yaml). You could convert thanks for
     example https://www.json2yaml.com/
 * **If you develop with VisualStudio Code, do not forget to instal vscode-tslint**.
 * With Vim/Neovim, use the plugin ALE and
@@ -30,9 +30,9 @@
 ## Debugger
 * You could use https://nodejs.org/en/docs/inspector/
     * If you use one of this, comment require(console-*) in server.ts (and which
-    corresponds to in package.json)
+        corresponds to in [./package.json](./package.json))
 * The addon Node.js V8 doesn't work with Chromium. It's a shit !
-    * I've seen some intempestives and unexpected deconnexion, so I come back
+    * I've seen some intempestives and unexpected deconnection, so I come back
         to my terminal. But I think it could be very cool to see all variables
         values at a break point and « pause on exception ». No regret to see
         this, I could come back. But some « pros » code with console.* !
@@ -81,16 +81,16 @@
     Work until next Node.js reboot.
     * See also https://github.com/Microsoft/TypeScript/issues/21444.
 * Why we must have "const mongoose = require('mongoose');" in
-    utils/db-mongoose.init.ts?
-* TODO Maybe delete duplications in tslint.yaml (but actually could see choosen
-    rules)
+    [./utils/db-mongoose.init.ts](./utils/db-mongoose.init.ts)?
+* TODO Maybe delete duplications in [./tslint.yaml](./tslint.yaml) (but actually could see
+    chosen rules)
 * ~~TODO: see under subtitle "Debugger" above.~~
 * In patient.schema.ts and patient.model.ts, change \_birthday to type Date.
 * Maybe post an issue in https://github.com/parshap/check-node-version/.
     This plugin is totally buggy with es6 keyword import and my TypeScript
     configuration.
     I've used a safer and more correct solution in the file server.ts.
-* See section Patches above.
+* See section [#Patches](#Patches) above.
 * Post a PR in project mongoose. In file \*.d.ts Model.findById* havn't option
     rawResult in its option.
 * Not interesting to use type T[] instead of Array<any>
