@@ -17,4 +17,4 @@ import { HOME_ROUTE } from './home.route';
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class IpponHomeModule {}
+export class HomeModule {}

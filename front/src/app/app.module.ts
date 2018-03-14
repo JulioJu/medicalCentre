@@ -1,26 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { IpponAppRoutingModule} from './app-routing.module';
-import { IpponHomeModule } from './home';
+import { AppRoutingModule} from './app-routing.module';
+import { HomeModule } from './home';
+import { EntityModule } from './entities/entity.module';
 import {
-    JhiMainComponent,
+    MainComponent,
     NavbarComponent,
     FooterComponent,
 } from './layouts';
 
 @NgModule({
     declarations: [
-        JhiMainComponent,
+        MainComponent,
         NavbarComponent,
         FooterComponent
     ],
     imports: [
         BrowserModule,
-        IpponAppRoutingModule,
-        IpponHomeModule
+        AppRoutingModule,
+        HomeModule,
+        EntityModule
     ],
     providers: [
     ],
-    bootstrap: [JhiMainComponent]
+    bootstrap: [MainComponent]
 })
 export class AppModule { }

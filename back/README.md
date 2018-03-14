@@ -111,7 +111,7 @@
     USE INSTEAD:
     https://mongodb.github.io/node-mongodb-native/
 
-# Routes implemented
+# Routes
 See
 * http://expressjs.com/en/guide/using-middleware.html#middleware.router
 * http://expressjs.com/en/guide/routing.html

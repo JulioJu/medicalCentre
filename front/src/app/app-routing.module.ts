@@ -15,4 +15,4 @@ const LAYOUT_ROUTES = [
         RouterModule
     ]
 })
-export class IpponAppRoutingModule {}
+export class AppRoutingModule {}
