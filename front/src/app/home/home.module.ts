@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home.component';
+import { AppHomeComponent } from './home.component';
 import { HOME_ROUTE } from './home.route';
 
 @NgModule({
@@ -9,7 +9,7 @@ import { HOME_ROUTE } from './home.route';
         RouterModule.forChild([ HOME_ROUTE ])
     ],
     declarations: [
-        HomeComponent,
+        AppHomeComponent
     ],
     entryComponents: [
     ],
@@ -17,4 +17,4 @@ import { HOME_ROUTE } from './home.route';
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HomeModule {}
+export class AppHomeMOdule {}

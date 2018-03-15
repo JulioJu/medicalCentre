@@ -4,11 +4,11 @@ import { PatientModule } from './patient/patient.module';
 
 @NgModule({
     imports: [
-        PatientModule,
+        PatientModule
     ],
     declarations: [],
     entryComponents: [],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class EntityModule {}
+export class AppEntityModule {}

@@ -1,28 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule} from './app-routing.module';
-import { HomeModule } from './home';
-import { EntityModule } from './entities/entity.module';
+import { AppRoutingModule } from './app-routing.module';
+import { AppHomeMOdule } from './home';
+import { AppEntityModule } from './entities/entity.module';
 import {
-    MainComponent,
-    NavbarComponent,
-    FooterComponent,
+    AppMainComponent,
+    AppNavbarComponent,
+    AppFooterComponent,
 } from './layouts';
 
 @NgModule({
     declarations: [
-        MainComponent,
-        NavbarComponent,
-        FooterComponent
+        AppMainComponent,
+        AppNavbarComponent,
+        AppFooterComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HomeModule,
-        EntityModule
+        AppHomeMOdule,
+        AppEntityModule
     ],
     providers: [
     ],
-    bootstrap: [MainComponent]
+    bootstrap: [AppMainComponent]
 })
 export class AppModule { }

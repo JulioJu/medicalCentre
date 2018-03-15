@@ -6,9 +6,9 @@ export const dbMongoInit = async (): Promise<void> =>
         MongoClient
             .connect(URLMONGODB, (error: MongoError, db: Db) => {
                 if (error) {
-                    console.error("=== Message from Mongo server ===\n"
+                    console.error('=== Message from Mongo server ===\n'
                     + error
-                    + "\n===");
+                    + '\n===');
                     console.debug(`rejected from dbMongo.ts.`);
                     /* Do not close. If there is an error it could be because
                     * the MonboDB service isn't running, therefore it could

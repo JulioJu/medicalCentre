@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 
-import { NavbarComponent } from './navbar.component';
+import { AppNavbarComponent } from './navbar.component';
 
 export const navbarRoute: Route = {
     path: '',
-    component: NavbarComponent,
+    component: AppNavbarComponent,
     outlet: 'navbar'
 };

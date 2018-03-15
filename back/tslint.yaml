@@ -119,6 +119,7 @@ rules:
     - rxjs/Rx
   interface-name: false # could be true in a future project
   # Disallows parameter properties in class constructors. (private myvar)
+  newline-before-return: false
   no-parameter-properties: false
   number-literal-format: true
   object-literal-sort-keys: false
