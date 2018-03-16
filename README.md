@@ -23,6 +23,7 @@
 
 ## TODO
 * See if router-outler is the best directive for us.
+* Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536
 
 # TODO
 * See [./tslint.yaml](./tslint.yaml) @todo.

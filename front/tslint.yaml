@@ -116,6 +116,7 @@ rules:
     - true
     - rxjs
     - rxjs/Rx
+  import-spacing: false
   interface-name: false # could be true in a future project
   newline-before-return: false
   # Disallows parameter properties in class constructors. (private myvar)

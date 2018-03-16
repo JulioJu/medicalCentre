@@ -1,3 +1,6 @@
+// tslint:disable:no-import-side-effect
+import './vendor.ts';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
