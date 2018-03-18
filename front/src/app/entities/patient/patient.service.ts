@@ -13,7 +13,7 @@ type EntityResponseType = HttpResponse<Patient>;
 // See my issue https://github.com/jhipster/generator-jhipster/issues/7302
 export class PatientService {
 
-    private readonly resourceUrl =  SERVER_API_URL + 'api/signatories';
+    private readonly resourceUrl =  SERVER_API_URL + 'mongoose/patients';
 
     constructor(private readonly http: HttpClient) { }
 

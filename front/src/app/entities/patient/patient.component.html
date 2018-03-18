@@ -1,3 +1,26 @@
-<p>
-  patient works!
-</p>
+<p> patient works!  </p>
+
+<table>
+    <thead>
+        <tr>
+            <th>_id</th>
+            <th>_firstname</th>
+            <th>_lastname</th>
+            <th>_address</th>
+            <th>_idSSN</th>
+            <th>_isMale</th>
+            <th>_birthday</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let patient of patients ;trackBy: trackId">
+            <td>{{patient._id}}</td>
+            <td>{{patient._firstname}}</td>
+            <td>{{patient._lastname}}</td>
+            <td>{{patient._address}}</td>
+            <td>{{patient._idSSN}}</td>
+            <td>{{patient._isMale}}</td>
+            <td>{{patient._birthday}}</td>
+        </tr>
+    </tbody>
+</table>

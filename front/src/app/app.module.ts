@@ -2,6 +2,7 @@
 import './vendor.ts';
 
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppHomeMOdule } from './home';
@@ -20,6 +21,7 @@ import {
     ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         AppRoutingModule,
         AppHomeMOdule,
         AppEntityModule
