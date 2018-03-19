@@ -1,6 +1,6 @@
-import { PersonSchema } from '../person';
+import { IPersonSchema } from '../person';
 
-export class PatientSchema implements PersonSchema {
+export class PatientSchema implements IPersonSchema {
     _id = String;
     _idSSN = {type: String, required: true, unique: true,
         validate: {

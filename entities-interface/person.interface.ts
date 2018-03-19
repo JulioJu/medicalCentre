@@ -1,6 +1,6 @@
-import { AbstractInterface } from './';
+import { IAbstract } from './';
 
-export interface PersonInterface extends AbstractInterface {
+export interface IPerson extends IAbstract {
     _firstname: string;
     _lastname: string;
     _address: string;

@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { AbstractModel, AbstractService } from './';
+import { AbstractModel, IAbstractService } from './';
 
 export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
     (...args: any[]) => T, entityName: string,  router: Router,
-    routeName: string, abstractService: AbstractService,
+    routeName: string, abstractService: IAbstractService,
     putMandatoriesParameters: T[any],
     putAllParametersOrdered: T[any]) => {
 

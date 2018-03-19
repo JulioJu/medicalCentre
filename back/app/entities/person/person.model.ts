@@ -1,5 +1,5 @@
 import { AbstractModel } from '../abstract';
-import { PersonInterface } from '../entities-interface';
+import { IPerson } from '../entities-interface';
 
 export abstract class Person extends AbstractModel {
 
@@ -35,7 +35,7 @@ export abstract class Person extends AbstractModel {
         this._address = address;
     }
 
-    toJSON(): PersonInterface {
+    toJSON(): IPerson {
         // return Object.assign({}, {
         //     _firstname: this._firstname,
         //     _lastname: this._lastname,

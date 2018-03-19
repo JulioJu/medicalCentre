@@ -1,4 +1,4 @@
-import { testId, checkCollection, AbstractService, AbstractSchema } from './';
+import { testId, checkCollection, IAbstractService, IAbstractSchema } from './';
 import * as mongoose from 'mongoose';
 import { ObjectID } from 'bson';
 
@@ -10,19 +10,19 @@ const checkMongooseModel = (value: any): mongoose.Model<any> => {
     }
 };
 
-interface AbstractServiceMongooseType extends AbstractService {
+interface IAbstractServiceMongooseType extends IAbstractService {
     mongooseModel: mongoose.Model<any> | undefined;
-    constructorStatic<U extends AbstractSchema>(abstractSchemaTy: new
+    constructorStatic<U extends IAbstractSchema>(abstractSchemaTy: new
         (...args: any[]) => U, collection: string): void;
 }
 
-export const AbstractServiceMongoose: AbstractServiceMongooseType = {
+export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
 
     collection: undefined,
 
     mongooseModel: undefined,
 
-    constructorStatic<U extends AbstractSchema>(abstractSchemaTy: new
+    constructorStatic<U extends IAbstractSchema>(abstractSchemaTy: new
         (...args: any[]) => U, collection: string): void {
         this.collection = checkCollection(collection);
         if (!this.mongooseModel) {

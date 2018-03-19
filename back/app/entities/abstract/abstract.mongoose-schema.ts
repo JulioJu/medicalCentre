@@ -1,3 +1,3 @@
-export interface AbstractSchema {
+export interface IAbstractSchema {
     _id: StringConstructor;
 }

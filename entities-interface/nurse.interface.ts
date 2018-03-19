@@ -1,4 +1,4 @@
-import { PersonInterface } from './';
+import { IPerson } from './';
 
-export interface NurseInterface extends PersonInterface {
+export interface INurse extends IPerson {
 }

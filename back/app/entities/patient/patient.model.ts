@@ -1,4 +1,4 @@
-import { PatientInterface } from '../entities-interface';
+import { IPatient } from '../entities-interface';
 import { Person } from '../person';
 
 export class Patient extends Person {
@@ -38,7 +38,7 @@ export class Patient extends Person {
         this._birthday = birthday;
     }
 
-    toJSON(): PatientInterface {
+    toJSON(): IPatient {
         // return Object.assign({}, {_idSSN: this._idSSN, _isMale: this._isMale,
         //     _birthday: this._birthday}, super.toJSON());
         return {...{_idSSN: this._idSSN, _isMale: this._isMale,

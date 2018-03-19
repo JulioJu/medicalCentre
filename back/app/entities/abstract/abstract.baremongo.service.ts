@@ -1,5 +1,5 @@
-import { testId, checkCollection, AbstractService, AbstractModel } from './';
-import { AbstractInterface } from '../entities-interface';
+import { testId, checkCollection, IAbstractService, AbstractModel } from './';
+import { IAbstract } from '../entities-interface';
 import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
@@ -33,7 +33,7 @@ const ifMongoConnected = (db: Db, err: MongoError, res: any[] |
     }
 };
 
-export const AbstractBaremongoService: AbstractService = {
+export const AbstractBaremongoService: IAbstractService = {
 
     collection: undefined,
 
@@ -81,7 +81,7 @@ export const AbstractBaremongoService: AbstractService = {
                         // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
                         abstractModel.id = new ObjectID().toHexString();
                     }
-                    const obj: AbstractInterface = abstractModel.toJSON();
+                    const obj: IAbstract = abstractModel.toJSON();
                     // Actually res.result is an object with the form:
                     // tslint:disable-next-line
                     // {"n":1,"nModified":0,"upserted":[{"index":0,"_id":"5a687f8135f4c2753810c293"}],"ok":1}

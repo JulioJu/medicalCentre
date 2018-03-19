@@ -1,3 +1,3 @@
-export interface AbstractInterface  {
+export interface IAbstract  {
     _id: string;
 }

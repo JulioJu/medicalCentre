@@ -1,4 +1,4 @@
-import { AbstractInterface } from '../entities-interface';
+import { IAbstract } from '../entities-interface';
 
 export abstract class AbstractModel {
     // not mandatory, because it's better if MongoDB create it's own id.
@@ -15,7 +15,7 @@ export abstract class AbstractModel {
         this._id = _id;
     }
 
-    toJSON(): AbstractInterface {
+    toJSON(): IAbstract {
         return {_id: this._id};
     }
 }

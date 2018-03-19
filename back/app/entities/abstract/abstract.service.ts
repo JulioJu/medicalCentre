@@ -1,4 +1,4 @@
-export interface AbstractService {
+export interface IAbstractService {
     collection: string | undefined;
     getRecords(): Promise<any>;
     getRecord(_id: string): Promise<any>;

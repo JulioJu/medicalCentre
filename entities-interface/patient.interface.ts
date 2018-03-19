@@ -1,6 +1,6 @@
-import { PersonInterface } from './';
+import { IPerson } from './';
 
-export interface PatientInterface extends PersonInterface {
+export interface IPatient extends IPerson {
     _idSSN: string;
     _isMale: boolean;
     _birthday: string;

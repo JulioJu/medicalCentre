@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { PatientService } from './patient.service';
-import { PatientInterface } from '../entities-interface/patient.interface';
+import { IPatient } from '../entities-interface/patient.interface';
 
 @Component({
     selector: 'app-patient',
@@ -10,14 +10,14 @@ import { PatientInterface } from '../entities-interface/patient.interface';
 })
 export class PatientComponent implements OnInit {
 
-    patients: PatientInterface[] | null;
+    patients: IPatient[] | null;
 
     constructor(private patientService: PatientService) { }
 
     ngOnInit(): void {
         this.patientService.query()
             .subscribe(
-                (res: HttpResponse<PatientInterface[]>) => {
+                (res: HttpResponse<IPatient[]>) => {
                     this.patients = res.body;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
