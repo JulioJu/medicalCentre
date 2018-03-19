@@ -5,43 +5,37 @@ import { SERVER_API_URL } from '../../app.constants';
 
 import { IPatient } from
     '../entities-interface/patient.interface';
-import { createRequestOption } from '../../shared';
+import { AbstractService } from '../abstract';
 
 type EntityResponseType = HttpResponse<IPatient>;
 
 @Injectable()
 // See my issue https://github.com/jhipster/generator-jhipster/issues/7302
-export class PatientService {
+export class PatientService extends AbstractService {
 
-    private readonly resourceUrl =  SERVER_API_URL + 'mongoose/patients';
+    constructor(protected readonly http: HttpClient) {
+        super(http, SERVER_API_URL + 'mongoose/patients');
+    }
 
-    constructor(private readonly http: HttpClient) { }
-
+    // tslint:disable-next-line
     create(patient: IPatient): Observable<EntityResponseType> {
-        return this.http
-            .post<IPatient>(this.resourceUrl, patient, { observe: 'response' });
+        return super.create(patient);
     }
 
     update(patient: IPatient): Observable<EntityResponseType> {
-        return this.http
-            .put<IPatient>(this.resourceUrl, patient, { observe: 'response' });
+        return super.update(patient);
     }
 
     find(id: number): Observable<EntityResponseType> {
-        return this.http
-            .get<IPatient>(`${this.resourceUrl}/${id}`, { observe: 'response'});
+        return super.find(id);
     }
 
     query(req?: any): Observable<HttpResponse<IPatient[]>> {
-        const options = createRequestOption(req);
-        return this.http
-            .get<IPatient[]>(this.resourceUrl, { params: options,
-                observe: 'response' });
+        return super.query(req);
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`,
-            { observe: 'response'});
+        return super.delete(id);
     }
 
 }

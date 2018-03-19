@@ -6,7 +6,7 @@ import { IPatient } from '../entities-interface/patient.interface';
 @Component({
     selector: 'app-patient',
     templateUrl: './patient.component.html',
-    styleUrls: ['./patient.component.css']
+    styleUrls: ['../abstract/abstract.component.css']
 })
 export class PatientComponent implements OnInit {
 
