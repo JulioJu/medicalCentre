@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { navbarRoute } from './layouts';
+import { navbarRoute } from './core';
 import { DEBUG_INFO_ENABLED } from './app.constants';
 
 const LAYOUT_ROUTES = [

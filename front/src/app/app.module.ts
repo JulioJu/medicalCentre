@@ -11,7 +11,7 @@ import {
     AppMainComponent,
     AppNavbarComponent,
     AppFooterComponent,
-} from './layouts';
+} from './core';
 
 @NgModule({
     declarations: [
