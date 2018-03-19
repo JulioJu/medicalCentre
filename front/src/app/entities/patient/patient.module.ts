@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PatientComponent } from './patient.component';
 import { PatientService } from './patient.service';
 import { PATIENT_ROUTE } from './patient.route';
+import { AbstractDirectiveComponent } from '../abstract';
 
 const ENTITY_STATES = [
     PATIENT_ROUTE
@@ -14,7 +15,10 @@ const ENTITY_STATES = [
         CommonModule,
         RouterModule.forChild(ENTITY_STATES)
     ],
-    declarations: [PatientComponent],
+    declarations: [
+        AbstractDirectiveComponent,
+        PatientComponent
+    ],
     providers: [PatientService]
 })
 export class PatientModule { }
