@@ -4,8 +4,7 @@ import { AbstractComponent } from '../abstract';
 
 @Component({
     selector: 'app-patient',
-    templateUrl: './patient.component.html',
-    styleUrls: ['../abstract/abstract.component.css']
+    templateUrl: './patient.component.html'
 })
 export class PatientComponent extends AbstractComponent implements OnInit {
 

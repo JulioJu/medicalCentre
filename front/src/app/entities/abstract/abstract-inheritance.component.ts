@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { AbstractService } from './abstract.service';
+import { AbstractService } from './abstract-inheritance.service';
 import { IAbstract } from '../entities-interface/abstract.interface';
 
 export abstract class AbstractComponent {
