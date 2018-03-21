@@ -26,7 +26,7 @@ export class PatientService extends AbstractService {
         return super.update(patient);
     }
 
-    find(id: number): Observable<EntityResponseType> {
+    find(id: string): Observable<EntityResponseType> {
         return super.find(id);
     }
 
@@ -34,7 +34,7 @@ export class PatientService extends AbstractService {
         return super.query(req);
     }
 
-    delete(id: number): Observable<HttpResponse<any>> {
+    delete(id: string): Observable<HttpResponse<any>> {
         return super.delete(id);
     }
 

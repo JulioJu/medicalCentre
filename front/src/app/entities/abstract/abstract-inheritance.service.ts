@@ -25,7 +25,7 @@ export abstract class AbstractService {
                 { observe: 'response' });
     }
 
-    find(id: number): Observable<EntityResponseType> {
+    find(id: string): Observable<EntityResponseType> {
         return this.http
             .get<IAbstract>(`${this.resourceUrl}/${id}`,
                 { observe: 'response'});
@@ -38,7 +38,7 @@ export abstract class AbstractService {
                 observe: 'response' });
     }
 
-    delete(id: number): Observable<HttpResponse<any>> {
+    delete(id: string): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`,
             { observe: 'response'});
     }

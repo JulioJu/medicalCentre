@@ -8,6 +8,6 @@ export const PATIENT_ROUTE: Route = {
     component: NurseComponent,
     data: {
         authorities: [],
-        pageTitle: APPLICATION_NAME_PIPE + 'Get all nurses'
+        pageTitle: 'Get all nurses' + APPLICATION_NAME_PIPE
     }
 };

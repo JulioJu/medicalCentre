@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { AppAbstractModule } from '../abstract';
 import { AppPersonModule } from '../person';
 import { PatientComponent } from './patient.component';
+import { PatientDetailComponent } from './patient-detail.component';
 import { PatientService } from './patient.service';
 import { PATIENT_ROUTE } from './patient.route';
 
 const ENTITY_STATES = [
-    PATIENT_ROUTE
+    ...PATIENT_ROUTE
 ];
 
 @NgModule({
@@ -19,7 +20,8 @@ const ENTITY_STATES = [
         AppPersonModule
     ],
     declarations: [
-        PatientComponent
+        PatientComponent,
+        PatientDetailComponent
     ],
     providers: [PatientService]
 })

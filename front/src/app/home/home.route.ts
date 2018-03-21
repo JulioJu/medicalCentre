@@ -8,6 +8,6 @@ export const HOME_ROUTE: Route = {
     component: AppHomeComponent,
     data: {
         authorities: [],
-        pageTitle: APPLICATION_NAME_PIPE + 'Welcome!'
+        pageTitle: 'Welcome!' + APPLICATION_NAME_PIPE
     }
 };
