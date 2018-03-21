@@ -12,6 +12,7 @@
 ## Routes
 * Routes describe in [./back/README.md#Routes](./back/README.md#Routes) work thanks proxy [./front/proxy.conf.json](./front/proxy.conf.json).
 * /#/patients : GET all patients.
+* /#/nurses : GET all nurses.
 * /#/ : home page.
 
 ## Create a service with Angular-cli
@@ -24,6 +25,17 @@
 ## TODO
 * See if router-outler is the best directive for us.
 * Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536
+* TODO. For GET, add infinite scroll (example on JHipster).
+* Add an eventSuscriber to subscribe to modifications (example on JHipster).
+
+# Observables
+* I've wrote a good example to understand Observer and Observable with RxJS.
+    See [./back/app/ObserverTests.ts](./back/app/ObserverTests.ts)
+    * Be careful, Observer and Observable with RxJS havn't the same design
+        pattern as in JAVA:
+        (https://docs.oracle.com/javase/9/docs/api/java/util/Observable.html vs
+        http://reactivex.io/rxjs/manual/overview.html#observables-as-generalizations-of-functions)
+    * Therefore Observable differs of EventEmitter
 
 # TODO
 * See [./tslint.yaml](./tslint.yaml) @todo.
