@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
         'navbar.css'
     ]
 })
-export class AppNavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit {
 
     constructor(
     ) {

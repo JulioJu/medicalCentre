@@ -9,15 +9,15 @@ import { AppHomeMOdule } from './home';
 import { AppEntityModule } from './entities/entity.module';
 import {
     AppMainComponent,
-    AppNavbarComponent,
-    AppFooterComponent,
+    NavbarComponent,
+    FooterComponent,
 } from './core';
 
 @NgModule({
     declarations: [
         AppMainComponent,
-        AppNavbarComponent,
-        AppFooterComponent
+        NavbarComponent,
+        FooterComponent
     ],
     imports: [
         BrowserModule,
