@@ -10,7 +10,7 @@ import { INurse } from '../entities-interface/nurse.interface';
 export class NurseComponent extends AbstractInheritanceComponent
         implements OnInit {
 
-    protected readonly entityNameVar = 'Nurse';
+    protected readonly entityNameVar = 'nurse';
 
     protected entityArray: INurse[] | null;
 

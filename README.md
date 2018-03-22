@@ -13,6 +13,8 @@
 * Routes describe in [./back/README.md#Routes](./back/README.md#Routes) work thanks proxy [./front/proxy.conf.json](./front/proxy.conf.json).
 * /#/patients : GET all patients.
 * /#/nurses : GET all nurses.
+* /#/patient/:id : GET patient with id ":id"
+* /#/nurse/:id : GET nurse with id ":id"
 * /#/ : home page.
 
 ## Create a service with Angular-cli

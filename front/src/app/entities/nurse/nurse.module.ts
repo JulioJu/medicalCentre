@@ -1,23 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AppAbstractModule } from '../abstract';
 import { AppPersonModule } from '../person';
 import { NurseComponent } from './nurse.component';
+import { NurseDetailComponent } from './nurse-detail.component';
 import { NurseService } from './nurse.service';
-import { PATIENT_ROUTE } from './nurse.route';
+import { NURSE_ROUTE } from './nurse.route';
 
 const ENTITY_STATES = [
-    PATIENT_ROUTE
+    ...NURSE_ROUTE
 ];
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(ENTITY_STATES),
+        AppAbstractModule,
         AppPersonModule
     ],
     declarations: [
-        NurseComponent
+        NurseComponent,
+        NurseDetailComponent
     ],
     providers: [NurseService]
 })
