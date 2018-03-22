@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { AbstractDirectiveComponent } from './abstract.directive.component';
 import { AbstractDetailDirectiveComponent }
@@ -7,7 +8,8 @@ import { AbstractDetailDirectiveComponent }
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        RouterModule
     ],
     declarations: [
         AbstractDirectiveComponent,

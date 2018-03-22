@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import { AppAbstractModule } from '../abstract';
 import { PersonComponent } from './person.component';
@@ -9,8 +8,7 @@ import { PersonDetailComponent } from './person-detail.component';
 @NgModule({
     imports: [
         BrowserModule,
-        AppAbstractModule,
-        RouterModule
+        AppAbstractModule
     ],
     declarations: [
         PersonComponent,

@@ -1,6 +1,28 @@
 <p> {{entityNameVarChild}} works!  </p>
 
-<ng-content select="[app-abstract-table]"></ng-content>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>_id</th>
+                <ng-container *ngTemplateOutlet="appAbstractThead">
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody *ngIf='entity'>
+            <tr>
+                <td>{{entity._id}}</td>
+                <ng-container *ngTemplateOutlet="appAbstractTbody,
+                       context: { $implicit: entity }" >
+                </ng-container>
+                <td><button type="submit"
+                        [routerLink]="['../' + entityNameVarChild + '/' + entity._id ]" >
+                    view
+                </button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <button type="submit" (click)="previousState()">
     History back

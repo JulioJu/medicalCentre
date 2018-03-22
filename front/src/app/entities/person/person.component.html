@@ -1,34 +1,19 @@
 <!-- See documentation at https://stackoverflow.com/questions/46976570/how-to-render-multiple-ng-content-inside-an-ngfor-loop-using-angular-4?rq=1 -->
-<app-abstract [entityNameVarChild]='entityNameVarChild' >
-    <div app-abstract-table>
-        <table>
-            <thead>
-                <tr>
-                    <th>_id</th>
-                    <th>_firstname</th>
-                    <th>_lastname</th>
-                    <th>_address</th>
-                    <!-- Could not use ng-content because it adds tag div who
+<app-abstract [entityNameVarChild]='entityNameVarChild' [entities]='persons'>
+    <ng-template #appAbstractTheadAttr>
+        <th>_firstname</th>
+        <th>_lastname</th>
+        <th>_address</th>
+        <!-- Could not use ng-content because it adds tag div who
                     breaks the tag thead -->
-                    <ng-container *ngTemplateOutlet="appPersonThead">
-                    </ng-container>
-                    <th>Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let person of persons ;trackBy: trackId">
-                    <td>{{person._id}}</td>
-                    <td>{{person._firstname}}</td>
-                    <td>{{person._lastname}}</td>
-                    <td>{{person._address}}</td>
-                    <ng-container *ngTemplateOutlet="appPersonTbody,
-                            context: { $implicit: person }"></ng-container>
-                    <button type="submit"
-                            [routerLink]="['../' + entityNameVarChild + '/' + person._id ]" >
-                        view
-                    </button>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <ng-container *ngTemplateOutlet="appPersonThead">
+        </ng-container>
+    </ng-template>
+    <ng-template #appAbstractTbodyAttr let-entity>
+        <td>{{entity._firstname}}</td>
+        <td>{{entity._lastname}}</td>
+        <td>{{entity._address}}</td>
+        <ng-container *ngTemplateOutlet="appPersonTbody,
+                context: {$implicit: entity}"> </ng-container>
+    </ng-template>
 </app-abstract>
