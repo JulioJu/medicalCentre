@@ -4,8 +4,9 @@ import './vendor.ts';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+
 import { AppRoutingModule } from './app-routing.module';
-import { AppHomeMOdule } from './home';
+import { AppHomeMOdule } from './home/home.module';
 import { AppEntityModule } from './entities/entity.module';
 import {
     AppMainComponent,

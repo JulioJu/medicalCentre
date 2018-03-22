@@ -2,9 +2,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { AbstractDirectiveComponent } from './abstract.directive.component';
-import { AbstractDetailDirectiveComponent }
-    from './abstract-detail.directive.component';
+import { EntityComponent } from './entity.component';
+import { EntityDetailComponent } from './entity-detail.component';
 
 @NgModule({
     imports: [
@@ -12,15 +11,15 @@ import { AbstractDetailDirectiveComponent }
         RouterModule
     ],
     declarations: [
-        AbstractDirectiveComponent,
-        AbstractDetailDirectiveComponent
+        EntityComponent,
+        EntityDetailComponent
     ],
     exports: [
-        AbstractDirectiveComponent,
-        AbstractDetailDirectiveComponent
+        EntityComponent,
+        EntityDetailComponent
     ],
     entryComponents: [],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppAbstractModule {}
+export class AppEntityModule {}

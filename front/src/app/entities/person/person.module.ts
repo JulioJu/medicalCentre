@@ -1,14 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { AppAbstractModule } from '../abstract';
-import { PersonComponent } from './person.component';
-import { PersonDetailComponent } from './person-detail.component';
+import { AppEntityModule } from '../entity/entity.module';
+import { PersonComponent, PersonDetailComponent } from './';
 
 @NgModule({
     imports: [
         BrowserModule,
-        AppAbstractModule
+        AppEntityModule
     ],
     declarations: [
         PersonComponent,

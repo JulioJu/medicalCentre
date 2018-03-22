@@ -2,15 +2,18 @@ import { Component, Input, ContentChild, TemplateRef } from '@angular/core';
 import { IAbstract } from '../entities-interface/abstract.interface';
 
 @Component({
-    selector: 'app-abstract',
-    templateUrl: './abstract.directive.component.html',
-    styleUrls: ['./abstract.directive.component.css']
+    selector: 'app-entity-detail',
+    templateUrl: './entity-detail.component.html'
 })
-export class AbstractDirectiveComponent {
+export class EntityDetailComponent {
 
     @Input() entityNameVarChild: string;
-    @Input() entities: IAbstract[];
+    @Input() entity: IAbstract;
     @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
     @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;
+
+    previousState(): void {
+        window.history.back();
+    }
 
 }

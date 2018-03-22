@@ -2,9 +2,9 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
 import { IAbstract } from '../entities-interface/abstract.interface';
-import { AbstractService } from './abstract.inheritance.service';
+import { AbstractService } from './abstract.service';
 
-export abstract class AbstractDetailInheritanceComponent {
+export abstract class AbstractDetailComponent {
 
     protected abstract entity: IAbstract | null;
 

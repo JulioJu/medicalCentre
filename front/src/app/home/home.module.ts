@@ -1,8 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home.component';
-import { HOME_ROUTE } from './home.route';
+import {
+    HomeComponent,
+    HOME_ROUTE } from './';
 
 @NgModule({
     imports: [

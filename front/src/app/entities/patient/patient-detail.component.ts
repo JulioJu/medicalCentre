@@ -4,14 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { IPatient } from '../entities-interface/patient.interface';
 import { PatientService } from './patient.service';
 
-import { AbstractDetailInheritanceComponent } from '../abstract';
+import { AbstractDetailComponent } from '../abstract';
 
 @Component({
     selector: 'app-patient-detail',
     templateUrl: './patient-detail.component.html'
 })
 export class PatientDetailComponent extends
-        AbstractDetailInheritanceComponent implements OnInit {
+        AbstractDetailComponent implements OnInit {
 
     protected readonly entityNameVar = 'Patient';
 

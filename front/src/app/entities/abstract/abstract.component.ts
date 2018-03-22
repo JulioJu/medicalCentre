@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { AbstractService } from './abstract.inheritance.service';
+import { AbstractService } from './abstract.service';
 import { IAbstract } from '../entities-interface/abstract.interface';
 
-export abstract class AbstractInheritanceComponent {
+export abstract class AbstractComponent {
 
     protected abstract entityArray: IAbstract[] | null;
 
