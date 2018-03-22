@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { NurseService } from './nurse.service';
-import { AbstractComponent } from '../abstract';
+import { AbstractInheritanceComponent } from '../abstract';
+import { INurse } from '../entities-interface/nurse.interface';
 
 @Component({
     selector: 'app-nurse',
     templateUrl: './nurse.component.html'
 })
-export class NurseComponent extends AbstractComponent implements OnInit {
+export class NurseComponent extends AbstractInheritanceComponent
+        implements OnInit {
 
     protected readonly entityNameVar = 'Nurse';
+
+    protected entityArray: INurse[] | null;
 
     constructor(nurseService: NurseService) {
         super(nurseService);
