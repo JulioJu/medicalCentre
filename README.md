@@ -17,10 +17,18 @@
 * /#/nurse/:id : GET nurse with id ":id"
 * Deletions:
     * `:id` is mandatory.
-    * `confirmation` and `stateDeletion` matrix parameters are optionals.
-    * `stateDeletion` could have value: "notTried", "deleted", or "error".
-    * `confirmation` could have value "true" or "false".
+    * `confirmation` and `stateDeletion` are matrix parameters,
+        (therefore optionals).
+    * `stateDeletion` could have value:
+        * "notTried"(display button to delete in the page)
+        * "deleted" (button to delete not displayed)
+        * "error" (display error message, button to delete not displayed)
+        * Default "notTried".
+    * `confirmation` could have value "true" or "false". If true, delete
+        immediately. Default: false.
+    * Routes:
         * /#/patient-delete/:id;confirmation=boolean:stateDeletion=string; : delete patient with id ":id"
+        * /#/nurse-delete/:id;confirmation=boolean:stateDeletion=string; : delete nurse with id ":id"
 * /#/ : home page.
 
 ## Create a service with Angular-cli
@@ -35,6 +43,7 @@
 * Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536
 * TODO. For GET, add infinite scroll (example on JHipster).
 * Add an eventSuscriber to subscribe to modifications (example on JHipster).
+* Maybe use paramMap instead of params as explained https://angular.io/guide/router
 
 # Observables
 * I've wrote a good example to understand Observer and Observable with RxJS.

@@ -13,9 +13,9 @@ import { AbstractDetailComponent } from '../abstract';
 export class NurseDetailComponent extends
         AbstractDetailComponent implements OnInit {
 
-    protected readonly entityNameVar = 'Nurse';
+    protected readonly entityNameVar = 'nurse';
 
-    protected entity: INurse | null;
+    entity: INurse | null;
 
     constructor(nurseService: NurseService, route: ActivatedRoute) {
         super(nurseService, route);
