@@ -9,6 +9,7 @@ export class EntityDetailComponent {
 
     @Input() entityNameVarChild: string;
     @Input() entity: IAbstract;
+    @Input() isDeleteView: boolean;
     @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
     @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;
 

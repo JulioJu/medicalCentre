@@ -14,6 +14,8 @@ export abstract class AbstractDeleteComponent implements OnDestroy {
 
     protected routeUnsubscribe: Subscription;
 
+    protected readonly isDeleteView = true;
+
     constructor(private readonly abstractService: AbstractService,
         private readonly route: ActivatedRoute,
         private readonly router: Router) {}

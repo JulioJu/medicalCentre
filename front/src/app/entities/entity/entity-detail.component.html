@@ -1,4 +1,4 @@
-<p> {{entityNameVarChild | titlecase }} works!  </p>
+<p> Detail of the {{entityNameVarChild | titlecase }} </p>
 
 <div>
     <table>
@@ -7,6 +7,9 @@
                 <th>_id</th>
                 <ng-container *ngTemplateOutlet="appAbstractThead">
                 </ng-container>
+                <div *ngIf='!isDeleteView' >
+                    <th>Deletion</th>
+                </div>
             </tr>
         </thead>
         <tbody *ngIf='entity'>
@@ -15,12 +18,19 @@
                 <ng-container *ngTemplateOutlet="appAbstractTbody,
                        context: { $implicit: entity }" >
                 </ng-container>
+                <div *ngIf='!isDeleteView' >
+                    <td><button type="submit"
+                                [routerLink]="['/' + entityNameVarChild + '-delete/' +  entity._id, {confirmation: false}]" >
+                        delete
+                    </button></td>
+                </div>
             </tr>
         </tbody>
     </table>
 </div>
 
 <br />
+
 <div *ngIf='!entity'>
     <strong>No entity found</strong>
 </div>

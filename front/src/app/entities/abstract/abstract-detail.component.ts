@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
@@ -5,6 +6,8 @@ import { IAbstract } from '../entities-interface/abstract.interface';
 import { AbstractService } from './abstract.service';
 
 export abstract class AbstractDetailComponent {
+
+    @Input() isDeleteView: boolean;
 
     protected abstract entity: IAbstract | null;
 

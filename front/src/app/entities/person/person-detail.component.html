@@ -1,5 +1,7 @@
 <!-- See documentation at https://stackoverflow.com/questions/46976570/how-to-render-multiple-ng-content-inside-an-ngfor-loop-using-angular-4?rq=1 -->
-<app-entity-detail [entityNameVarChild]='entityNameVarChild' [entity]='person' >
+<app-entity-detail [entityNameVarChild]='entityNameVarChild'
+        [entity]='person'
+        [isDeleteView]='isDeleteView' >
     <ng-template #appAbstractTheadAttr>
         <th>_firstname</th>
         <th>_lastname</th>
