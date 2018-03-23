@@ -66,8 +66,8 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 new abstractModel(...modelConstructor);
 
             abstractService.insertOrUpdate(myModel)
-                .then((isUPdated: boolean) => {
-                    if (isUPdated) {
+                .then((isUpdated: boolean) => {
+                    if (isUpdated) {
                         res.send(`${entityName} updated`);
                     } else {
                         res.send(`${entityName} inserted`);

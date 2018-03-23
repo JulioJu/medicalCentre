@@ -7,6 +7,8 @@
                 <th>_id</th>
                 <ng-container *ngTemplateOutlet="appAbstractThead">
                 </ng-container>
+                <th>Details</th>
+                <th>Deletion</th>
             </tr>
         </thead>
         <tbody>
@@ -16,8 +18,12 @@
                        context: { $implicit: entity }" >
                 </ng-container>
                 <td><button type="submit"
-                        [routerLink]="['../' + entityNameVarChild + '/' + entity._id ]" >
+                        [routerLink]="['/' + entityNameVarChild,  entity._id ]" >
                     view
+                </button></td>
+                <td><button type="submit"
+                            [routerLink]="['/' + entityNameVarChild + '-delete/' +  entity._id, {confirmation: false}]" >
+                    delete
                 </button></td>
             </tr>
         </tbody>

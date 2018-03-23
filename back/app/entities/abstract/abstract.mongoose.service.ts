@@ -114,7 +114,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                             console.info('You have tried to save the object',
                             myEntity,
                             '\nYou have saved:\n', saved);
-                            resolve(saved);
+                            resolve(false);
                         }
                     });
                 } else {

@@ -1,4 +1,4 @@
-<p> {{entityNameVarChild}} works!  </p>
+<p> {{entityNameVarChild | titlecase }} works!  </p>
 
 <div>
     <table>
@@ -15,15 +15,18 @@
                 <ng-container *ngTemplateOutlet="appAbstractTbody,
                        context: { $implicit: entity }" >
                 </ng-container>
-                <td><button type="submit"
-                        [routerLink]="['../' + entityNameVarChild + '/' + entity._id ]" >
-                    view
-                </button></td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<button type="submit" (click)="previousState()">
-    History back
+<br />
+<div *ngIf='!entity'>
+    <strong>No entity found</strong>
+</div>
+
+<br />
+
+<button type="submit" [routerLink]="['/' + entityNameVarChild  + 's']" >
+    Comme back {{entityNameVarChild}}s list
 </button>

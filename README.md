@@ -15,6 +15,12 @@
 * /#/nurses : GET all nurses.
 * /#/patient/:id : GET patient with id ":id"
 * /#/nurse/:id : GET nurse with id ":id"
+* Deletions:
+    * `:id` is mandatory.
+    * `confirmation` and `stateDeletion` matrix parameters are optionals.
+    * `stateDeletion` could have value: "notTried", "deleted", or "error".
+    * `confirmation` could have value "true" or "false".
+        * /#/patient-delete/:id;confirmation=boolean:stateDeletion=string; : delete patient with id ":id"
 * /#/ : home page.
 
 ## Create a service with Angular-cli

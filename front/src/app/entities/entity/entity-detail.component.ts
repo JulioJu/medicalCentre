@@ -12,8 +12,4 @@ export class EntityDetailComponent {
     @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
     @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;
 
-    previousState(): void {
-        window.history.back();
-    }
-
 }
