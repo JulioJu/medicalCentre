@@ -1,4 +1,5 @@
 import * as express from 'express';             // The application server
+import * as semver from 'semver';
 import { PatientBaremongoRoute,
     PatientMongooseRoute } from './entities/patient';
 import { NurseBaremongoRoute, NurseMongooseRoute } from './entities/nurse';
@@ -20,9 +21,9 @@ const nodeversion = process.versions.node;
 console.info(`You use version ${nodeversion} of Node.js`);
 
 // https://github.com/parshap/check-node-version/issues/6
-// Function parseFloat parse correctly if nodeversion === '9.5.8'.
-// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
-if (parseFloat(nodeversion) < 9.5) {
+// As in generator-jhipster
+// https://github.com/jhipster/generator-jhipster/blob/00c59eca38ca43565d80fe00e1666875976b6cf9/generators/generator-base.js#L1837
+if (semver.lte(nodeversion, '9.5.0')) {
     console.error('Please use a node >= 9.5.0');
     process.exit(20);
 }

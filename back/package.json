@@ -15,9 +15,13 @@
     "tscwatchNoLintBaremongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node  ./appJS/server.js baremongo'",
     "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js mongoose'"
   },
+  "engines": {
+    "node": ">=9.5.0"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/semver": "^5.5.0",
     "body-parser": "^1.18.2",
     "bson": "^1.0.4",
     "console-error": "^0.0.4",
@@ -28,7 +32,8 @@
     "mongodb": "2.2",
     "mongoose": "^5.0.1",
     "path": "^0.12.7",
-    "rxjs": "^5.5.6"
+    "rxjs": "^5.5.6",
+    "semver": "^5.5.0"
   },
   "devDependencies": {
     "@reactivex/rxjs": "^5.5.6",
