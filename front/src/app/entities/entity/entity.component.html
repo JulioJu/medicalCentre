@@ -18,11 +18,12 @@
                        context: { $implicit: entity }" >
                 </ng-container>
                 <td><button type="submit"
-                        [routerLink]="['/' + entityNameVarChild,  entity._id ]" >
+                        [routerLink]="['/' + entityNameVarChild, entity._id ]" >
                     view
                 </button></td>
                 <td><button type="submit"
-                            [routerLink]="['/' + entityNameVarChild + '-delete/' +  entity._id, {confirmation: false}]" >
+                            [routerLink]="['/' + entityNameVarChild + '-delete/'
+                            +  entity._id, {confirmation: false}]" >
                     delete
                 </button></td>
             </tr>

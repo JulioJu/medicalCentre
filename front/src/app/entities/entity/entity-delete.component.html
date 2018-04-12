@@ -5,7 +5,8 @@
 <div *ngIf="stateDeletion === 'notTried'">
     <h2>Comfirm deletion of the {{entityNameVarChild}} above:</h2>
     <button type="submit"
-            [routerLink]="['/' + entityNameVarChild + '-delete/' +  id, {confirmation: true, isDeleted: 'notTried'}]" >
+            [routerLink]="['/' + entityNameVarChild + '-delete/' +  id,
+            {confirmation: true, isDeleted: 'notTried'}]" >
         Confirmation
     </button>
 </div>
@@ -15,7 +16,12 @@
 </div>
 
 <div *ngIf="stateDeletion === 'error'">
-    <strong>An error occured during the deletion of {{entityNameVarChild}} with id "{{id}}"!</strong>
+    <strong>
+        An error occured during the deletion of {{entityNameVarChild}} with id
+        "{{id}}"!
+    </strong>
     <br />
-    If this {{entityNameVarChild}} does not exit (check if table above is empty), ignore this message: this entity could not be deleted if it not exits!
+    If this {{entityNameVarChild}} does not exit (check if table above is
+    empty), ignore this message: this entity could not be deleted if it not
+    exits!
 </div>

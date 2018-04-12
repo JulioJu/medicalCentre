@@ -1,12 +1,83 @@
 <div [formGroup]="form">
     <label [attr.for]="question.key">{{question.label}}</label>
 
+    <!-- The required attribute is still present. While it's not necessary
+        for validation purposes, you may want to keep it in your template
+        for CSS styling or accessibility reasons. -->
     <div [ngSwitch]="question.controlType">
-        <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type" />
-        <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
-            <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+        <input *ngSwitchCase="'textbox'"
+            [id]="question.key"
+            [name]="question.key"
+            [formControlName]="question.key"
+            [attr.required]="question.required ? 'required' : null"
+            [size]=50
+            [type]="question.type"
+            [attr.placeholder]="question.placeholder
+                                    ? question.placeholder
+                                    : null"
+            [attr.readonly]="question.readonly ? 'readonly' : null"
+            [attr.minlength]="question.minLength ? question.minLength : null"
+            [attr.maxlength]="question.maxLength ? question.maxLength : null"
+            [attr.min]="question.min ? question.min : null"
+            [attr.max]="question.max ? question.max : null"
+            [attr.pattern]="question.pattern ? question.pattern : null"
+            #myTemplateRef
+            />
+            <!-- does not work on Firefox cause
+            https://stackoverflow.com/questions/35167684/autofocus-attribute-not-working-in-firefox-on-display-state-change (explains why Chrome doesn't follow specs)
+            maybe also:
+            https://stackoverflow.com/questions/26364577/autofocus-doesnt-work-on-firefox-and-doesnt-work-when-coming-from-another-page
+            Maybe see also https://github.com/angular/angular/issues/12463
+            and its child https://github.com/angular/angular/issues/18025
+            [attr.autofocus]="question.autofocus ? 'autofocus' : null"
+            -->
+        <select *ngSwitchCase="'dropdown'"
+            [id]="question.key"
+            [name]="question.key"
+            [formControlName]="question.key"
+            [attr.required]="question.required ? 'required' : null"
+            #myTemplateRef
+            >
+            <option disabled selected value> -- select an option -- </option>
+            <option *ngFor="let opt of question.options" [value]="opt.key">
+                {{opt.value}}
+            </option>
         </select>
     </div>
 
-    <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
+    <div class="errorMessage"
+        *ngIf="isNotValid">
+        <div *ngIf="abstrControl.errors.required">
+            "{{question.label}}" is required.
+        </div>
+        <div *ngIf="abstrControl.errors.minlength">
+            "{{question.label}}" must be at least {{question.minLength}}
+            characters long.
+        </div>
+        <div *ngIf="abstrControl.errors.maxlength">
+            "{{question.label}}" must be at the most {{question.maxLength}}
+            characters long.
+        </div>
+        <div *ngIf="abstrControl.errors.dateInvalid">
+            "{{question.label}}" is not a valid date.
+        </div>
+        <div *ngIf="abstrControl.errors.dateTooEarly">
+            "{{question.label}}" must be after {{question.min.toDateString()}}.
+        </div>
+        <div *ngIf="abstrControl.errors.min">
+            "{{question.label}}" must be superior to {{question.min}}.
+        </div>
+        <div *ngIf="abstrControl.errors.dateTooLate">
+            "{{question.label}}" must be before {{question.max.toDateString()}}.
+        </div>
+        <div *ngIf="abstrControl.errors.max">
+            "{{question.label}}" must be inferior to {{question.max}}.
+        </div>
+        <div *ngIf="abstrControl.errors.pattern">
+            "{{question.label}}" must be {{question.patternMessage}}.
+        </div>
+        <div *ngIf="abstrControl.errors.email">
+            "{{question.label}}" must be an email.
+        </div>
+    </div>
 </div>

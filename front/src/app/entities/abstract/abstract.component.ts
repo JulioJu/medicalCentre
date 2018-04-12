@@ -13,7 +13,6 @@ export abstract class AbstractComponent {
         this.abstractService.query()
             .subscribe(
                 (res: HttpResponse<IAbstract[]>) => {
-                    // tslint:disable-next-line
                     this.entityArray = res.body;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)

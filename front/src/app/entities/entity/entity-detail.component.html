@@ -20,7 +20,9 @@
                 </ng-container>
                 <div *ngIf='!isDeleteView' >
                     <td><button type="submit"
-                                [routerLink]="['/' + entityNameVarChild + '-delete/' +  entity._id, {confirmation: false}]" >
+                                [routerLink]="['/' + entityNameVarChild +
+                                    '-delete/' +  entity._id, {confirmation:
+                                    false}]" >
                         delete
                     </button></td>
                 </div>

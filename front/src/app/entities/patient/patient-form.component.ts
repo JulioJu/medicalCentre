@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
-// import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-// import { Observable } from 'rxjs/Observable';
-//
-// import { IPatient } from '../entities-interface/patient.interface';
-// import { Patient } from './patient.service';
 
+import { QuestionBase }     from './../../shared';
 import { PatientFormQuestionComponent } from
     './patient-form-questions.service';
 
@@ -20,7 +16,7 @@ import { PatientFormQuestionComponent } from
 })
 export class PatientCreateOrEditComponent {
 
-    patientForm: any[];
+    patientForm: QuestionBase<any>[];
 
     constructor(service: PatientFormQuestionComponent) {
         this.patientForm = service.getQuestions();

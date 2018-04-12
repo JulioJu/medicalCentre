@@ -23,6 +23,12 @@ body {
     margin: 2em;
 }
 
+input, select, textarea {
+    color: black;
+    background-color: white;
+}
+
+
 body,
 input[text],
 button {

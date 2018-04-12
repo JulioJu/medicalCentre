@@ -17,7 +17,6 @@ export class PatientService extends AbstractService {
         super(http, SERVER_API_URL + 'mongoose/patients');
     }
 
-    // tslint:disable-next-line
     create(patient: IPatient): Observable<EntityResponseType> {
         return super.create(patient);
     }
