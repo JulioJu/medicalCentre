@@ -42,15 +42,6 @@
     3. `ng generate component ./entities/patient --module ./entities/patient/patient.module.ts`
     4. `ng generate service ./entities/patient/patient  --module ./entities/patient/patient.module.ts`
 
-## TODO
-* See if router-outler is the best directive for us.
-* Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536
-* TODO. For GET, add infinite scroll (example on JHipster).
-* Add an eventSuscriber to subscribe to modifications (example on JHipster).
-* Maybe use paramMap instead of params as explained
-    https://angular.io/guide/router. But JHipster 5.0.0 use params, probably
-    enough.
-
 # Observables
 * I've wrote a good example to understand Observer and Observable with RxJS.
     See [./back/app/ObserverTests.ts](./back/app/ObserverTests.ts)
@@ -63,6 +54,19 @@
     * See: https://github.com/angular/angular/issues/22410
 
 # TODO
-* See [./tslint.yaml](./tslint.yaml) @todo.
+
+# Secondary TODO
+
+* For GET, add infinite scroll (example on JHipster).
+* Add an eventSuscriber to subscribe to modifications (example on JHipster).
+* Maybe use paramMap instead of params as explained
+    https://angular.io/guide/router. But JHipster 5.0.0 use params, probably
+    enough.
+* See if router-outlet is the best directive for us.
+
+# Principal TODO
+
+* <!-- * See [./tslint.yaml](./tslint.yaml) @todo. -->
 * See section TODO in [./back/README.md](./back/README.md).
-* See TODO in section [#Front-end](#Front-end) above.
+* <!-- Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536 --> Done
+

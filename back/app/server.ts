@@ -75,7 +75,7 @@ const mongoConnectionSuccess = (name: string, url: string) => {
 };
 
 const mongoConnectionError = () => {
-    console.error('Connot connect to the database. Maybe your'
+    console.error('Cannot connect to the database. Maybe your'
         + ' MongoDB server is not running, or there is a'
         + ' problem with your'
         + ' database. NodeJS is stopping with error code 15.');

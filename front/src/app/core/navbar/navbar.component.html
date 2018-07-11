@@ -1,1 +1,26 @@
-My super navbar.
+<nav>
+    <ul>
+    <li>
+        <a alt="home"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" >
+            Home
+        </a>
+    </li>
+    <li>
+        <a alt="list of nurses"
+            routerLink="/nurses"
+            routerLinkActive="active" >
+            List of nurses
+        </a>
+    </li>
+    <li>
+        <a alt="list of patients"
+           routerLink="/patients"
+           routerLinkActive="active" >
+            List of patients
+        </a>
+    </li>
+    </ul>
+</nav>

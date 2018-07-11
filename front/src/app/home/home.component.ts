@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.css']
+    templateUrl: './home.component.html'
 })
 export class HomeComponent {
-    title = 'app';
+    title = 'Medical center';
 }
