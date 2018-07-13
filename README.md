@@ -69,4 +69,3 @@
 * <!-- * See [./tslint.yaml](./tslint.yaml) @todo. -->
 * See section TODO in [./back/README.md](./back/README.md).
 * <!-- Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536 --> Done
-
