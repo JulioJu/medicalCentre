@@ -9,7 +9,7 @@ import { AppPersonModule } from '../person/person.module';
 import  {
     PatientComponent,
     PatientDetailComponent,
-    PatientCreateOrEditComponent,
+    PatientCreateOrEditProtoComponent,
     PatientDeleteComponent,
     PatientService,
     PATIENT_ROUTE } from './';
@@ -29,7 +29,7 @@ const ENTITY_STATES = [
     declarations: [
         PatientComponent,
         PatientDetailComponent,
-        PatientCreateOrEditComponent,
+        PatientCreateOrEditProtoComponent,
         PatientDeleteComponent
     ],
     providers: [PatientService]

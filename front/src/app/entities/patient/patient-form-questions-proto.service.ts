@@ -7,10 +7,10 @@ import {
 import { REGEXFRENCH }     from '../../app.constants';
 
 @Injectable()
-export class PatientFormQuestionComponent {
+export class PatientFormQuestionProtoComponent {
 
-    // Todo: get from a remote source of question metadata
-    // Todo: make asynchronous
+    // TODO: get from a remote source of question metadata
+    // TODO: make asynchronous
     getQuestions(): QuestionBase<any>[] {
 
         const questions: QuestionBase<any>[] = [

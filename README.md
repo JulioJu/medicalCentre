@@ -32,7 +32,8 @@
             delete patient with id ":id"
         * /#/nurse-delete/:id;confirmation=boolean:stateDeletion=string; :
             delete nurse with id ":id"
-* /#/patient-create : create a new patient
+* /#/patient-create-prototype : create a new patient (just a prototype, do
+    nothing)
 * /#/ : home page.
 
 ## Create a service with Angular-cli
