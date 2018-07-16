@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient,
+    HttpResponse,
+    HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
@@ -7,7 +9,7 @@ import { INurse } from
     '../entities-interface/nurse.interface';
 import { AbstractService } from '../abstract';
 
-type EntityResponseType = HttpResponse<INurse>;
+type EntityResponseType = HttpResponse<INurse> | HttpErrorResponse;
 
 @Injectable()
 // See my issue https://github.com/jhipster/generator-jhipster/issues/7302
@@ -17,12 +19,8 @@ export class NurseService extends AbstractService {
         super(http, SERVER_API_URL + 'mongoose/nurses');
     }
 
-    create(nurse: INurse): Observable<EntityResponseType> {
-        return super.create(nurse);
-    }
-
-    update(nurse: INurse): Observable<EntityResponseType> {
-        return super.update(nurse);
+    insertOrUpdate(nurse: INurse): Observable<EntityResponseType> {
+        return super.insertOrUpdate(nurse);
     }
 
     find(id: string): Observable<EntityResponseType> {

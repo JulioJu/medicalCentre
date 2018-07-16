@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule }          from '@angular/forms';
 
-import { DynamicFormComponent, DynamicFormQuestionComponent } from '../';
+import { DynamicFormQuestionComponent } from '../';
 
 @NgModule({
     imports: [
@@ -10,11 +10,9 @@ import { DynamicFormComponent, DynamicFormQuestionComponent } from '../';
         ReactiveFormsModule
     ],
     declarations: [
-        DynamicFormComponent,
         DynamicFormQuestionComponent
     ],
     exports: [
-        DynamicFormComponent,
         DynamicFormQuestionComponent
     ]
 })

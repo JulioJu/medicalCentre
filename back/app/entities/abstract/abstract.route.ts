@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { AbstractModel, IAbstractService } from './';
+import { IAbstract } from '../entities-interface/abstract.interface';
 
 export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
     (...args: any[]) => T, entityName: string,  router: Router,
@@ -66,12 +67,8 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 new abstractModel(...modelConstructor);
 
             abstractService.insertOrUpdate(myModel)
-                .then((isUpdated: boolean) => {
-                    if (isUpdated) {
-                        res.send(`${entityName} updated`);
-                    } else {
-                        res.send(`${entityName} inserted`);
-                    }
+                .then((response: {isUpdate: boolean; entity: IAbstract}) => {
+                    res.send(response);
                 })
                 .catch((e) => res.json(e));
         }

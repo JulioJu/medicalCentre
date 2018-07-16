@@ -1,11 +1,13 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient,
+    HttpResponse,
+    HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { IAbstract } from
     '../entities-interface/abstract.interface';
 import { createRequestOption } from '../../shared';
 
-type EntityResponseType = HttpResponse<any>;
+type EntityResponseType = HttpResponse<any> | HttpErrorResponse;
 
 // See my issue https://github.com/jhipster/generator-jhipster/issues/7302
 export abstract class AbstractService {
@@ -13,13 +15,7 @@ export abstract class AbstractService {
     constructor(protected readonly http: HttpClient,
         protected readonly resourceUrl: string) {}
 
-    create(abtractI: IAbstract): Observable<HttpResponse<any>> {
-        return this.http
-            .post<IAbstract>(this.resourceUrl, abtractI,
-                { observe: 'response' });
-    }
-
-    update(abtractI: IAbstract): Observable<EntityResponseType> {
+    insertOrUpdate(abtractI: IAbstract): Observable<EntityResponseType> {
         return this.http
             .put<IAbstract>(this.resourceUrl, abtractI,
                 { observe: 'response' });

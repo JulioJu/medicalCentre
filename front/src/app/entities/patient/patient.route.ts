@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 
-import { PatientComponent } from './patient.component';
-import { PatientDetailComponent } from './patient-detail.component';
 import {
-    PatientCreateOrEditProtoComponent
-    } from './patient-form-proto.component';
-import { PatientDeleteComponent } from './patient-delete.component';
+    PatientComponent,
+    PatientDetailComponent,
+    PatientCreateOrEditProtoComponent,
+    PatientCreateOrEditComponent,
+    PatientDeleteComponent
+    } from './';
 import { APPLICATION_NAME_PIPE } from '../../app.constants';
 
 export const PATIENT_ROUTE: Routes = [
@@ -29,6 +30,13 @@ export const PATIENT_ROUTE: Routes = [
         component: PatientCreateOrEditProtoComponent,
         data: {
             pageTitle: 'Create patient (prototype)' + APPLICATION_NAME_PIPE
+        }
+    },
+    {
+        path: 'patient-form',
+        component: PatientCreateOrEditComponent,
+        data: {
+            pageTitle: 'Create or edit patient' + APPLICATION_NAME_PIPE
         }
     },
     {

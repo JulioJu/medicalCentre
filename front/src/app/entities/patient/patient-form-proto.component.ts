@@ -1,25 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup }                 from '@angular/forms';
 
-import { QuestionBase }     from './../../shared';
+import {
+    QuestionBase,
+    QuestionControlService
+}     from './../../shared';
 import { PatientFormQuestionProtoComponent } from
     './patient-form-questions-proto.service';
 
 @Component({
-    selector: 'app-root',
-    template: `
-    <div>
-        <h2>Create or Edit a patient (prototype, do nothing)</h2>
-        <app-dynamic-form [questions]="patientForm"></app-dynamic-form>
-    </div>
-  `,
-    providers:  [PatientFormQuestionProtoComponent]
+    styles: [`
+        .form-row{
+            margin-top: 10px;
+        }`],
+    templateUrl: './../../shared/form/dynamic-form.component.html',
+    providers:  [
+        QuestionControlService,
+        PatientFormQuestionProtoComponent
+    ]
 })
-export class PatientCreateOrEditProtoComponent {
+export class PatientCreateOrEditProtoComponent implements OnInit {
 
-    patientForm: QuestionBase<any>[];
+    questions: QuestionBase<any>[] = [];
+    form: FormGroup;
+    payLoad = '';
 
-    constructor(service: PatientFormQuestionProtoComponent) {
-        this.patientForm = service.getQuestions();
+    constructor(
+        private readonly qcs: QuestionControlService,
+        service: PatientFormQuestionProtoComponent
+    ) {
+        this.questions = service.getQuestions();
+    }
+
+    ngOnInit(): void {
+        this.form = this.qcs.toFormGroup(this.questions);
+    }
+
+    onSubmit(): void {
+        this.payLoad = JSON.stringify(this.form.value);
     }
 
 }

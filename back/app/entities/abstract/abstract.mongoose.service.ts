@@ -114,7 +114,10 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                             console.info('You have tried to save the object',
                             myEntity,
                             '\nYou have saved:\n', saved);
-                            resolve(false);
+                            resolve({
+                                isUpdate: false,
+                                entity: saved
+                            });
                         }
                     });
                 } else {
@@ -124,11 +127,15 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                     const thisMongooseModel: mongoose.Model<any> =
                         checkMongooseModel(this.mongooseModel);
                     thisMongooseModel.findByIdAndUpdate(
-                        myEntity._id, // find a document with that filter
-                        myEntity, // document to insert when nothing was found
+                        // find a document with that filter
+                        myEntity._id,
+                        // document to insert when nothing was found
+                        myEntity,
+                        // options
                         {upsert: true, new: true, runValidators: true
                             , rawResult: true},
-                        (err, doc) => { // callback
+                        // callback
+                        (err, doc) => {
                             if (err) {
                                 console.error(err);
                                 reject(err);
@@ -140,8 +147,11 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                                     isUpdated = true;
                                 }
                                 console.info('You have', savedOrUpdated, ':\n',
-                                    doc.value);
-                                resolve(isUpdated);
+                                    doc);
+                                resolve({
+                                    isUpdate: isUpdated,
+                                    entity: doc.value
+                                });
                             }
                         });
                 }

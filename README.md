@@ -32,8 +32,9 @@
             delete patient with id ":id"
         * /#/nurse-delete/:id;confirmation=boolean:stateDeletion=string; :
             delete nurse with id ":id"
-* /#/patient-create-prototype : create a new patient (just a prototype, do
+* /#/patient-form-proto : create a new patient (just for a form prototype, do
     nothing)
+* /#/patient-form : create a new patient
 * /#/ : home page.
 
 ## Create a service with Angular-cli
@@ -70,3 +71,6 @@
 * <!-- * See [./tslint.yaml](./tslint.yaml) @todo. -->
 * See section TODO in [./back/README.md](./back/README.md).
 * <!-- Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536 --> Done
+* in ./front/src/app/entities/abstract/abstract.service.ts, add
+    HttpErrorResponse behaviour. And display in front. Actually, done only for
+    *-form.component.ts

@@ -36,6 +36,10 @@ button {
     font-family: Cambria, Georgia;
 }
 
+input[readonly] {
+    background-color: grey;
+}
+
 a {
     cursor: pointer;
     cursor: hand;

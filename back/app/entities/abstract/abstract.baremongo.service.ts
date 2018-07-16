@@ -108,12 +108,18 @@ export const AbstractBaremongoService: IAbstractService = {
                                     console.log(`${this.collection} updated`);
                                     console.log(`result: ${res}`);
                                     db.close();
-                                    resolve(true);
+                                    resolve({
+                                        isUpdate: true,
+                                        entity: res
+                                    });
                                 } else {
                                     console.log(`${this.collection} inserted`);
                                     console.log(`result: ${res}`);
                                     db.close();
-                                    resolve(false);
+                                    resolve({
+                                        isUpdate: false,
+                                        entity: res
+                                    });
                                 }
                             }
                         });
