@@ -25,7 +25,7 @@ const ifMongoConnected = (db: Db, err: MongoError, res: any[] |
         any) => any): void => {
     if (err) {
         db.close();
-        console.error(err);
+        console.error(JSON.stringify(err));
         reject(err);
     } else {
         db.close();
@@ -101,7 +101,7 @@ export const AbstractBaremongoService: IAbstractService = {
                         .save(obj, (err, res) => {
                             if (err) {
                                 db.close();
-                                console.error(err);
+                                console.error(JSON.stringify(err));
                                 reject(err);
                             } else {
                                 if (res.result.nModified === 1) {

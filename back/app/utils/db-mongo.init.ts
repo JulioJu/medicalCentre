@@ -7,7 +7,7 @@ export const dbMongoInit = async (): Promise<void> =>
             .connect(URLMONGODB, (error: MongoError, db: Db) => {
                 if (error) {
                     console.error('=== Message from Mongo server ===\n'
-                    + error
+                    + JSON.stringify(error)
                     + '\n===');
                     console.debug(`rejected from dbMongo.ts.`);
                     /* Do not close. If there is an error it could be because

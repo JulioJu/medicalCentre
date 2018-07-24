@@ -54,7 +54,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                 checkMongooseModel(this.mongooseModel);
             thisMongooseModel.findById(_id, (err, found) => {
                 if (err) {
-                    console.error(err);
+                    console.error(JSON.stringify(err));
                     reject(err);
                 }
                 resolve(found);
@@ -70,13 +70,13 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
             thisMongooseModel.findByIdAndRemove(_id,
                 (err: any, found: any) => {
                 if (err) {
-                    console.error(err);
+                    console.error(JSON.stringify(err));
                     reject(err);
                 }
                 if (!found) {
                     const mess = 'No entity with id ' + _id + ' exists. ' +
                     'Therfore couldn\'t be deleted.';
-                    console.error(mess);
+                    console.error(JSON.stringify(mess));
                     reject({n: 0});
                 }
                 resolve({n: 1, value: found});
@@ -100,16 +100,8 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                         new thisMongooseModel(myEntity);
                     abstractModel.save((err, saved) => {
                         if (err) {
-                            const errorString = err.toString();
-                            const thisCollection =
-                                checkCollection(this.collection);
-                            const mess = 'The object ' +
-                                JSON.stringify(myEntity) +
-                                ' wasn\'t saved in the collection « ' +
-                                thisCollection + ' » because:\n' +
-                                errorString.split('\n', 1)[0];
-                            console.error(mess);
-                            reject(mess);
+                            console.error(JSON.stringify(err));
+                            reject(err);
                         } else {
                             console.info('You have tried to save the object',
                             myEntity,
@@ -137,7 +129,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                         // callback
                         (err, doc) => {
                             if (err) {
-                                console.error(err);
+                                console.error(JSON.stringify(err));
                                 reject(err);
                             } else {
                                 let savedOrUpdated = 'saved';

@@ -8,7 +8,7 @@ export const dbMongooseInit = async (): Promise<void> =>
         mongoose.connect(URLMONGOOSE);
         const dbMongoose = mongoose.connection;
         dbMongoose.on('error', (e) => {
-            console.error.bind(console, 'connection error:');
+            console.error.bind(console, 'connection error');
             reject(e);
         });
         dbMongoose.once('open', () => {

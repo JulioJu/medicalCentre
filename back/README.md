@@ -148,7 +148,13 @@ error-handling middleware)
 * GET /testParam2
 * GET /* 404
 
-# Notes
+# Notes for developers
 * Be careful to circular dependencies with index.ts. Read:
     ./AnotherCircularDependenciesError/README.md
     and https://github.com/Microsoft/TypeScript/issues/21225
+    Automatically detected thanks a linter rule.
+* We must send the REST error thanks:
+```json
+console.error(JSON.stringify(err)); // better for me than toString()
+reject(err); // we have the same result as above
+```

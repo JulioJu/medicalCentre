@@ -51,7 +51,8 @@ export class PatientCreateOrEditComponent implements OnInit {
             .subscribe((response) => {
                 if (!response.ok) {
                     const responseErrored = response as HttpErrorResponse;
-                    console.log(responseErrored.error);
+                    console.debug('We have an error here.',
+                        responseErrored.error);
                 } else {
                     // TODO. When duplicated key, don't send a JSON object.
                     // Test, by add twice the same form !

@@ -33,7 +33,7 @@ const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
                 // process.exit(2);
             }
         } else {
-            console.error(e);
+            console.error(JSON.stringify(e));
         }
     });
     // https://nodejs.org/api/net.html#net_event_listening
