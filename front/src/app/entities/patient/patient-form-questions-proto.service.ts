@@ -4,7 +4,8 @@ import {
     DropdownQuestion,
     QuestionBase,
     TextboxQuestion  }     from './../../shared';
-import { REGEXFRENCH }     from '../../app.constants';
+import { messageREGEXSLASHW, REGEXSLASHW,
+    REGEXFRENCH, messageREGEXFRENCH }     from '../../app.constants';
 
 @Injectable()
 export class PatientFormQuestionProtoComponent {
@@ -23,19 +24,22 @@ export class PatientFormQuestionProtoComponent {
                 minLength: 2,
                 maxLength: 24,
                 readonly: true,
-                pattern: /^\w+$/,
-                patternMessage: 'alphanumeric characters.'
+                title: messageREGEXSLASHW,
+                pattern: REGEXSLASHW,
+                patternMessage: messageREGEXSLASHW
             }),
 
             new TextboxQuestion({
                 key: 'firstname',
                 label: 'Firstname',
                 required: true,
+                autofocus: true,
                 placeholder: 'Jean',
                 minLength: 2,
                 maxLength: 80,
+                title: messageREGEXFRENCH,
                 pattern: REGEXFRENCH,
-                patternMessage: 'french characters'
+                patternMessage: messageREGEXFRENCH
             }),
 
             new TextboxQuestion({
@@ -45,8 +49,9 @@ export class PatientFormQuestionProtoComponent {
                 placeholder: 'Dupont',
                 minLength: 2,
                 maxLength: 80,
+                title: messageREGEXFRENCH,
                 pattern: REGEXFRENCH,
-                patternMessage: 'french characters'
+                patternMessage: messageREGEXFRENCH
             }),
 
             new TextboxQuestion({
@@ -56,8 +61,9 @@ export class PatientFormQuestionProtoComponent {
                 placeholder: '1 place de la République 75011 Paris',
                 minLength: 3,
                 maxLength: 180,
-                pattern: /^[ 0-9a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüëïüÿËÏÜŸ'-]+$/,
-                patternMessage: 'french characters or digits.'
+                title: messageREGEXFRENCH,
+                pattern: REGEXFRENCH,
+                patternMessage: messageREGEXFRENCH
             }),
 
             new TextboxQuestion({
@@ -65,6 +71,7 @@ export class PatientFormQuestionProtoComponent {
                 label: 'Social security number',
                 required: true,
                 placeholder: '15 digits',
+                title: 'should match 15 digits',
                 pattern: /^[\d]{15}$/,
                 patternMessage: 'french social security number (15 digits)'
             }),
@@ -103,7 +110,7 @@ export class PatientFormQuestionProtoComponent {
                 key: 'emailtest',
                 label: 'Email: just for tests',
                 required: false,
-                placeholder: 'regex Angular',
+                placeholder: 'email',
                 type: 'email'
             }),
 
@@ -111,12 +118,13 @@ export class PatientFormQuestionProtoComponent {
                 key: 'testPattern',
                 label: 'Pattern: just for tests',
                 required: false,
-                placeholder: '/$\w+$/',
+                placeholder: '/^\w+$/',
                 readonly: false,
                 minLength: 2,
                 maxLength: 24,
-                pattern: /^\w+$/,
-                patternMessage: 'alphanumeric characters'
+                title: messageREGEXSLASHW,
+                pattern: REGEXSLASHW,
+                patternMessage: messageREGEXSLASHW
             })
 
         ];

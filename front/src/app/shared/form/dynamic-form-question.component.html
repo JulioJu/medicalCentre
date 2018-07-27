@@ -3,7 +3,18 @@
 
     <!-- The required attribute is still present. While it's not necessary
         for validation purposes, you may want to keep it in your template
-        for CSS styling or accessibility reasons. -->
+        for CSS styling or accessibility reasons.
+        source: https://angular.io/guide/form-validation -->
+    <!-- See also https://github.com/angular/angular/pull/11116 -->
+    <!-- BIG
+        WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+        « The pattern is not surrounded by forward slashes. »
+        Chrome doesn't respect the specification, contrary to Firefox.
+    -->
+    <!-- "attr." prefix seems bypass any angular conversion.
+        [required] attribute is converted to "ng-reflect-required"
+        [attr.required] give "required"
+    -->
     <div [ngSwitch]="question.controlType">
         <input *ngSwitchCase="'textbox'"
             [id]="question.key"
@@ -20,7 +31,8 @@
             [attr.maxlength]="question.maxLength ? question.maxLength : null"
             [attr.min]="question.min ? question.min : null"
             [attr.max]="question.max ? question.max : null"
-            [attr.pattern]="question.pattern ? question.pattern : null"
+            [attr.title]="question.title ? question.title : null"
+            [attr.pattern]="question.pattern ? question.pattern.source : null"
             #myTemplateRef
             />
             <!-- does not work on Firefox cause

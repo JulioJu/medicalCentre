@@ -8,6 +8,7 @@ interface IOptionsText extends IOptions<string> {
     maxLength?: number;
     min?: Date | number;
     max?: Date | number;
+    title?: string;
     pattern?: RegExp;
     patternMessage?: string;
 }
@@ -22,6 +23,7 @@ export class TextboxQuestion extends QuestionBase<string> {
     maxLength?: number;
     min?: Date | number;
     max?: Date | number;
+    title?: string;
     pattern?: RegExp;
     patternMessage: string;
 
@@ -34,6 +36,7 @@ export class TextboxQuestion extends QuestionBase<string> {
         this.readonly = options.readonly || false;
         this.min = options.min;
         this.max = options.max;
+        this.title = options.title;
         this.pattern = options.pattern;
         this.patternMessage = options.patternMessage || '';
     }

@@ -73,4 +73,16 @@
 * <!-- Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536 --> Done
 * in ./front/src/app/entities/abstract/abstract.service.ts, add
     HttpErrorResponse behaviour. And display in front. Actually, done only for
-    *-form.component.ts
+    -form.component.ts
+
+# Notes for developpers
+
+* BIG WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+    * « The pattern is not surrounded by forward slashes. »
+        Chrome doesn't respect the specification, contrary to Firefox.
+    * « Use the title attribute to describe the pattern to help the user. »
+* For input attribute:
+    * "attr." prefix seems bypass any angular conversion.
+        * [required] attribute is converted to "ng-reflect-required"
+        * [attr.required] gives "required"
+
