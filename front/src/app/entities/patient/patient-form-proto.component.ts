@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
+import { Router } from '@angular/router';
 
 import {
     QuestionBase,
@@ -19,25 +20,43 @@ import { PatientFormQuestionProtoComponent } from
         PatientFormQuestionProtoComponent
     ]
 })
-export class PatientCreateOrEditProtoComponent implements OnInit {
+export class PatientCreateOrEditProtoComponent implements OnInit,
+    AfterViewInit {
 
     questions: QuestionBase<any>[] = [];
     form: FormGroup;
     payLoad = '';
+    formRoute: string;
 
     constructor(
+        router: Router,
         private readonly qcs: QuestionControlService,
         service: PatientFormQuestionProtoComponent
     ) {
         this.questions = service.getQuestions();
+        this.formRoute = router.url;
     }
 
     ngOnInit(): void {
         this.form = this.qcs.toFormGroup(this.questions);
+        if (sessionStorage.getItem(this.formRoute)) {
+            const patientJSON = sessionStorage
+                .getItem(this.formRoute) as string;
+            // TODO test if patienJSON is well formed (castable in type
+            // IPatient)
+            this.form.setValue(JSON.parse(patientJSON));
+        }
+    }
+
+    ngAfterViewInit(): void {
+        this.form.valueChanges.subscribe(val => {
+            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
+        });
     }
 
     onSubmit(): void {
         this.payLoad = JSON.stringify(this.form.value);
+        sessionStorage.removeItem(this.formRoute);
     }
 
 }

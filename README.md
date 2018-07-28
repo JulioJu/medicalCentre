@@ -37,6 +37,10 @@
 * /#/patient-form : create a new patient
 * /#/ : home page.
 
+N.B. Form fields are cached in SessionStorage to prevent the loss of data
+    during navigation or page reload without submit.
+    It's the default behaviour in Firefox for a simple HTML form (not Angular).
+
 ## Create a service with Angular-cli
 * To create a new module with its service and component. With Angular-cli
     1. `cd src/app/`
@@ -85,4 +89,6 @@
     * "attr." prefix seems bypass any angular conversion.
         * [required] attribute is converted to "ng-reflect-required"
         * [attr.required] gives "required"
+* Fields could be cached in SessionStorage. Do not use SessionStorage to cache
+    sensitive datas like passwords (be careful).
 
