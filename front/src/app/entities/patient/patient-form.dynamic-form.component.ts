@@ -1,15 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormGroup }                 from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import {
-    QuestionBase,
-    QuestionControlService
-}     from './../../shared';
+import { AbstractCreateOrEditComponent } from
+    '../abstract/abstract-form.dynamic-form.component';
 
-import { IPatient } from
-    '../entities-interface/patient.interface';
+import { QuestionControlService }     from './../../shared';
 
 import { PatientFormQuestionService } from
     './patient-form.questions.service';
@@ -26,57 +21,16 @@ import { PatientService } from './patient.service';
         PatientFormQuestionService
     ]
 })
-export class PatientCreateOrEditComponent implements OnInit, AfterViewInit {
-
-    questions: QuestionBase<any>[] = [];
-    form: FormGroup;
-    payLoad = '';
-    formRoute: string;
+export class PatientCreateOrEditComponent extends AbstractCreateOrEditComponent
+        implements OnInit, AfterViewInit {
 
     constructor(
         router: Router,
-        private readonly qcs: QuestionControlService,
-        private readonly patientService: PatientService,
+        qcs: QuestionControlService,
+        patientService: PatientService,
         service: PatientFormQuestionService
     ) {
-        this.questions = service.getQuestions();
-        this.formRoute = router.url;
-    }
-
-    ngOnInit(): void {
-        this.form = this.qcs.toFormGroup(this.questions);
-        if (sessionStorage.getItem(this.formRoute)) {
-            const patientJSON = sessionStorage
-                .getItem(this.formRoute) as string;
-            // TODO test if patienJSON is well formed (castable in type
-            // IPatient)
-            this.form.setValue(JSON.parse(patientJSON));
-        }
-    }
-
-    ngAfterViewInit(): void {
-        this.form.valueChanges.subscribe(val => {
-            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
-        });
-    }
-
-    onSubmit(): void {
-        const patient = this.form.value as IPatient;
-        console.debug('You try to save or update:', patient);
-        this.patientService
-            .insertOrUpdate(patient)
-            .subscribe((response) => {
-                if (!response.ok) {
-                    const responseErrored = response as HttpErrorResponse;
-                    console.debug('We have an error here.',
-                        responseErrored.error);
-                } else {
-                    // TODO. When duplicated key, don't send a JSON object.
-                    // Test, by add twice the same form !
-                    console.log(response);
-                }
-            });
-        sessionStorage.removeItem(this.formRoute);
+        super(router, qcs, patientService, service);
     }
 
 }

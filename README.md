@@ -79,6 +79,10 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     HttpErrorResponse behaviour. And display in front. Actually, done only for
     -form.component.ts
 
+
+* Try to use generecity IPatient for
+    ./src/app/entities/patient/patient-form.dynamic-form.component.ts
+
 # Notes for developpers
 
 * BIG WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input

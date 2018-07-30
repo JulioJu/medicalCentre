@@ -7,8 +7,12 @@ import {
 import { messageREGEXSLASHW, REGEXSLASHW,
     REGEXFRENCH, messageREGEXFRENCH }     from '../../app.constants';
 
+import { IAbstractFormQuestionService } from
+    '../abstract/abstract.questions.service';
+
 @Injectable()
-export class PatientFormQuestionService {
+export class PatientFormQuestionService implements
+        IAbstractFormQuestionService {
 
     // TODO: get from a remote source of question metadata
     // TODO: make asynchronous
