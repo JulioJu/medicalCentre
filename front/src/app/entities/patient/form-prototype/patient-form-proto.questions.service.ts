@@ -3,9 +3,9 @@ import { Injectable }       from '@angular/core';
 import {
     DropdownQuestion,
     QuestionBase,
-    TextboxQuestion  }     from './../../shared';
+    TextboxQuestion  }     from './../../../shared';
 import { messageREGEXSLASHW, REGEXSLASHW,
-    REGEXFRENCH, messageREGEXFRENCH }     from '../../app.constants';
+    REGEXFRENCH, messageREGEXFRENCH }     from '../../../app.constants';
 
 @Injectable()
 export class PatientFormQuestionProtoComponent {

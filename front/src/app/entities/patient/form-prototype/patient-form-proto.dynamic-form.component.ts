@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import {
     QuestionBase,
     QuestionControlService
-}     from './../../shared';
+}     from './..//../../shared';
 import { PatientFormQuestionProtoComponent } from
     './patient-form-proto.questions.service';
 
@@ -14,7 +14,7 @@ import { PatientFormQuestionProtoComponent } from
         .form-row{
             margin-top: 10px;
         }`],
-    templateUrl: './../../shared/form/dynamic-form.component.html',
+    templateUrl: './../../../shared/form/dynamic-form.component.html',
     providers:  [
         QuestionControlService,
         PatientFormQuestionProtoComponent
