@@ -1,13 +1,19 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import {
     QuestionBase,
     QuestionControlService
 }     from './../../shared';
-import { PatientFormQuestionProtoComponent } from
-    './patient-form-questions-proto.service';
+
+import { IPatient } from
+    '../entities-interface/patient.interface';
+
+import { PatientFormQuestionService } from
+    './patient-form.questions.service';
+import { PatientService } from './patient.service';
 
 @Component({
     styles: [`
@@ -17,11 +23,10 @@ import { PatientFormQuestionProtoComponent } from
     templateUrl: './../../shared/form/dynamic-form.component.html',
     providers:  [
         QuestionControlService,
-        PatientFormQuestionProtoComponent
+        PatientFormQuestionService
     ]
 })
-export class PatientCreateOrEditProtoComponent implements OnInit,
-    AfterViewInit {
+export class PatientCreateOrEditComponent implements OnInit, AfterViewInit {
 
     questions: QuestionBase<any>[] = [];
     form: FormGroup;
@@ -31,7 +36,8 @@ export class PatientCreateOrEditProtoComponent implements OnInit,
     constructor(
         router: Router,
         private readonly qcs: QuestionControlService,
-        service: PatientFormQuestionProtoComponent
+        private readonly patientService: PatientService,
+        service: PatientFormQuestionService
     ) {
         this.questions = service.getQuestions();
         this.formRoute = router.url;
@@ -55,7 +61,21 @@ export class PatientCreateOrEditProtoComponent implements OnInit,
     }
 
     onSubmit(): void {
-        this.payLoad = JSON.stringify(this.form.value);
+        const patient = this.form.value as IPatient;
+        console.debug('You try to save or update:', patient);
+        this.patientService
+            .insertOrUpdate(patient)
+            .subscribe((response) => {
+                if (!response.ok) {
+                    const responseErrored = response as HttpErrorResponse;
+                    console.debug('We have an error here.',
+                        responseErrored.error);
+                } else {
+                    // TODO. When duplicated key, don't send a JSON object.
+                    // Test, by add twice the same form !
+                    console.log(response);
+                }
+            });
         sessionStorage.removeItem(this.formRoute);
     }
 
