@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { NurseComponent } from './nurse.component';
-import { NurseDetailComponent } from './nurse-detail.component';
-import { NurseDeleteComponent } from './nurse-delete.component';
+import {
+    NurseComponent,
+    NurseDetailComponent,
+    NurseCreateOrEditComponent,
+    NurseDeleteComponent
+    } from './';
 import { APPLICATION_NAME_PIPE } from '../../app.constants';
 
 export const NURSE_ROUTE: Routes = [
@@ -19,6 +22,13 @@ export const NURSE_ROUTE: Routes = [
         component: NurseDetailComponent,
         data: {
             pageTitle: 'Get nurse' + APPLICATION_NAME_PIPE
+        }
+    },
+    {
+        path: 'nurse-form',
+        component: NurseCreateOrEditComponent,
+        data: {
+            pageTitle: 'Create or edit nurse' + APPLICATION_NAME_PIPE
         }
     },
     {

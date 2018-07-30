@@ -35,6 +35,7 @@
 * /#/patient-form-proto : create a new patient (just for a form prototype, do
     nothing)
 * /#/patient-form : create a new patient
+* /#/nurse-form : create a new patient
 * /#/ : home page.
 
 N.B. Form fields are cached in SessionStorage to prevent the loss of data
