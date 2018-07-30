@@ -21,9 +21,6 @@ export abstract class AbstractCreateOrEditComponent implements OnInit,
     form: FormGroup;
     formRoute: string;
 
-    // TODO Delete it
-    payLoad = '';
-
     constructor(
         router: Router,
         private readonly qcs: QuestionControlService,

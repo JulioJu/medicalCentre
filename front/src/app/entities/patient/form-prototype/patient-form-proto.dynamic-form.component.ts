@@ -14,7 +14,7 @@ import { PatientFormQuestionProtoComponent } from
         .form-row{
             margin-top: 10px;
         }`],
-    templateUrl: './../../../shared/form/dynamic-form.component.html',
+    templateUrl: './dynamic-form.component.html',
     providers:  [
         QuestionControlService,
         PatientFormQuestionProtoComponent
