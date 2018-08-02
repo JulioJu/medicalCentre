@@ -18,6 +18,10 @@ export class PatientFormQuestionProtoComponent implements
     // TODO: make asynchronous
     getQuestions(): QuestionBase<any>[] {
 
+        const REGEXADDRESS = /^[a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüëïüÿËÏÜŸ'- ]+$/;
+        const messageREGEXADDRESS = 'french alphanumeric characters'
+            + ', including dash, simple quote and spaces.';
+
         const questions: QuestionBase<any>[] = [
 
             new TextboxQuestion({
@@ -65,9 +69,9 @@ export class PatientFormQuestionProtoComponent implements
                 placeholder: '1 place de la République 75011 Paris',
                 minLength: 3,
                 maxLength: 180,
-                title: messageREGEXFRENCH,
-                pattern: REGEXFRENCH,
-                patternMessage: messageREGEXFRENCH
+                title: messageREGEXADDRESS,
+                pattern: REGEXADDRESS,
+                patternMessage: messageREGEXADDRESS
             }),
 
             new TextboxQuestion({
