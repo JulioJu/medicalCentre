@@ -18,7 +18,7 @@ export class PatientFormQuestionProtoComponent implements
     // TODO: make asynchronous
     getQuestions(): QuestionBase<any>[] {
 
-        const REGEXADDRESS = /^[a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüëïüÿËÏÜŸ'- ]+$/;
+        const REGEXADDRESS = /^[a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüëïüÿËÏÜŸ\s'-]+$/;
         const messageREGEXADDRESS = 'french alphanumeric characters'
             + ', including dash, simple quote and spaces.';
 

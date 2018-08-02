@@ -80,9 +80,9 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     HttpErrorResponse behaviour. And display in front. Actually, done only for
     -form.component.ts
 
-
-* Try to use generecity IPatient for
-    ./src/app/entities/patient/patient-form.dynamic-form.component.ts
+* Subtyping is it better than Parametric polymorphism ? See
+    ./front/src/app/entities/patient/patient-form.dynamic-form.component.ts
+    and the commit of 08/02/2018 08 h 31 UTC + 2
 
 # Notes for developpers
 

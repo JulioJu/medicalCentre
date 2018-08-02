@@ -14,8 +14,8 @@ import { IAbstract } from
 import { IAbstractFormQuestionService } from './abstract.questions.service';
 import { AbstractService } from './abstract.service';
 
-export abstract class AbstractCreateOrEditComponent implements OnInit,
-    AfterViewInit {
+export abstract class AbstractCreateOrEditComponent<iabstractType extends IAbstract>
+    implements OnInit, AfterViewInit {
 
     questions: QuestionBase<any>[] = [];
     form: FormGroup;
@@ -36,8 +36,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit,
         if (sessionStorage.getItem(this.formRoute)) {
             const abstractJSON = sessionStorage
                 .getItem(this.formRoute) as string;
-            // TODO test if abstractJSON is well formed (castable in type
-            // IAbstract)
+            // I've tested. If the JSON doesn't match the form, no bugs.
             this.form.setValue(JSON.parse(abstractJSON));
         }
     }
@@ -49,7 +48,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit,
     }
 
     onSubmit(): void {
-        const abstract = this.form.value as IAbstract;
+        const abstract = this.form.value as iabstractType;
         console.debug('You try to save or update:', abstract);
         this.abstractService
             .insertOrUpdate(abstract)

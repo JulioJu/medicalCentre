@@ -9,6 +9,7 @@ import { QuestionControlService }     from './../../shared';
 import { PatientFormQuestionService } from
     './patient-form.questions.service';
 import { PatientService } from './patient.service';
+import { IPatient } from '../entities-interface/patient.interface';
 
 @Component({
     styles: [`
@@ -21,7 +22,8 @@ import { PatientService } from './patient.service';
         PatientFormQuestionService
     ]
 })
-export class PatientCreateOrEditComponent extends AbstractCreateOrEditComponent
+export class PatientCreateOrEditComponent
+        extends AbstractCreateOrEditComponent<IPatient>
         implements OnInit, AfterViewInit {
 
     constructor(
