@@ -5,7 +5,8 @@ import {
     QuestionBase,
     TextboxQuestion  }     from './../../../shared';
 import { messageREGEXSLASHW, REGEXSLASHW,
-    REGEXFRENCH, messageREGEXFRENCH }     from '../../../app.constants';
+    REGEXFRENCH, messageREGEXFRENCH,
+    REGEXADDRESS, messageREGEXADDRESS }     from '../../../app.constants';
 
 import { IAbstractFormQuestionService } from
     '../../abstract/abstract.questions.service';
@@ -17,10 +18,6 @@ export class PatientFormQuestionProtoComponent implements
     // TODO: get from a remote source of question metadata
     // TODO: make asynchronous
     getQuestions(): QuestionBase<any>[] {
-
-        const REGEXADDRESS = /^[a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüëïüÿËÏÜŸ\s'-]+$/;
-        const messageREGEXADDRESS = 'french alphanumeric characters'
-            + ', including dash, simple quote and spaces.';
 
         const questions: QuestionBase<any>[] = [
 

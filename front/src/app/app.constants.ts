@@ -27,3 +27,7 @@ export const REGEXFRENCH = /^[a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüë
 // See https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains
 // tslint:disable-next-line:max-line-length
 export const REGEXW3CEMAIL = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+export const REGEXADDRESS = /^[ 0-9a-zA-ZçÇéÉàèùÀÈÙâêîôûÂÊÎÔÛüëïüÿËÏÜŸ'-]+$/;
+export const messageREGEXADDRESS = 'french alphabetic, dash, simple quote,' +
+    ' space and/or numeric characters .';
