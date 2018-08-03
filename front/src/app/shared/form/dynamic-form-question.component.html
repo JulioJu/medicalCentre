@@ -1,4 +1,5 @@
 <div [formGroup]="form">
+    <span *ngIf="isRequired" class="isRequired">* </span>
     <label [attr.for]="question.key">{{question.label}}</label>
 
     <!-- The required attribute is still present. While it's not necessary

@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef,
-    AfterViewInit, Renderer } from '@angular/core';
+    OnInit, AfterViewInit, Renderer } from '@angular/core';
 import { FormGroup, AbstractControl }        from '@angular/forms';
 
 import { QuestionBase }     from './question-base';
@@ -10,15 +10,24 @@ import { QuestionBase }     from './question-base';
         .errorMessage{
             color:red;
         }`],
-    templateUrl: './dynamic-form-question.component.html'
+    templateUrl: './dynamic-form-question.component.html',
+    styleUrls: ['./dynamic-form-question.component.css']
 })
-export class DynamicFormQuestionComponent implements AfterViewInit {
+export class DynamicFormQuestionComponent implements AfterViewInit, OnInit {
     @Input() question: QuestionBase<any>;
     @Input() form: FormGroup;
     @ViewChild('myTemplateRef') input: ElementRef;
     // false if input is not valid AND if input is changed or touched
 
+    isRequired = false;
+
     constructor(private readonly renderer: Renderer) {}
+
+    ngOnInit(): void {
+        if (this.question.required) {
+            this.isRequired = true;
+        }
+    }
 
     // See http://blog.angularjs.org/2016/04/5-rookie-mistakes-to-avoid-with-angular.html
     ngAfterViewInit(): void {

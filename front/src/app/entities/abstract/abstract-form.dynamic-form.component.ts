@@ -1,4 +1,4 @@
-import { OnInit, AfterViewInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -14,8 +14,8 @@ import { IAbstract } from
 import { IAbstractFormQuestionService } from './abstract.questions.service';
 import { AbstractService } from './abstract.service';
 
-export abstract class AbstractCreateOrEditComponent<iabstractType extends IAbstract>
-    implements OnInit, AfterViewInit {
+export abstract class AbstractCreateOrEditComponent
+    <iabstractType extends IAbstract> implements OnInit {
 
     questions: QuestionBase<any>[] = [];
     form: FormGroup;
@@ -38,10 +38,14 @@ export abstract class AbstractCreateOrEditComponent<iabstractType extends IAbstr
                 .getItem(this.formRoute) as string;
             // I've tested. If the JSON doesn't match the form, no bugs.
             this.form.setValue(JSON.parse(abstractJSON));
+            Object.keys(this.form.controls)
+                .forEach(field => {
+                    const control = this.form.get(field);
+                    if (control && control.value && control.value.length > 0) {
+                        control.markAsTouched({ onlySelf: true });
+                    }
+            });
         }
-    }
-
-    ngAfterViewInit(): void {
         this.form.valueChanges.subscribe(val => {
             sessionStorage.setItem(this.formRoute, JSON.stringify(val));
         });

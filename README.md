@@ -41,6 +41,7 @@
 N.B. Form fields are cached in SessionStorage to prevent the loss of data
     during navigation or page reload without submit.
     It's the default behaviour in Firefox for a simple HTML form (not Angular).
+    For fields with value non empty, Angular Validation is performs.
 
 ## Create a service with Angular-cli
 * To create a new module with its service and component. With Angular-cli

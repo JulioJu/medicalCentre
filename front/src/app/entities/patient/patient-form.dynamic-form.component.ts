@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AbstractCreateOrEditComponent } from
@@ -23,8 +23,7 @@ import { IPatient } from '../entities-interface/patient.interface';
     ]
 })
 export class PatientCreateOrEditComponent
-        extends AbstractCreateOrEditComponent<IPatient>
-        implements OnInit, AfterViewInit {
+        extends AbstractCreateOrEditComponent<IPatient> {
 
     constructor(
         router: Router,
