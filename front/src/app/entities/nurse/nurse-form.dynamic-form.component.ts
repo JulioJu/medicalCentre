@@ -25,6 +25,8 @@ import { INurse } from '../entities-interface/nurse.interface';
 export class NurseCreateOrEditComponent
     extends AbstractCreateOrEditComponent<INurse> {
 
+    protected entityName = 'nurse';
+
     constructor(
         router: Router,
         qcs: QuestionControlService,

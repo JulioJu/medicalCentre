@@ -100,3 +100,16 @@ form button[type='reset'], button[type='reset'].strong {
 form button:hover[type='reset'], button:hover[type='reset'].strong {
     background-color: #c81c0f;
 }
+
+.errorMessage {
+    color: red;
+}
+
+#errorForm {
+    padding: 1em;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    display: none;
+}

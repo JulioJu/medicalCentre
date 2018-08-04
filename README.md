@@ -63,7 +63,7 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 
 # TODO
 
-# Secondary TODO
+## Secondary TODO
 
 * For GET, add infinite scroll (example on JHipster).
 * Add an eventSuscriber to subscribe to modifications (example on JHipster).
@@ -71,19 +71,43 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     https://angular.io/guide/router. But JHipster 5.0.0 use params, probably
     enough.
 * See if router-outlet is the best directive for us.
+* For Nurses add UNIQUE contraint in mongodb. Maybe it
+    should not have two nurses with the same firstname or lastname.
+    In Decathlon, it could have two persons with the same firstname and
+    lastname (I've had two cards).
 
-# Principal TODO
+## Principal TODO
 
 * <!-- * See [./tslint.yaml](./tslint.yaml) @todo. -->
 * See section TODO in [./back/README.md](./back/README.md).
 * <!-- Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536 --> Done
-* in ./front/src/app/entities/abstract/abstract.service.ts, add
-    HttpErrorResponse behaviour. And display in front. Actually, done only for
-    -form.component.ts
+* Improve message error "duplicate key" in dynamic-form (like iSSN duplication
+    key in /patient-form)
 
+## Ask to teacher
 * Subtyping is it better than Parametric polymorphism ? See
     ./front/src/app/entities/patient/patient-form.dynamic-form.component.ts
     and the commit of 08/02/2018 08 h 31 UTC + 2
+    (Ask to the teacher)
+* in dynamic-form.component.html, and abstract.dynamic-form.ts, is it good
+    to inject message error thanks:
+    ```
+    const docErrorForm = document.getElementById('errorForm');
+    if (docErrorForm) {
+        docErrorForm.appendChild(
+            document.createTextNode(
+                'ERROR: ' + err.error.error_message
+            )
+        );
+        docErrorForm.style.display = 'block';
+    }
+    ```
+    Maybe we could also use an Angular service, like in JHipster
+        or
+    http://jasonwatmore.com/post/2017/06/25/angular&#45;2&#45;4&#45;alert&#45;toaster&#45;notifications
+    Probably it's better if we have different sorts of messages. But me
+    I've actually only two sorts of messages in two different pages:
+    success and error (futur TODO).
 
 # Notes for developpers
 

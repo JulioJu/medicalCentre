@@ -31,16 +31,6 @@ export class PatientFormQuestionService extends PersonFormQuestionService
                 patternMessage: 'french social security number (15 digits)'
             }),
 
-            new DropdownQuestion({
-                key: '_isMale',
-                label: 'Sex',
-                required: true,
-                options: [
-                    {key: 'male',  value: 'Male'},
-                    {key: 'woman',  value: 'Woman'}
-                ]
-            }),
-
             new TextboxQuestion({
                 key: '_birthday',
                 label: 'Birthday',
@@ -49,6 +39,16 @@ export class PatientFormQuestionService extends PersonFormQuestionService
                 placeholder: 'dd / mm / yyyy',
                 min: new Date(new Date('1900-01-01')),
                 max: new Date(Date.now() - 864e5)
+            }),
+
+            new DropdownQuestion({
+                key: '_isMale',
+                label: 'Sex',
+                required: true,
+                options: [
+                    {key: 'male',  value: 'Male'},
+                    {key: 'woman',  value: 'Woman'}
+                ]
             })
 
         ];

@@ -1,9 +1,11 @@
+import { IFormPutSuccess } from '../../utils/form-rest-api/iformputsuccess';
+
 export interface IAbstractService {
     collection: string | undefined;
     getRecords(): Promise<any>;
     getRecord(_id: string): Promise<any>;
     deleteRecord(_id: string): Promise<any>;
-    insertOrUpdate(myEntity: any): Promise<any>;
+    insertOrUpdate(myEntity: any): Promise<IFormPutSuccess>;
 }
 
 export const checkCollection = (value: any): string => {

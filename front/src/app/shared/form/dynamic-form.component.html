@@ -1,13 +1,13 @@
 <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
-
+        <div id="errorForm" ></div>
         <div *ngFor="let question of questions" class="form-row">
             <app-question [question]="question" [form]="form"></app-question>
         </div>
 
         <div class="form-row">
             <button type="submit" [disabled]="!form.valid">Save</button>
-            <button type="reset" >Clear</button>
+            <button type="reset" (click)="reset()" >Clear</button>
         </div>
     </form>
 </div>

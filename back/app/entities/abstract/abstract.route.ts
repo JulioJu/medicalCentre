@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { AbstractModel, IAbstractService } from './';
-import { IAbstract } from '../entities-interface/abstract.interface';
+import { IFormPutSuccess } from
+    '../../utils/form-rest-api/iformputsuccess';
 
 export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
     (...args: any[]) => T, entityName: string,  router: Router,
@@ -50,8 +51,19 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 }
             });
         if (!parametersAreOk) {
+            let formSent: any;
+            req.body ? formSent = req.body
+                : formSent = 'nothing sent';
             res.status(400)
-                .send(errorMessage);
+                .json(
+                    // its type is IHttpErrorResponseFormPutError
+        // ../../../../form-http-interface/ihttperrorresponseformputerror.ts
+                    {
+                        error_message: errorMessage,
+                        error_message_origin: 'back',
+                        details: {formSent}
+                    }
+                );
         } else {
             const modelConstructor: Array<any> = [];
             Object.keys(putAllParametersOrdered)
@@ -67,10 +79,22 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 new abstractModel(...modelConstructor);
 
             abstractService.insertOrUpdate(myModel)
-                .then((response: {isUpdate: boolean; entity: IAbstract}) => {
+                .then((response: IFormPutSuccess) => {
                     res.send(response);
                 })
-                .catch((e) => res.json(e));
+                .catch((e) => {
+                    res.status(400)
+                    .json(
+                        // its type is IHttpErrorResponseFormPutError
+                        // defined in
+        // ../../../../form-http-interface/ihttperrorresponseformputerror.ts
+                        {
+                            error_message: e.errmsg,
+                            error_message_origin: 'mongo',
+                            details: e
+                        }
+                    );
+                });
         }
     });
 

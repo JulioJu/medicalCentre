@@ -1,7 +1,11 @@
 import { OnInit } from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+
+import { IFormPutSuccess } from '../../shared/form-rest-api/iformputsuccess';
+import { IHttpErrorResponseFormPutError } from
+    '../../shared/form-rest-api/ihttperrorresponseformputerror';
 
 import {
     QuestionBase,
@@ -20,15 +24,35 @@ export abstract class AbstractCreateOrEditComponent
     questions: QuestionBase<any>[] = [];
     form: FormGroup;
     formRoute: string;
+    protected abstract entityName: string;
 
     constructor(
-        router: Router,
+        private readonly router: Router,
         private readonly qcs: QuestionControlService,
         private readonly abstractService: AbstractService,
         service: IAbstractFormQuestionService
     ) {
         this.questions = service.getQuestions();
         this.formRoute = router.url;
+    }
+
+    private showError(docErrorForm: HTMLElement,
+        err: IHttpErrorResponseFormPutError): void {
+
+        docErrorForm.appendChild(
+            document.createTextNode(
+                'ERROR: ' + err.error.error_message
+            )
+        );
+        docErrorForm.style.display = 'block';
+    }
+
+    private removeErrorBanner(docErrorForm: HTMLElement): void {
+        while (docErrorForm.firstChild) {
+            docErrorForm
+                .removeChild(docErrorForm.firstChild);
+            docErrorForm.style.display = 'none';
+        }
     }
 
     ngOnInit(): void {
@@ -56,18 +80,39 @@ export abstract class AbstractCreateOrEditComponent
         console.debug('You try to save or update:', abstract);
         this.abstractService
             .insertOrUpdate(abstract)
-            .subscribe((response) => {
-                if (!response.ok) {
-                    const responseErrored = response as HttpErrorResponse;
-                    console.debug('We have an error here.',
-                        responseErrored.error);
-                } else {
-                    // TODO. When duplicated key, don't send a JSON object.
-                    // Test, by add twice the same form !
-                    console.log(response);
+            .subscribe((response: HttpResponse<IFormPutSuccess>) => {
+                // if (response.ok)
+                console.info(response);
+                sessionStorage.removeItem(this.formRoute);
+                if (response && response.body && response.body) {
+                    this.router.navigate([
+                        '/' + this.entityName + '/' +
+                        response.body.entity._id
+                    ]);
                 }
-            });
-        sessionStorage.removeItem(this.formRoute);
+            },
+                (err: IHttpErrorResponseFormPutError) => {
+                    console.error('ERROR', err);
+                    const docErrorForm = document.getElementById('errorForm');
+                    if (docErrorForm) {
+                        if (docErrorForm.firstChild) {
+                            this.removeErrorBanner(docErrorForm);
+                            window.setTimeout(() => {
+                                this.showError(docErrorForm, err);
+                            } , 50);
+                        } else {
+                            this.showError(docErrorForm, err);
+                        }
+                    }
+                }
+            );
+    }
+
+    reset(): void {
+        const docErrorForm = document.getElementById('errorForm');
+        if (docErrorForm && docErrorForm.firstChild) {
+            this.removeErrorBanner(docErrorForm);
+        }
     }
 
 }
