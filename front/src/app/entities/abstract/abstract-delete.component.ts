@@ -1,10 +1,10 @@
-import { OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AbstractService } from './abstract.service';
 
-export abstract class AbstractDeleteComponent implements OnDestroy {
+export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
 
     protected id: string;
 
@@ -20,25 +20,7 @@ export abstract class AbstractDeleteComponent implements OnDestroy {
         private readonly route: ActivatedRoute,
         private readonly router: Router) {}
 
-    ngOnInitAbstract(): void {
-        this.routeUnsubscribe = this.route.params.subscribe(params => {
-            this.id = params.id;
-            if (params.confirmation && params.confirmation === 'true') {
-                this.delete(params.id);
-            }
-            if (!params.stateDeletion) {
-                this.stateDeletion = 'notTried';
-            } else if (params.stateDeletion === 'deleted') {
-                this.stateDeletion = 'deleted';
-            } else if (params.stateDeletion === 'error') {
-                this.stateDeletion = 'error';
-            } else {
-                this.stateDeletion = 'notTried';
-            }
-        });
-    }
-
-    delete(id: string): void {
+    private delete(id: string): void {
         this.abstractService
             .delete(id)
             .subscribe((response) => {
@@ -56,7 +38,25 @@ export abstract class AbstractDeleteComponent implements OnDestroy {
             });
     }
 
-    ngOnDestroy(): void {
+    public ngOnInit(): void {
+        this.routeUnsubscribe = this.route.params.subscribe(params => {
+            this.id = params.id;
+            if (params.confirmation && params.confirmation === 'true') {
+                this.delete(params.id);
+            }
+            if (!params.stateDeletion) {
+                this.stateDeletion = 'notTried';
+            } else if (params.stateDeletion === 'deleted') {
+                this.stateDeletion = 'deleted';
+            } else if (params.stateDeletion === 'error') {
+                this.stateDeletion = 'error';
+            } else {
+                this.stateDeletion = 'notTried';
+            }
+        });
+    }
+
+    public ngOnDestroy(): void {
         if (this.routeUnsubscribe) {
             this.routeUnsubscribe.unsubscribe();
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { INurse } from '../entities-interface/nurse.interface';
@@ -10,8 +10,7 @@ import { AbstractDetailComponent } from '../abstract';
     selector: 'app-nurse-detail',
     templateUrl: './nurse-detail.component.html'
 })
-export class NurseDetailComponent extends
-        AbstractDetailComponent implements OnInit {
+export class NurseDetailComponent extends AbstractDetailComponent  {
 
     protected readonly entityNameVar = 'nurse';
 
@@ -19,10 +18,6 @@ export class NurseDetailComponent extends
 
     constructor(nurseService: NurseService, route: ActivatedRoute) {
         super(nurseService, route);
-    }
-
-    ngOnInit(): void {
-        super.ngOnInitAbstract();
     }
 
 }

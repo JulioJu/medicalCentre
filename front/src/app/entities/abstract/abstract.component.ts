@@ -1,15 +1,21 @@
+import { OnInit } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AbstractService } from './abstract.service';
 import { IAbstract } from '../entities-interface/abstract.interface';
 
-export abstract class AbstractComponent {
+export abstract class AbstractComponent implements OnInit {
 
     protected abstract entityArray: IAbstract[] | null;
 
     constructor(protected readonly abstractService: AbstractService) {
     }
 
-    ngOnInitAbstract(): void {
+    private onError(errorMessage: string): void {
+        // TODO
+        throw new Error(errorMessage);
+    }
+
+    public ngOnInit(): void {
         this.abstractService.query()
             .subscribe(
                 (res: HttpResponse<IAbstract[]>) => {
@@ -17,11 +23,6 @@ export abstract class AbstractComponent {
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );
-    }
-
-    private onError(errorMessage: string): void {
-        // TODO
-        throw new Error(errorMessage);
     }
 
 }

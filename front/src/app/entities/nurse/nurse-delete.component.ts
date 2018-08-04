@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NurseService } from './nurse.service';
@@ -10,7 +10,7 @@ import { AbstractDeleteComponent } from '../abstract';
     templateUrl: './nurse-delete.component.html'
 })
 export class NurseDeleteComponent extends
-        AbstractDeleteComponent implements OnInit {
+        AbstractDeleteComponent {
 
     protected readonly entityNameVar = 'nurse';
 
@@ -18,10 +18,6 @@ export class NurseDeleteComponent extends
         route: ActivatedRoute,
         router: Router) {
         super(nurseService, route, router);
-    }
-
-    ngOnInit(): void {
-        super.ngOnInitAbstract();
     }
 
 }

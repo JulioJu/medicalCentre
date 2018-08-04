@@ -21,9 +21,9 @@ import { AbstractService } from './abstract.service';
 export abstract class AbstractCreateOrEditComponent
     <iabstractType extends IAbstract> implements OnInit {
 
-    questions: QuestionBase<any>[] = [];
-    form: FormGroup;
-    formRoute: string;
+    private questions: QuestionBase<any>[] = [];
+    private form: FormGroup;
+    private formRoute: string;
     protected abstract entityName: string;
 
     constructor(
@@ -55,27 +55,7 @@ export abstract class AbstractCreateOrEditComponent
         }
     }
 
-    ngOnInit(): void {
-        this.form = this.qcs.toFormGroup(this.questions);
-        if (sessionStorage.getItem(this.formRoute)) {
-            const abstractJSON = sessionStorage
-                .getItem(this.formRoute) as string;
-            // I've tested. If the JSON doesn't match the form, no bugs.
-            this.form.setValue(JSON.parse(abstractJSON));
-            Object.keys(this.form.controls)
-                .forEach(field => {
-                    const control = this.form.get(field);
-                    if (control && control.value && control.value.length > 0) {
-                        control.markAsTouched({ onlySelf: true });
-                    }
-            });
-        }
-        this.form.valueChanges.subscribe(val => {
-            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
-        });
-    }
-
-    onSubmit(): void {
+    protected onSubmit(): void {
         const abstract = this.form.value as iabstractType;
         console.debug('You try to save or update:', abstract);
         this.abstractService
@@ -108,11 +88,31 @@ export abstract class AbstractCreateOrEditComponent
             );
     }
 
-    reset(): void {
+    protected reset(): void {
         const docErrorForm = document.getElementById('errorForm');
         if (docErrorForm && docErrorForm.firstChild) {
             this.removeErrorBanner(docErrorForm);
         }
+    }
+
+    public ngOnInit(): void {
+        this.form = this.qcs.toFormGroup(this.questions);
+        if (sessionStorage.getItem(this.formRoute)) {
+            const abstractJSON = sessionStorage
+                .getItem(this.formRoute) as string;
+            // I've tested. If the JSON doesn't match the form, no bugs.
+            this.form.setValue(JSON.parse(abstractJSON));
+            Object.keys(this.form.controls)
+                .forEach(field => {
+                    const control = this.form.get(field);
+                    if (control && control.value && control.value.length > 0) {
+                        control.markAsTouched({ onlySelf: true });
+                    }
+            });
+        }
+        this.form.valueChanges.subscribe(val => {
+            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
+        });
     }
 
 }
