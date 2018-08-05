@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { FormGroup }                 from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { IFormPutSuccess } from '../../shared/form-rest-api/iformputsuccess';
 import { IHttpErrorResponseFormPutError } from
@@ -18,8 +18,7 @@ import { IAbstract } from
 import { IAbstractFormQuestionService } from './abstract.questions.service';
 import { AbstractService } from './abstract.service';
 
-export abstract class AbstractCreateOrEditComponent
-    <iabstractType extends IAbstract> implements OnInit {
+export abstract class AbstractCreateOrEditComponent implements OnInit {
 
     private questions: QuestionBase<any>[] = [];
     private form: FormGroup;
@@ -27,6 +26,7 @@ export abstract class AbstractCreateOrEditComponent
     protected abstract entityName: string;
 
     constructor(
+        private readonly route: ActivatedRoute,
         private readonly router: Router,
         private readonly qcs: QuestionControlService,
         private readonly abstractService: AbstractService,
@@ -34,6 +34,65 @@ export abstract class AbstractCreateOrEditComponent
     ) {
         this.questions = service.getQuestions();
         this.formRoute = router.url;
+    }
+
+    private convertToFormGroup(data: IAbstract): void {
+        const entityNotNull = data;
+        const entityCasted: IAbstract = {_id: ''};
+        Object.keys(this.form.value)
+        .forEach(key => {
+            entityCasted[key] = entityNotNull[key];
+        });
+        try {
+            this.form.setValue(entityCasted);
+        } catch {
+            // Thanks
+            // ```
+            // Object.keys(this.form.value).forEach(key => {
+            // entityCasted[key] = entityNotNull[key];
+            // ```
+            // this code should not be used.
+            console.error(this.form);
+            console.error('doesn\'t match');
+            console.error(entityCasted);
+        }
+        Object.keys(this.form.controls)
+        .forEach(field => {
+            const control = this.form.get(field);
+            if (control
+                && control.value
+                && control.value.length > 0) {
+                control.markAsTouched({ onlySelf: true });
+            }
+        });
+    }
+
+    private loadFromSessionStorage(): void {
+        if (sessionStorage.getItem(this.formRoute)) {
+            const abstractJSON = sessionStorage
+                .getItem(this.formRoute) as string;
+            // TODO maybe try catch and display error in front
+            // if abstractJSON is not a valid JSON.
+            const data = JSON.parse(abstractJSON);
+            this.convertToFormGroup(data);
+        }
+    }
+
+    private loadFromRouteParam(id: string): void {
+        console.info('Try to load the data with id', id);
+        this.abstractService
+        .find(id)
+        .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
+            let data: IAbstract | null;
+            data = abstractResponse.body;
+            if (data) {
+                this.convertToFormGroup(data);
+            } else {
+                // TODO display this error
+                console.error('Could not load the data with id "', id,
+                    '"(nothing found)');
+            }
+        });
     }
 
     private showError(docErrorForm: HTMLElement,
@@ -56,7 +115,7 @@ export abstract class AbstractCreateOrEditComponent
     }
 
     protected onSubmit(): void {
-        const abstract = this.form.value as iabstractType;
+        const abstract = this.form.value as IAbstract;
         console.debug('You try to save or update:', abstract);
         this.abstractService
             .insertOrUpdate(abstract)
@@ -97,22 +156,18 @@ export abstract class AbstractCreateOrEditComponent
 
     public ngOnInit(): void {
         this.form = this.qcs.toFormGroup(this.questions);
-        if (sessionStorage.getItem(this.formRoute)) {
-            const abstractJSON = sessionStorage
-                .getItem(this.formRoute) as string;
-            // I've tested. If the JSON doesn't match the form, no bugs.
-            this.form.setValue(JSON.parse(abstractJSON));
-            Object.keys(this.form.controls)
-                .forEach(field => {
-                    const control = this.form.get(field);
-                    if (control && control.value && control.value.length > 0) {
-                        control.markAsTouched({ onlySelf: true });
-                    }
+
+        this.route.params.subscribe(params => {
+            if (params.id) {
+                this.loadFromRouteParam(params.id);
+            } else {
+                this.loadFromSessionStorage();
+            }
+            this.form.valueChanges.subscribe(val => {
+                sessionStorage.setItem(this.formRoute, JSON.stringify(val));
             });
-        }
-        this.form.valueChanges.subscribe(val => {
-            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
         });
+
     }
 
 }

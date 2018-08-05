@@ -5,7 +5,7 @@ import { IAbstract } from '../entities-interface/abstract.interface';
 
 export abstract class AbstractComponent implements OnInit {
 
-    protected abstract entityArray: IAbstract[] | null;
+    private entityArray: IAbstract[] | null;
 
     constructor(protected readonly abstractService: AbstractService) {
     }

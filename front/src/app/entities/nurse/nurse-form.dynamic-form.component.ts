@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AbstractCreateOrEditComponent } from
     '../abstract/abstract-form.dynamic-form.component';
@@ -9,7 +9,6 @@ import { QuestionControlService }     from './../../shared';
 import { NurseFormQuestionService } from
     './nurse-form.questions.service';
 import { NurseService } from './nurse.service';
-import { INurse } from '../entities-interface/nurse.interface';
 
 @Component({
     styles: [`
@@ -22,18 +21,18 @@ import { INurse } from '../entities-interface/nurse.interface';
         NurseFormQuestionService
     ]
 })
-export class NurseCreateOrEditComponent
-    extends AbstractCreateOrEditComponent<INurse> {
+export class NurseCreateOrEditComponent extends AbstractCreateOrEditComponent {
 
     protected entityName = 'nurse';
 
     constructor(
+        route: ActivatedRoute,
         router: Router,
         qcs: QuestionControlService,
         nurseService: NurseService,
         service: NurseFormQuestionService
     ) {
-        super(router, qcs, nurseService, service);
+        super(route, router, qcs, nurseService, service);
     }
 
 }

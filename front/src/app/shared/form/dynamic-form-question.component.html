@@ -72,7 +72,11 @@
             characters long.
         </div>
         <div *ngIf="abstrControl.errors.dateInvalid">
-            "{{question.label}}" is not a valid date.
+            <!-- if it's not a valid date, with Firefox > 56 / (or 56) and
+                Chromium nothing is displayed in the field. That's why we
+                display {{abstrControl.value}} -->
+            "{{question.label}}", with value "{{abstrControl.value}}"
+            is not a valid date.
         </div>
         <div *ngIf="abstrControl.errors.dateTooEarly">
             "{{question.label}}" must be after {{question.min.toDateString()}}.

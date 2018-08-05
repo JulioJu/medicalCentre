@@ -26,6 +26,11 @@
                             +  entity._id, {confirmation: false}]" >
                     delete
                 </button></td>
+                <td><button type="submit"
+                            [routerLink]="['/' + entityNameVarChild + '-form/'
+                            +  entity._id]" >
+                    edit
+                </button></td>
             </tr>
         </tbody>
     </table>

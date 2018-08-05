@@ -36,7 +36,14 @@ export const PATIENT_ROUTE: Routes = [
         path: 'patient-form',
         component: PatientCreateOrEditComponent,
         data: {
-            pageTitle: 'Create or edit patient' + APPLICATION_NAME_PIPE
+            pageTitle: 'Create patient' + APPLICATION_NAME_PIPE
+        }
+    },
+    {
+        path: 'patient-form/:id',
+        component: PatientCreateOrEditComponent,
+        data: {
+            pageTitle: 'Edit patient' + APPLICATION_NAME_PIPE
         }
     },
     {

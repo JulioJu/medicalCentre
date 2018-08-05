@@ -6,15 +6,10 @@ import { AbstractService } from './abstract.service';
 
 export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
 
-    protected id: string;
-
-    protected stateDeletion: string;
-
+    private id: string;
+    private stateDeletion: string;
+    private routeUnsubscribe: Subscription;
     protected abstract readonly entityNameVar: string;
-
-    protected routeUnsubscribe: Subscription;
-
-    protected readonly isDeleteView = true;
 
     constructor(private readonly abstractService: AbstractService,
         private readonly route: ActivatedRoute,

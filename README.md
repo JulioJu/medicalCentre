@@ -36,6 +36,8 @@
     nothing)
 * /#/patient-form : create a new patient
 * /#/nurse-form : create a new patient
+* /#/patient-form/:id : PUT (edit) patient with id ":id"
+* /#/nurse-form/:id : PUT (edit) nurse with id ":id"
 * /#/ : home page.
 
 N.B. Form fields are cached in SessionStorage to prevent the loss of data
@@ -75,6 +77,13 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     should not have two nurses with the same firstname or lastname.
     In Decathlon, it could have two persons with the same firstname and
     lastname (I've had two cards).
+* Front, form:
+    * Front: for url `/*/entity-form` do not display the field with label `id`.
+        In this case, ensure than
+        `sessionStorage.getItem(this.formRoute)._id = ''`.
+    * Front: test if the data exists in back, if data doesn't exists in back,
+        ensure than `sessionStorage.getItem(this.formRoute)._id = ''` and
+        display title `Creation`. Otherwise display `Edition`.
 
 ## Principal TODO
 
@@ -83,12 +92,15 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 * <!-- Check my issue https://github.com/jhipster/generator-jhipster/issues/7302#issuecomment-373763536 --> Done
 * Improve message error "duplicate key" in dynamic-form (like iSSN duplication
     key in /patient-form)
+* For entities, actually REGEX of back doesn't match REGEX of back.
+    See for example at `http://localhost:4200/#/bb` an object added thanks:
+    ```
+    $ curl --data "_id=bb&_idSSN=790089941908186&_firstname=value2&_lastname=value3&_isMale=true&_birthday=coucou&_address=chouette" -X PUT http://localhost:8080/mongoose/patients
+    ```
+* Check if we could add validator for question-dropdown.ts
+* Add success message for deletion, add, edit…
 
 ## Ask to teacher
-* Subtyping is it better than Parametric polymorphism ? See
-    ./front/src/app/entities/patient/patient-form.dynamic-form.component.ts
-    and the commit of 08/02/2018 08 h 31 UTC + 2
-    (Ask to the teacher)
 * in dynamic-form.component.html, and abstract.dynamic-form.ts, is it good
     to inject message error thanks:
     ```
@@ -121,4 +133,8 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         * [attr.required] gives "required"
 * Fields could be cached in SessionStorage. Do not use SessionStorage to cache
     sensitive datas like passwords (be careful).
-
+* Subtyping is better than generecity. Contrary to C#, we can't initialize
+    a Generic Type in TypeScript or Java, otherwise we could delete constroctors
+    of children class like in `patient-form.dynamic-form.component.ts`.
+    Genericity declared like `abstract class myCl <T extends IAbstract>`
+    add nothing (furthermore I've seen some false positive with `tsc`).

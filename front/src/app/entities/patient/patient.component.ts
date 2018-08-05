@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { AbstractComponent } from '../abstract';
-import { IPatient } from '../entities-interface/patient.interface';
 import { PatientService } from './patient.service';
 
 @Component({
@@ -11,8 +10,6 @@ import { PatientService } from './patient.service';
 export class PatientComponent extends AbstractComponent {
 
     protected readonly entityNameVar = 'patient';
-
-    protected entityArray: IPatient[] | null;
 
     constructor(patientService: PatientService) {
         super(patientService);
