@@ -36,25 +36,21 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         this.formRoute = router.url;
     }
 
-    private convertToFormGroup(data: IAbstract): void {
-        const entityNotNull = data;
-        const entityCasted: IAbstract = {_id: ''};
+    private convertToFormGroup(rowTable: IAbstract): void {
+        const rowTableNotNull = rowTable;
+        const rowTableCasted: IAbstract = {_id: ''};
         Object.keys(this.form.value)
         .forEach(key => {
-            entityCasted[key] = entityNotNull[key];
+            rowTableCasted[key] = rowTableNotNull[key];
         });
         try {
-            this.form.setValue(entityCasted);
+            this.form.setValue(rowTableCasted);
         } catch {
-            // Thanks
-            // ```
-            // Object.keys(this.form.value).forEach(key => {
-            // entityCasted[key] = entityNotNull[key];
-            // ```
-            // this code should not be used.
+            // Thanks the code inside `Object.key…' above
+            // this code below should not be used.
             console.error(this.form);
             console.error('doesn\'t match');
-            console.error(entityCasted);
+            console.error(rowTableCasted);
         }
         Object.keys(this.form.controls)
         .forEach(field => {
@@ -73,20 +69,20 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                 .getItem(this.formRoute) as string;
             // TODO maybe try catch and display error in front
             // if abstractJSON is not a valid JSON.
-            const data = JSON.parse(abstractJSON);
-            this.convertToFormGroup(data);
+            const rowTable = JSON.parse(abstractJSON);
+            this.convertToFormGroup(rowTable);
         }
     }
 
     private loadFromRouteParam(id: string): void {
-        console.info('Try to load the data with id', id);
+        console.info('Try to load the rowTable with id', id);
         this.abstractService
         .find(id)
         .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
-            let data: IAbstract | null;
-            data = abstractResponse.body;
-            if (data) {
-                this.convertToFormGroup(data);
+            let rowTable: IAbstract | null;
+            rowTable = abstractResponse.body;
+            if (rowTable) {
+                this.convertToFormGroup(rowTable);
             } else {
                 // TODO display this error
                 console.error('Could not load the data with id "', id,

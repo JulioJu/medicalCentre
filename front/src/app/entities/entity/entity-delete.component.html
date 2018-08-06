@@ -4,7 +4,7 @@
 
 <div *ngIf="stateDeletion === 'notTried'">
     <h2>Comfirm deletion of the {{entityNameVarChild}} above:</h2>
-    <button type="submit"
+    <button class="strong" type="submit"
             [routerLink]="['/' + entityNameVarChild + '-delete/' +  id,
             {confirmation: true, isDeleted: 'notTried'}]" >
         Confirmation

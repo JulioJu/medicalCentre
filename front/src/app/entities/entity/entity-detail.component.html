@@ -12,16 +12,16 @@
                 </div>
             </tr>
         </thead>
-        <tbody *ngIf='entity'>
+        <tbody *ngIf='rowTable'>
             <tr>
-                <td>{{entity._id}}</td>
+                <td>{{rowTable._id}}</td>
                 <ng-container *ngTemplateOutlet="appAbstractTbody,
-                       context: { $implicit: entity }" >
+                       context: { $implicit: rowTable }" >
                 </ng-container>
                 <div *ngIf='!isDeleteView' >
                     <td><button type="submit"
                                 [routerLink]="['/' + entityNameVarChild +
-                                    '-delete/' +  entity._id, {confirmation:
+                                    '-delete/' +  rowTable._id, {confirmation:
                                     false}]" >
                         delete
                     </button></td>
@@ -33,8 +33,8 @@
 
 <br />
 
-<div *ngIf='!entity'>
-    <strong>No entity found</strong>
+<div *ngIf='!rowTable'>
+    <strong>No data found</strong>
 </div>
 
 <br />

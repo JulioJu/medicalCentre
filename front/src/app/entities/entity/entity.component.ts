@@ -9,7 +9,7 @@ import { IAbstract } from '../entities-interface';
 export class EntityComponent {
 
     @Input() entityNameVarChild: string;
-    @Input() entities: IAbstract[];
+    @Input() tableDB: IAbstract[];
     @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
     @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;
 

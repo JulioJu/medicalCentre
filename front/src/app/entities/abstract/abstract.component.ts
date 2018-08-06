@@ -5,7 +5,7 @@ import { IAbstract } from '../entities-interface/abstract.interface';
 
 export abstract class AbstractComponent implements OnInit {
 
-    private entityArray: IAbstract[] | null;
+    private tableDB: IAbstract[] | null;
 
     constructor(protected readonly abstractService: AbstractService) {
     }
@@ -19,7 +19,7 @@ export abstract class AbstractComponent implements OnInit {
         this.abstractService.query()
             .subscribe(
                 (res: HttpResponse<IAbstract[]>) => {
-                    this.entityArray = res.body;
+                    this.tableDB = res.body;
                 },
                 (res: HttpErrorResponse) => this.onError(res.message)
             );

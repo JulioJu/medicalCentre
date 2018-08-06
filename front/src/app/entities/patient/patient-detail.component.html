@@ -1,5 +1,5 @@
 <app-person-detail [entityNameVarChild]='entityNameVar'
-        [person]='entity'
+        [person]='rowTable'
         [isDeleteView]='isDeleteView' >
     <ng-template #appPersonTheadAttr>
         <th>_idSSN</th>
@@ -7,8 +7,8 @@
         <th>_birthday</th>
     </ng-template>
     <ng-template #appPersonTbodyAttr let-entity>
-        <td>{{entity._idSSN}}</td>
-        <td>{{entity._isMale}}</td>
-        <td>{{entity._birthday}}</td>
+        <td>{{rowTable._idSSN}}</td>
+        <td>{{rowTable._isMale}}</td>
+        <td>{{rowTable._birthday}}</td>
     </ng-template>
 </app-person-detail>

@@ -8,7 +8,7 @@ import { IAbstract } from '../entities-interface/abstract.interface';
 export class EntityDetailComponent {
 
     @Input() entityNameVarChild: string;
-    @Input() entity: IAbstract;
+    @Input() rowTable: IAbstract;
     @Input() isDeleteView: boolean;
     @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
     @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;

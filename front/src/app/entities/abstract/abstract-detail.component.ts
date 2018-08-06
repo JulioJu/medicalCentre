@@ -9,7 +9,7 @@ export abstract class AbstractDetailComponent implements OnInit {
 
     @Input() isDeleteView: boolean;
 
-    protected entity: IAbstract | null;
+    private rowTable: IAbstract | null;
 
     constructor(private readonly abstractService: AbstractService,
         private readonly route: ActivatedRoute) {}
@@ -18,7 +18,7 @@ export abstract class AbstractDetailComponent implements OnInit {
         this.abstractService
             .find(id)
             .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
-                this.entity = abstractResponse.body;
+                this.rowTable = abstractResponse.body;
             });
     }
 
