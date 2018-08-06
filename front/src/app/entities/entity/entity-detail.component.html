@@ -9,6 +9,7 @@
                 </ng-container>
                 <div *ngIf='!isDeleteView' >
                     <th>Deletion</th>
+                    <th>Edition</th>
                 </div>
             </tr>
         </thead>
@@ -24,6 +25,11 @@
                                     '-delete/' +  rowTable._id, {confirmation:
                                     false}]" >
                         delete
+                    </button></td>
+                    <td><button type="submit"
+                                [routerLink]="['/' + entityNameVarChild + '-form/'
+                                +  rowTable._id]" >
+                        edit
                     </button></td>
                 </div>
             </tr>
