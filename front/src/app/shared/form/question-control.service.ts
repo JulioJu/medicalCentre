@@ -21,7 +21,7 @@ export class QuestionControlService {
             // If isn't castable, console.error automatically:
             // « Deprecation warning: value provided is not in a recognized
             // RFC2822 or ISO format. moment construction falls back to js
-            // Date()… +
+            // Date()… + »
             // No solution to avoid found this console.error()
             if (!date.isValid()) {
                 return {dateInvalid: {value: control.value}};

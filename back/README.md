@@ -124,29 +124,29 @@ See
 (with express.Router middleware, Router-level middleware, could have
 error-handling middleware)
 **"baremongo" and "mongoose" havn't the same database.**
-* « :driver » must be replaced either by « mongoose » or by « baremongo ».
-    * « mongoose » use the mongoose Driver
-    * « baremongo » use bare MongoDB Node.js Driver
-* GET /:driver/patients (get all patients)
-* PUT /:driver/patients (idempotent, so UPDATE and CREATE)
-* GET /:driver/patients/:id (get the patient with id :id)
-* DELETE /patients/:id (delete the patient with id :id)
+* « :driver » must be replaced either by `mongoose` or by `baremongo`.
+    * `mongoose` use the mongoose Driver
+    * `baremongo` use bare MongoDB Node.js Driver
+* GET `/:driver/patients` (get all patients)
+* PUT `/:driver/patients` (idempotent, so UPDATE and CREATE)
+* GET `/:driver/patients/:id` (get the patient with id :id)
+* DELETE `/patients/:id` (delete the patient with id :id)
 
 ### Routes nurses
 (with express.Router middleware, Router-level middleware, could have
 error-handling middleware)
-* GET /:driver/nurses (get all nurses)
-* PUT /:driver/nurses (idempotent, so UPDATE and CREATE)
-* GET /:driver/nurses/:id (get the nurse with id :id)
-* DELETE /:driver/nurses/:id (delete the nurse with id :id)
+* GET `/:driver/nurses` (get all nurses)
+* PUT `/:driver/nurses` (idempotent, so UPDATE and CREATE)
+* GET `/:driver/nurses/:id` (get the nurse with id :id)
+* DELETE `/:driver/nurses/:id` (delete the nurse with id :id)
 
 ### Others routes
 (with express route (app.get, etc.): application-level middleware)
-* GET /
-* GET /test
-* GET /testParam
-* GET /testParam2
-* GET /* 404
+* GET `/`
+* GET `/test`
+* GET `/testParam`
+* GET `/testParam2`
+* GET `/* 404`
 
 # Notes for developers
 * Be careful to circular dependencies with index.ts. Read:

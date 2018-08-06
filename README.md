@@ -7,14 +7,17 @@
 # Front-end
 * See folder [./front](./front). Built with Angular.
 * Folder tree and routing is a little bit inspired from JHipster 4.14.0.
+    I've also improved JHipster thanks this current project
+    (see https://github.com/jhipster/generator-jhipster/pull/7311).
 * In dev mode, it serves at http://localhost:4200/.
 
 ## Routes
-* Routes describe in [./back/README.md#Routes](./back/README.md#Routes) work thanks proxy [./front/proxy.conf.json](./front/proxy.conf.json).
-* /#/patients : GET all patients.
-* /#/nurses : GET all nurses.
-* /#/patient/:id : GET patient with id ":id"
-* /#/nurse/:id : GET nurse with id ":id"
+* Routes described in [./back/README.md#Routes](./back/README.md#Routes) work
+    thanks proxy [./front/proxy.conf.json](./front/proxy.conf.json).
+* `/#/patients` : GET all patients.
+* `/#/nurses` : GET all nurses.
+* `/#/patient/:id` : GET patient with id ":id"
+* `/#/nurse/:id` : GET nurse with id ":id"
 * Deletions:
     * Parameters:
         * `:id` is mandatory.
@@ -28,22 +31,22 @@
         * `confirmation` could have value "true" or "false". If true, delete
             immediately. Default: false.
     * Routes:
-        * /#/patient-delete/:id;confirmation=boolean:stateDeletion=string; :
+        * `/#/patient-delete/:id;confirmation=boolean:stateDeletion=string;` :
             delete patient with id ":id"
-        * /#/nurse-delete/:id;confirmation=boolean:stateDeletion=string; :
+        * `/#/nurse-delete/:id;confirmation=boolean:stateDeletion=string;` :
             delete nurse with id ":id"
-* /#/patient-form-proto : create a new patient (just for a form prototype, do
+* `/#/patient-form-proto` : create a new patient (just for a form prototype, do
     nothing)
-* /#/patient-form : create a new patient
-* /#/nurse-form : create a new patient
-* /#/patient-form/:id : PUT (edit) patient with id ":id"
-* /#/nurse-form/:id : PUT (edit) nurse with id ":id"
-* /#/ : home page.
+* `/#/patient-form` : create a new patient
+* `/#/nurse-form` : create a new nurse
+* `/#/patient-form/:id` : PUT (edit) patient with id ":id"
+* `/#/nurse-form/:id` : PUT (edit) nurse with id ":id"
+* `/#/` : home page.
 
 N.B. Form fields are cached in SessionStorage to prevent the loss of data
     during navigation or page reload without submit.
     It's the default behaviour in Firefox for a simple HTML form (not Angular).
-    For fields with value non empty, Angular Validation is performs.
+    For fields with value non empty, Angular Validation is performed.
 
 ## Create a service with Angular-cli
 * To create a new module with its service and component. With Angular-cli
@@ -75,8 +78,8 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 * See if router-outlet is the best directive for us.
 * For Nurses add UNIQUE contraint in mongodb. Maybe it
     should not have two nurses with the same firstname or lastname.
-    In Decathlon, it could have two persons with the same firstname and
-    lastname (I've had two cards).
+    At Decathlon (French shop), we could have two persons with the same
+    firstname and lastname, birthdate and address (I've had two cards).
 * Front, form:
     * Front: for url `/*/entity-form` do not display the field with label `id`.
         In this case, ensure than
@@ -99,29 +102,13 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     ```
 * Check if we could add validator for question-dropdown.ts
 * Add success message for deletion, add, edit…
-
-## Ask to teacher
-* in dynamic-form.component.html, and abstract.dynamic-form.ts, is it good
-    to inject message error thanks:
-    ```
-    const docErrorForm = document.getElementById('errorForm');
-    if (docErrorForm) {
-        docErrorForm.appendChild(
-            document.createTextNode(
-                'ERROR: ' + err.error.error_message
-            )
-        );
-        docErrorForm.style.display = 'block';
-    }
-    ```
     Maybe we could also use an Angular service, like in JHipster
         or
     http://jasonwatmore.com/post/2017/06/25/angular&#45;2&#45;4&#45;alert&#45;toaster&#45;notifications
-    Probably it's better if we have different sorts of messages. But me
-    I've actually only two sorts of messages in two different pages:
-    success and error (futur TODO).
+    Probably it's better if we have different sorts of messages.
 
-# Notes for developpers
+
+# Notes for developers
 
 * BIG WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
     * « The pattern is not surrounded by forward slashes. »
@@ -138,3 +125,8 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     of children class like in `patient-form.dynamic-form.component.ts`.
     Genericity declared like `abstract class myCl <T extends IAbstract>`
     add nothing (furthermore I've seen some false positive with `tsc`).
+* At url `/*/patient-form/:id`, if the birthday field contains not a date,
+    we have an error in console:
+    « Deprecation warning: value provided is not in a recognized RFC2822 or ISO
+    format. moment construction falls back to js Date()… + »
+    No solution to avoid found this console.error()
