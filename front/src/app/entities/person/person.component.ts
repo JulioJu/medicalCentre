@@ -8,9 +8,11 @@ import { IPerson } from '../entities-interface/person.interface';
 })
 export class PersonComponent {
 
-    @Input() entityNameVarChild: string;
-    @Input() persons: IPerson[];
-    @ContentChild('appPersonTheadAttr') appPersonThead: TemplateRef<any>;
-    @ContentChild('appPersonTbodyAttr') appPersonTbody: TemplateRef<any>;
+    @Input() public entityNameVarChild: string;
+    @Input() public persons: IPerson[];
+    @ContentChild('appPersonTheadAttr') public appPersonThead:
+        TemplateRef<string>;
+    @ContentChild('appPersonTbodyAttr') public appPersonTbody:
+        TemplateRef<string>;
 
 }

@@ -24,9 +24,9 @@ import { PatientService } from './patient.service';
 export class PatientCreateOrEditComponent
         extends AbstractCreateOrEditComponent {
 
-    protected entityName = 'patient';
+    protected entityName: string = 'patient';
 
-    constructor(
+    public constructor(
         route: ActivatedRoute,
         router: Router,
         qcs: QuestionControlService,

@@ -9,9 +9,9 @@ import { PatientService } from './patient.service';
 })
 export class PatientComponent extends AbstractComponent {
 
-    protected readonly entityNameVar = 'patient';
+    protected readonly entityNameVar: string = 'patient';
 
-    constructor(patientService: PatientService) {
+    public constructor(patientService: PatientService) {
         super(patientService);
     }
 

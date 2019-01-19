@@ -7,11 +7,13 @@ import { IPerson } from '../entities-interface/person.interface';
 })
 export class PersonDetailComponent {
 
-    @Input() entityNameVarChild: string;
-    @Input() person: IPerson;
-    @Input() isDeleteView: boolean;
-    @ContentChild('appPersonTheadAttr') appPersonThead: TemplateRef<any>;
-    @ContentChild('appPersonTbodyAttr') appPersonTbody: TemplateRef<any>;
+    @Input() public entityNameVarChild: string;
+    @Input() public person: IPerson;
+    @Input() public isDeleteView: boolean;
+    @ContentChild('appPersonTheadAttr') public appPersonThead:
+        TemplateRef<string>;
+    @ContentChild('appPersonTbodyAttr') public appPersonTbody:
+        TemplateRef<string>;
 
 }
 

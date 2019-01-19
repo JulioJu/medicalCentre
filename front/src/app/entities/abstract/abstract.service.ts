@@ -1,18 +1,18 @@
 import { HttpClient,
     HttpResponse,
-    HttpErrorResponse } from '@angular/common/http';
+    HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { IAbstract } from
     '../entities-interface/abstract.interface';
 import { createRequestOption } from '../../shared';
 
-type EntityResponseType = HttpResponse<any> | HttpErrorResponse;
+type EntityResponseType = HttpResponse<IAbstract> | HttpErrorResponse;
 
 // See my issue https://github.com/jhipster/generator-jhipster/issues/7302
 export abstract class AbstractService {
 
-    constructor(protected readonly http: HttpClient,
+    public constructor(protected readonly http: HttpClient,
         protected readonly resourceUrl: string) {}
 
     public insertOrUpdate(abtractI: IAbstract): Observable<EntityResponseType> {
@@ -27,15 +27,15 @@ export abstract class AbstractService {
                 { observe: 'response'});
     }
 
-    public query(req?: any): Observable<HttpResponse<any[]>> {
-        const options = createRequestOption(req);
+    public query(req?: string): Observable<HttpResponse<IAbstract[]>> {
+        const options: HttpParams = createRequestOption(req);
         return this.http
-            .get<IAbstract[]>(this.resourceUrl, { params: options,
-                observe: 'response' });
+            .get<IAbstract[]>(this.resourceUrl,
+                { params: options, observe: 'response' });
     }
 
-    public delete(id: string): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`,
+    public delete(id: string): Observable<HttpResponse<IAbstract>> {
+        return this.http.delete<IAbstract>(`${this.resourceUrl}/${id}`,
             { observe: 'response'});
     }
 

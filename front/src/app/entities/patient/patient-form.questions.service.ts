@@ -11,15 +11,16 @@ import { IAbstractFormQuestionService } from
 import { PersonFormQuestionService } from
     '../person/person-form.question.service';
 
+// TODO should become plain object
 @Injectable()
-export class PatientFormQuestionService extends PersonFormQuestionService
+export class PatientFormQuestionService
     implements IAbstractFormQuestionService {
 
-    // TODO: get from a remote source of question metadata
-    // TODO: make asynchronous
-    getQuestions(): QuestionBase<any>[] {
+    private readonly oneDay: number = 864e5;
 
-        const questions: QuestionBase<any>[] = [
+    public getQuestions: Array<QuestionBase<string>> =
+
+        PersonFormQuestionService.getQuestions.concat([
 
             new TextboxQuestion({
                 key: '_idSSN',
@@ -38,7 +39,8 @@ export class PatientFormQuestionService extends PersonFormQuestionService
                 type: 'date',
                 placeholder: 'dd / mm / yyyy',
                 min: new Date(new Date('1900-01-01')),
-                max: new Date(Date.now() - 864e5)
+                // TODO why 864e5
+                max: new Date(Date.now() - this.oneDay)
             }),
 
             new DropdownQuestion({
@@ -51,10 +53,6 @@ export class PatientFormQuestionService extends PersonFormQuestionService
                 ]
             })
 
-        ];
-
-        return super.getQuestions()
-            .concat(questions);
-    }
+        ]);
 
 }

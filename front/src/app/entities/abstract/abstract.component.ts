@@ -7,10 +7,10 @@ export abstract class AbstractComponent implements OnInit {
 
     protected tableDB: IAbstract[] | null;
 
-    constructor(protected readonly abstractService: AbstractService) {
+    public constructor(protected readonly abstractService: AbstractService) {
     }
 
-    private onError(errorMessage: string): void {
+    private readonly onError = (errorMessage: string): void => {
         // TODO
         throw new Error(errorMessage);
     }

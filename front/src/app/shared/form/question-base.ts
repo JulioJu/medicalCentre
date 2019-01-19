@@ -8,15 +8,15 @@ export interface IOptions<T> {
 
 export abstract class QuestionBase<T> {
 
-    key: string;
-    label: string;
-    required: boolean;
-    value: T;
-    autofocus?: boolean;
+    public key: string;
+    public label: string;
+    public required: boolean;
+    public value: T;
+    public autofocus?: boolean;
 
-    abstract controlType: string;
+    public abstract controlType: string;
 
-    constructor(options: IOptions<T>) {
+    public constructor(options: IOptions<T>) {
         this.key = options.key;
         this.label = options.label;
         this.required = !!options.required;

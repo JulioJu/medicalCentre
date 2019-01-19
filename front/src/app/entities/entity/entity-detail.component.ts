@@ -7,10 +7,12 @@ import { IAbstract } from '../entities-interface/abstract.interface';
 })
 export class EntityDetailComponent {
 
-    @Input() entityNameVarChild: string;
-    @Input() rowTable: IAbstract;
-    @Input() isDeleteView: boolean;
-    @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
-    @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;
+    @Input() public entityNameVarChild: string;
+    @Input() public rowTable: IAbstract;
+    @Input() public isDeleteView: boolean;
+    @ContentChild('appAbstractTheadAttr') public appAbstractThead:
+        TemplateRef<string>;
+    @ContentChild('appAbstractTbodyAttr') public appAbstractTbody:
+        TemplateRef<string>;
 
 }

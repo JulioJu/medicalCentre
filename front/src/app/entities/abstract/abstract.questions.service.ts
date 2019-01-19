@@ -5,6 +5,7 @@ export interface IAbstractFormQuestionService {
 
     // TODO: get from a remote source of question metadata
     // TODO: make asynchronous
-    getQuestions(): QuestionBase<any>[] ;
+
+    getQuestions: Array<QuestionBase<string>> ;
 
 }

@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef,
-    OnInit, AfterViewInit, Renderer } from '@angular/core';
+    OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, AbstractControl }        from '@angular/forms';
 
 import { QuestionBase }     from './question-base';
@@ -14,35 +14,33 @@ import { QuestionBase }     from './question-base';
     styleUrls: ['./dynamic-form-question.component.css']
 })
 export class DynamicFormQuestionComponent implements AfterViewInit, OnInit {
-    @Input() question: QuestionBase<any>;
-    @Input() form: FormGroup;
-    @ViewChild('myTemplateRef') input: ElementRef;
+    @Input() public question: QuestionBase<string>;
+    @Input() public form: FormGroup;
+    @ViewChild('myTemplateRef') public input: ElementRef;
     // false if input is not valid AND if input is changed or touched
 
-    isRequired = false;
+    public isRequired: boolean = false;
 
-    constructor(private readonly renderer: Renderer) {}
-
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (this.question.required) {
             this.isRequired = true;
         }
     }
 
     // See http://blog.angularjs.org/2016/04/5-rookie-mistakes-to-avoid-with-angular.html
-    ngAfterViewInit(): void {
+    // https://github.com/angular/angular/issues/15674
+    public ngAfterViewInit(): void {
         if (this.question.autofocus) {
-            this.renderer.invokeElementMethod(this.input.nativeElement,
-                'focus');
+            (this.input as ElementRef<HTMLInputElement>).nativeElement.focus();
         }
     }
 
-    get abstrControl(): AbstractControl {
+    public get abstrControl(): AbstractControl {
         return this.form.controls[this.question.key];
     }
 
-    get isNotValid(): boolean {
-        const myInput = this.form.controls[this.question.key];
+    public get isNotValid(): boolean {
+        const myInput: AbstractControl = this.form.controls[this.question.key];
         return !myInput.valid && (myInput.dirty || myInput.touched);
     }
 

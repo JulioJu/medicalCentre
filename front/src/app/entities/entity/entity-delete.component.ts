@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
 })
 export class EntityDeleteComponent {
 
-    @Input() entityNameVarChild: string;
-    @Input() id: string;
-    @Input() stateDeletion: string;
+    @Input() public entityNameVarChild: string;
+    @Input() public id: string;
+    @Input() public stateDeletion: string;
 
 }

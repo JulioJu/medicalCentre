@@ -1,6 +1,4 @@
 // tslint:disable:no-import-side-effect
-import './vendor.ts';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';

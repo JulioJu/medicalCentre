@@ -1,9 +1,8 @@
 import { OnInit } from '@angular/core';
-import { FormGroup }                 from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { IFormPutSuccess } from '../../shared/form-rest-api/iformputsuccess';
 import { IHttpErrorResponseFormPutError } from
     '../../shared/form-rest-api/ihttperrorresponseformputerror';
 
@@ -20,27 +19,27 @@ import { AbstractService } from './abstract.service';
 
 export abstract class AbstractCreateOrEditComponent implements OnInit {
 
-    private questions: QuestionBase<any>[] = [];
+    private readonly questions: Array<QuestionBase<string>> = [];
     private form: FormGroup;
-    private formRoute: string;
+    private readonly formRoute: string;
     protected abstract entityName: string;
 
-    constructor(
+    public constructor(
         private readonly route: ActivatedRoute,
         private readonly router: Router,
         private readonly qcs: QuestionControlService,
         private readonly abstractService: AbstractService,
         service: IAbstractFormQuestionService
     ) {
-        this.questions = service.getQuestions();
+        this.questions = service.getQuestions;
         this.formRoute = router.url;
     }
 
     private convertToFormGroup(rowTable: IAbstract): void {
-        const rowTableNotNull = rowTable;
+        const rowTableNotNull: IAbstract = rowTable;
         const rowTableCasted: IAbstract = {_id: ''};
-        Object.keys(this.form.value)
-        .forEach(key => {
+        Object.keys(this.form.value as string)
+        .forEach((key: string) => {
             rowTableCasted[key] = rowTableNotNull[key];
         });
         try {
@@ -53,11 +52,11 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
             console.error(rowTableCasted);
         }
         Object.keys(this.form.controls)
-        .forEach(field => {
-            const control = this.form.get(field);
+        .forEach((field: string) => {
+            const control: AbstractControl | null = this.form.get(field);
             if (control
                 && control.value
-                && control.value.length > 0) {
+                && (control.value as string[]).length > 0) {
                 control.markAsTouched({ onlySelf: true });
             }
         });
@@ -65,11 +64,11 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
 
     private loadFromSessionStorage(): void {
         if (sessionStorage.getItem(this.formRoute)) {
-            const abstractJSON = sessionStorage
+            const abstractJSON: string = sessionStorage
                 .getItem(this.formRoute) as string;
             // TODO maybe try catch and display error in front
             // if abstractJSON is not a valid JSON.
-            const rowTable = JSON.parse(abstractJSON);
+            const rowTable: IAbstract = JSON.parse(abstractJSON) as IAbstract;
             this.convertToFormGroup(rowTable);
         }
     }
@@ -91,8 +90,8 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         });
     }
 
-    private showError(docErrorForm: HTMLElement,
-        err: IHttpErrorResponseFormPutError): void {
+    private readonly showError = (docErrorForm: HTMLElement,
+        err: IHttpErrorResponseFormPutError): void => {
 
         docErrorForm.appendChild(
             document.createTextNode(
@@ -102,7 +101,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         docErrorForm.style.display = 'block';
     }
 
-    private removeErrorBanner(docErrorForm: HTMLElement): void {
+    private readonly removeErrorBanner = (docErrorForm: HTMLElement): void => {
         while (docErrorForm.firstChild) {
             docErrorForm
                 .removeChild(docErrorForm.firstChild);
@@ -111,29 +110,36 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
     }
 
     protected onSubmit(): void {
-        const abstract = this.form.value as IAbstract;
+        const abstract: IAbstract = this.form.value as IAbstract;
         console.debug('You try to save or update:', abstract);
         this.abstractService
             .insertOrUpdate(abstract)
-            .subscribe((response: HttpResponse<IFormPutSuccess>) => {
+            // tslint:disable-next-line:no-any
+            .subscribe((response: any) => {
                 // if (response.ok)
                 console.info(response);
                 sessionStorage.removeItem(this.formRoute);
+                // tslint:disable-next-line:no-unsafe-any
                 if (response && response.body && response.body) {
                     this.router.navigate([
+                        // tslint:disable-next-line:restrict-plus-operands
                         '/' + this.entityName + '/' +
+                        // tslint:disable-next-line:no-unsafe-any
                         response.body.entity._id
-                    ]);
+                    ])
+                    .catch((e: Error) => console.error(e));
                 }
             },
                 (err: IHttpErrorResponseFormPutError) => {
                     console.error('ERROR', err);
-                    const docErrorForm = document.getElementById('errorForm');
+                    const docErrorForm: HTMLElement | null = document
+                        .getElementById('errorForm');
                     if (docErrorForm) {
                         if (docErrorForm.firstChild) {
                             this.removeErrorBanner(docErrorForm);
                             window.setTimeout(() => {
                                 this.showError(docErrorForm, err);
+                            // tslint:disable-next-line:no-magic-numbers
                             } , 50);
                         } else {
                             this.showError(docErrorForm, err);
@@ -144,7 +150,8 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
     }
 
     protected reset(): void {
-        const docErrorForm = document.getElementById('errorForm');
+        const docErrorForm: HTMLElement | null =
+            document.getElementById('errorForm');
         if (docErrorForm && docErrorForm.firstChild) {
             this.removeErrorBanner(docErrorForm);
         }
@@ -153,13 +160,13 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
     public ngOnInit(): void {
         this.form = this.qcs.toFormGroup(this.questions);
 
-        this.route.params.subscribe(params => {
+        this.route.params.subscribe((params: Params) => {
             if (params.id) {
-                this.loadFromRouteParam(params.id);
+                this.loadFromRouteParam(params.id as string);
             } else {
                 this.loadFromSessionStorage();
             }
-            this.form.valueChanges.subscribe(val => {
+            this.form.valueChanges.subscribe((val: string) => {
                 sessionStorage.setItem(this.formRoute, JSON.stringify(val));
             });
         });

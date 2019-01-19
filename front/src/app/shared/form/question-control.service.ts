@@ -2,43 +2,44 @@ import { Injectable }   from '@angular/core';
 import { FormControl, FormGroup, Validators,
     ValidatorFn, AbstractControl } from '@angular/forms';
 
-import * as moment          from 'moment';
+import * as moment  from 'moment';
 
 import { REGEXW3CEMAIL } from '../../app.constants';
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
 
-type returnValidator = {[key: string]: {value: any}} | null;
+type returnValidator = {[key: string]: {value: string}} | null;
 
 @Injectable()
 export class QuestionControlService {
 
-    private dateValidator(extremDate: Date, methodTest: 'isBefore' | 'isAfter',
-            errorName: string): ValidatorFn | null {
-        return (control: AbstractControl): returnValidator => {
+    private readonly dateValidator =
+        (extremDate: Date, methodTest: 'isBefore' | 'isAfter',
+            errorName: string): ValidatorFn | null =>
+        (control: AbstractControl): returnValidator => {
             let forbidden: boolean;
-            const date = moment(control.value);
+            const date: moment.Moment = moment(control.value as string);
             // If isn't castable, console.error automatically:
             // « Deprecation warning: value provided is not in a recognized
             // RFC2822 or ISO format. moment construction falls back to js
             // Date()… + »
             // No solution to avoid found this console.error()
             if (!date.isValid()) {
-                return {dateInvalid: {value: control.value}};
+                return {dateInvalid: {value: control.value as string}};
             }
-            (moment(control.value))[methodTest](extremDate)
+            (moment(control.value as string))[methodTest](extremDate)
                 ? forbidden = true
                 : forbidden = false;
+            return forbidden ? {[errorName]: {value: control.value as string}}
             // tslint:disable-next-line:no-null-keyword
-            return forbidden ? {[errorName]: {value: control.value}} : null;
-        };
-    }
+                : null;
+        }
 
     private addMinMaxValidator(minOrMax: 'min' | 'max', qT: TextboxQuestion,
                 arrayValidators: ValidatorFn[]): void {
         // tslint:disable:no-string-literal
         if (typeof qT[minOrMax] === 'object') {
-            let dateValidatorVar;
+            let dateValidatorVar: ValidatorFn | null;
             minOrMax === 'min'
                 ? dateValidatorVar = this.dateValidator(qT[minOrMax] as Date
                     , 'isBefore', 'dateTooEarly')
@@ -48,21 +49,23 @@ export class QuestionControlService {
                 arrayValidators.push(dateValidatorVar);
             }
         } else if (qT[minOrMax]) {
-            const myNumber = qT[minOrMax] as number;
+            const myNumber: number = qT[minOrMax] as number;
             arrayValidators.push(Validators[minOrMax](myNumber));
         }
     }
 
-    toFormGroup(questions: QuestionBase<any>[]): FormGroup  {
+    // tslint:disable-next-line:cognitive-complexity
+    public toFormGroup(questions: Array<QuestionBase<string>>): FormGroup  {
         const group: {[key: string]: FormControl} = {};
 
-        questions.forEach(question => {
+        questions.forEach((question: QuestionBase<string>) => {
             const arrayValidators: ValidatorFn[] = [];
             if (question.required) {
+                // tslint:disable-next-line:no-unbound-method
                 arrayValidators.push(Validators.required);
             }
             if (question.controlType === 'textbox') {
-                const qT = question as TextboxQuestion;
+                const qT: TextboxQuestion = question as TextboxQuestion;
                 if (qT.minLength) {
                     arrayValidators.push(Validators.minLength(qT.minLength));
                 }

@@ -15,24 +15,24 @@ type EntityResponseType = HttpResponse<IPatient> | HttpErrorResponse;
 // See my issue https://github.com/jhipster/generator-jhipster/issues/7302
 export class PatientService extends AbstractService {
 
-    constructor(protected readonly http: HttpClient) {
+    public constructor(protected readonly http: HttpClient) {
         super(http, SERVER_API_URL + 'mongoose/patients');
     }
 
-    insertOrUpdate(patient: IPatient): Observable<EntityResponseType> {
-        return super.insertOrUpdate(patient);
+    public insertOrUpdate(patient: IPatient): Observable<EntityResponseType> {
+        return super.insertOrUpdate(patient) as Observable<EntityResponseType>;
     }
 
-    find(id: string): Observable<EntityResponseType> {
-        return super.find(id);
+    public find(id: string): Observable<EntityResponseType> {
+        return super.find(id) as Observable<EntityResponseType>;
     }
 
-    query(req?: any): Observable<HttpResponse<IPatient[]>> {
-        return super.query(req);
+    public query(req?: string): Observable<HttpResponse<IPatient[]>> {
+        return super.query(req) as Observable<HttpResponse<IPatient[]>>;
     }
 
-    delete(id: string): Observable<HttpResponse<any>> {
-        return super.delete(id);
+    public delete(id: string): Observable<HttpResponse<IPatient>> {
+        return super.delete(id) as Observable<HttpResponse<IPatient>> ;
     }
 
 }

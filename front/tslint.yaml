@@ -1,82 +1,101 @@
-# Inspired from JHipster 4.6.1 and angular-cli 1.7.2
-# Add custom rules.
-# Rules already in tslint:latest and tslint:recommanded on 07-03-2018 not added.
 ---
 rulesDirectory:
 - node_modules/codelyzer
 extends:
   # See https://github.com/palantir/tslint/tree/master/src/configs
-  "tslint:all"
+  - "tslint:all"
+  - "tslint-sonarts"
 rules:
   # TSLINT
   # https://palantir.github.io/tslint/rules/
   # https://github.com/palantir/tslint/tree/master/test/rules
+
   # =========================
   # |    TypeScript-specific
   # |    These rules find errors related to TypeScript features:
   # =========================
-  no-any: false
-  no-empty-interface: false
+
+  # # Traditional functions don’t bind lexical scope, which can lead to unexpected
+  # # behavior when accessing ‘this’.
+  # only-arrow-functions: false
+
+  # Enforces member ordering. (public, private, fields, etc.)
+  member-ordering: false
+
+  # See https://github.com/palantir/tslint/issues/711 named
+  #     "'no-inferrable-types' and 'typedef' rules conflict"
   no-inferrable-types:
-    - true
-    - ignore-params
-  no-magic-numbers: false
-  no-non-null-assertion: true,
-  member-access: false
-  member-ordering:
-  - true
-  - order:
-    - static-field
-    - instance-field
-    - static-method
-    - instance-method
-  promise-function-async: true
-  typedef:
-    - true
-    - call-signature
-    # - arrow-call-signature
-    - parameter
-    # - arrow-parameter
-    - property-declaration
-    # - variable-declaration
-    # - member-variable-declaration
-    - object-destructuring
-    - array-destructuring
+    - false
+    # allows specifying an inferrable type annotation for function params. This
+    # can be useful when combining with the typedef rule.
+    # - ignore-params
+    # allows specifying an inferrable type annotation for class properties.
+    # ignore-properties
+
   # =========================
   # |   Functionality
   # |   These rules catch common errors in JS programming or otherwise confusing
   # |   constructs that are prone to producing bugs:
   # =========================
-  await-promise: true
-  # false in angular project because ng generate this.
-  no-empty: false
+
+  # use this rule sparingly. It’s better to have self-documenting names on
+  # components with single, consice responsibilities. Comments that only restate
+  # the names of variables add nothing to code, and can easily become outdated.
+  comment-format: false
+
   no-console:
     - false
-  # I don't understand very well this rule.
-  no-floating-promises: false
-  no-for-in-array: true
+
+  # Disallows unused imports, variables, functions and private class members.
+  # Similar to tsc’s –noUnusedParameters and –noUnusedLocals options.
+  # no-unused-variable is deprecated. Since TypeScript 2.9. Please use the
+  # built-in compiler checks instead.
+  # https://github.com/palantir/tslint/issues/4046
+  # https://github.com/palantir/tslint/pull/3919
+  no-unused-variable: false
+
   no-submodule-imports: false
-  no-switch-case-fall-through: true
-  no-unbound-method: true
-  # false in angular project (some "unecessary class" should exists)
-  no-unnecessary-class: false
-  # Cause type definition
-  no-unsafe-any: false
-  no-use-before-declare: true
+
   no-void-expression:
     - true
+    # If ignore-arrow-function-shorthand is provided, () => returnsVoid() will
+    # be allowed. Otherwise, it must be written as () => { returnsVoid(); }.
     - ignore-arrow-function-shorthand
-  # For console log
-  restrict-plus-operands: false
+
+  # When adding two variables, operands must both be of type number or of type
+  # string.
+  # (NOTE by me: bad idea to restrict-plus-operand: if we accenditally
+  #     add an object and a string, we will have a weird thing.
+  # restrict-plus-operands: false
+
+  # Restricts the types allowed in boolean expressions.
+  # See complet doc at
+  #   https://palantir.github.io/tslint/rules/strict-boolean-expressions/
+  # False, because even if with all options
+  #     `if (obj: Object | null)`  is false. In the JavaScript compiled
+  #     , if `obj` is undefined, it's a problem!
   strict-boolean-expressions: false
-  # If I understand good, actually this rule can't work. TypeScript does not compile typages. @TODO check this.
-  strict-type-predicates: false
+    # - true
+    # - allow-null-union
+    # - allow-string
+    # - allow-number
+    # - allow-mix
+    #   # Allows union types containing undefined.
+    #   # It does not allow undefined itself.
+    #   # Without the ‘–strictNullChecks’ compiler option, this will allow
+    #   # anything other than a string, number, or enum.
+    # - allow-undefined-union
+    #   # Allows boolean | undefined.
+    #   # Also allows true | false | undefined.
+    #   # Does not allow false | undefined.
+    #   # This option is a subset of allow-undefined-union, so you don’t need to
+    #   # enable both options at the same time.
+    # - allow-boolean-or-undefined
+
   # =========================
   # |   Maintainability
   # |   These rules make code maintenance easier:
   # =========================
-  deprecation: true
-  eofline: true
   indent:
     - true
     - spaces
@@ -93,53 +112,62 @@ rules:
         functions: never
         typeLiterals: never
       esSpecCompliant: true
+
   # =========================
   # |   Style
   # |   These rules enforce consistent style across your codebase:
   # =========================
-  align: true
-  # not interesting to use type T[] instead of Array<any>
-  # In file ../back/entities/abstract/abstract.route.ts when I use T[] I have
-  # an error with spread notation.
-  # On Github I've found that use Array<any> can give the same error.
-  # TODO resolve it.
-  array-type: false
-  arrow-parens: false
-  # False in angular project because ng generate this
-  # An interface or literal type with just a call signature can be written as a function type.
-  callable-types: false
-  comment-format: false
-  completed-docs: false
-  binary-expression-operand-order: true
-  encoding: true
-  import-blacklist:
+
+  # Enforces vertical alignment.
+  align:
     - true
-    - rxjs
-    - rxjs/Rx
+    # - parameters
+    # - arguments
+    - statements
+    - members
+    - elements
+
+  # TODO: should be true
+  completed-docs: false
+
+  # Ensures proper spacing between import statement keywords
   import-spacing: false
+
+  file-name-casing:
+    - true
+    - kebab-case
+    - camel-case
+
   newline-before-return: false
+
   # Disallows parameter properties in class constructors. (private myvar)
   no-parameter-properties: false
-  number-literal-format: true
+
   object-literal-sort-keys: false
   ordered-imports: false
-  # Warns for class methods that do not use ‘this’. Angular neads method ngOnInit.
-  prefer-function-over-method: false
-  prefer-method-signature: true
+
+  # Prefer a template expression over string literal concatenation.
   prefer-template: false
-  prefer-switch: true
+
   quotemark:
     - true
     - single
   space-before-function-paren: false # not my style (myFunc())
-  switch-final-break: true
-  type-literal-delimiter: true
+
   variable-name:
-    options:
-      - ban-keywords
-      - check-format
-      - allow-pascal-case
-      - allow-leading-underscore
+    - true
+    - ban-keyword
+    - allow-leading-underscore
+    - allow-pascal-case
+
+  # =========================
+  # |   Sonar TS
+  # |   Static code analyzer for TypeScript detecting bugs and suspicious patterns in your code.
+  # |   https://github.com/SonarSource/SonarTS
+  # =========================
+
+  no-commented-code: false
+
   # =========
   # |  COEDLYSER
   # =========

@@ -12,9 +12,9 @@ import { AbstractDeleteComponent } from '../abstract';
 export class PatientDeleteComponent extends
         AbstractDeleteComponent {
 
-    protected readonly entityNameVar = 'patient';
+    protected readonly entityNameVar: string = 'patient';
 
-    constructor(patientService: PatientService,
+    public constructor(patientService: PatientService,
         route: ActivatedRoute,
         router: Router) {
         super(patientService, route, router);

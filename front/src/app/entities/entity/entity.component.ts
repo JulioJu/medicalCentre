@@ -8,9 +8,11 @@ import { IAbstract } from '../entities-interface';
 })
 export class EntityComponent {
 
-    @Input() entityNameVarChild: string;
-    @Input() tableDB: IAbstract[];
-    @ContentChild('appAbstractTheadAttr') appAbstractThead: TemplateRef<any>;
-    @ContentChild('appAbstractTbodyAttr') appAbstractTbody: TemplateRef<any>;
+    @Input() public entityNameVarChild: string;
+    @Input() public tableDB: IAbstract[];
+    @ContentChild('appAbstractTheadAttr') public appAbstractThead:
+        TemplateRef<string>;
+    @ContentChild('appAbstractTbodyAttr') public appAbstractTbody:
+        TemplateRef<string>;
 
 }

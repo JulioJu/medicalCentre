@@ -10,10 +10,10 @@ interface IOptionsDropdown extends IOptions<string> {
 
 export class DropdownQuestion extends QuestionBase<string> {
 
-    controlType = 'dropdown';
-    options: IOption[] = [];
+    public controlType: string = 'dropdown';
+    public options: IOption[] = [];
 
-    constructor(options: IOptionsDropdown) {
+    public constructor(options: IOptionsDropdown) {
         super(options);
         this.options = options.options;
     }

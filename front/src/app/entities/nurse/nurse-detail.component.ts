@@ -11,9 +11,9 @@ import { AbstractDetailComponent } from '../abstract';
 })
 export class NurseDetailComponent extends AbstractDetailComponent  {
 
-    protected readonly entityNameVar = 'nurse';
+    protected readonly entityNameVar: string = 'nurse';
 
-    constructor(nurseService: NurseService, route: ActivatedRoute) {
+    public constructor(nurseService: NurseService, route: ActivatedRoute) {
         super(nurseService, route);
     }
 

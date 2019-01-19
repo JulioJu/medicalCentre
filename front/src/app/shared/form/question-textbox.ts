@@ -15,19 +15,19 @@ interface IOptionsText extends IOptions<string> {
 
 export class TextboxQuestion extends QuestionBase<string> {
 
-    controlType = 'textbox';
-    type: string;
-    placeholder?: string;
-    readonly?: boolean;
-    minLength?: number;
-    maxLength?: number;
-    min?: Date | number;
-    max?: Date | number;
-    title?: string;
-    pattern?: RegExp;
-    patternMessage: string;
+    public controlType: string = 'textbox';
+    public type: string;
+    public placeholder?: string;
+    public readonly?: boolean;
+    public minLength?: number;
+    public maxLength?: number;
+    public min?: Date | number;
+    public max?: Date | number;
+    public title?: string;
+    public pattern?: RegExp;
+    public patternMessage: string;
 
-    constructor(options: IOptionsText) {
+    public constructor(options: IOptionsText) {
         super(options);
         this.type = options.type || 'text';
         this.placeholder = options.placeholder;

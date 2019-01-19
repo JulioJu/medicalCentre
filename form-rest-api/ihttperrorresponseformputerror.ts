@@ -12,16 +12,17 @@ import { HttpHeaders } from '@angular/common/http';
 // HttpErrorResponse should be redefine, because contratry to HttpResponse,
 // HttpErrorResponse is not generic;
 export declare class IHttpErrorResponseFormPutError {
-    headers: HttpHeaders;
-    status: number;
-    statusText: string;
-    url: string | null;
-    ok: boolean;
-    name: 'HttpErrorResponse';
-    message: string;
-    error: {
+    public headers: HttpHeaders;
+    public status: number;
+    public statusText: string;
+    public url: string | null;
+    public ok: boolean;
+    public name: 'HttpErrorResponse';
+    public message: string;
+    public error: {
         error_message: string;
         error_message_origin: 'mongo' | 'back';
-        details: any;
+        // tsint:disable-next-line:no-any
+        details: {};
     };
 }

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { navbarRoute } from './core';
 import { DEBUG_INFO_ENABLED } from './app.constants';
 
-const LAYOUT_ROUTES = [
+const LAYOUT_ROUTES: Routes = [
     navbarRoute
 ];
 

@@ -8,5 +8,5 @@ export interface IAbstract  {
     // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
     // string index type 'string'.
 
-    [_id: string]: any;
+    [_id: string]: string | boolean;
 }

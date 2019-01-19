@@ -8,14 +8,10 @@ import { IAbstractFormQuestionService } from
 import { PersonFormQuestionService } from
     '../person/person-form.question.service';
 
+// TODO should become plain object
 @Injectable()
-export class NurseFormQuestionService extends PersonFormQuestionService
-    implements IAbstractFormQuestionService {
+export class NurseFormQuestionService implements IAbstractFormQuestionService {
 
-    // TODO: get from a remote source of question metadata
-    // TODO: make asynchronous
-    getQuestions(): QuestionBase<any>[] {
-        return super.getQuestions();
-    }
-
+    public getQuestions: Array<QuestionBase<string>> =
+        PersonFormQuestionService.getQuestions;
 }

@@ -1,8 +1,15 @@
 import { OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AbstractService } from './abstract.service';
+
+import { IAbstract } from '../entities-interface/abstract.interface';
+
+interface IHttpResponseDeletion {
+    n: number;
+}
 
 export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
 
@@ -11,7 +18,7 @@ export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
     private routeUnsubscribe: Subscription;
     protected abstract readonly entityNameVar: string;
 
-    constructor(private readonly abstractService: AbstractService,
+    public constructor(private readonly abstractService: AbstractService,
         private readonly route: ActivatedRoute,
         private readonly router: Router) {
     }
@@ -19,26 +26,32 @@ export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
     private delete(id: string): void {
         this.abstractService
             .delete(id)
-            .subscribe((response) => {
+            .subscribe((response: HttpResponse<IHttpResponseDeletion
+                    | IAbstract>) => {
                 if (!response || !response.body || !response.body.n ||
                     response.body.n === 0) {
                     this.router
-                        .navigate(['/' + this.entityNameVar + '-delete/' + id,
-                            { confirmation: 'false', stateDeletion: 'error' }]);
+                        .navigate([
+                            '/' + this.entityNameVar + '-delete/' + id,
+                            { confirmation: 'false', stateDeletion: 'error' }])
+                        .catch((e: Error) => console.error(e));
                 } else {
                     this.router
-                        .navigate(['/' + this.entityNameVar + '-delete/' + id,
-                            { confirmation: 'false',
-                                stateDeletion: 'deleted' }]);
+                        .navigate([
+                            '/' + this.entityNameVar + '-delete/' + id,
+                            { confirmation: 'false', stateDeletion: 'deleted' }
+                        ])
+                        .catch((e: Error) => console.error(e));
                 }
             });
     }
 
     public ngOnInit(): void {
-        this.routeUnsubscribe = this.route.params.subscribe(params => {
-            this.id = params.id;
+        this.routeUnsubscribe = this.route.params
+        .subscribe((params: Params) => {
+            this.id = params.id as string;
             if (params.confirmation && params.confirmation === 'true') {
-                this.delete(params.id);
+                this.delete(params.id as string);
             }
             if (!params.stateDeletion) {
                 this.stateDeletion = 'notTried';

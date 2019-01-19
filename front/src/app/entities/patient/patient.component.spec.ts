@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PatientComponent } from './patient.component';
 
+// tslint:disable
+
 describe('PatientComponent', () => {
     let component: PatientComponent;
     let fixture: ComponentFixture<PatientComponent>;
