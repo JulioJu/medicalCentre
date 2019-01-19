@@ -1,10 +1,11 @@
 import { MongoClient, MongoError, Db } from 'mongodb';
-import { URLMONGODB } from './';
+import { URLMONGODB, MONGO_DB_NAME } from './';
 
 export const dbMongoInit = async (): Promise<void> =>
     new Promise<void>((resolve, reject) => {
         MongoClient
-            .connect(URLMONGODB, (error: MongoError, db: Db) => {
+            .connect(URLMONGODB, (error: MongoError,
+                    mongoClient: MongoClient) => {
                 if (error) {
                     console.error('=== Message from Mongo server ===\n'
                     + JSON.stringify(error)
@@ -13,13 +14,14 @@ export const dbMongoInit = async (): Promise<void> =>
                     /* Do not close. If there is an error it could be because
                     * the MonboDB service isn't running, therefore it could
                     * not be closed.
-                    * db.close();
+                    * mongoClient.close();
                     */
                     reject();
                 } else {
+                    const db: Db = mongoClient.db(MONGO_DB_NAME);
                     db.collection('patient')
                         .createIndex({ _idSSN: 1 }, { unique: true });
-                    db.close();
+                    mongoClient.close();
                     resolve();
                 }
             });

@@ -4,31 +4,34 @@ import { MongoClient, Db, MongoError ,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
 // FIX circular dependencies. See ../../../AnotherCircularDependenciesError
-import { URLMONGODB } from '../../utils/const';
+import { URLMONGODB, MONGO_DB_NAME } from '../../utils/const';
 
-const promiseConnectToMongo = async (callback: (db: Db, resolve: (val?: any) =>
+const promiseConnectToMongo = async (callback: (mongoClient: MongoClient,
+            resolve: (val?: any) =>
         void, reject: (err?: any) => void)
     => void): Promise<any> =>
     new Promise ((resolve, reject) => {
-        MongoClient.connect(URLMONGODB, (error, db) => {
+        MongoClient.connect(URLMONGODB, (error, mongoClient) => {
             if (error) {
-                // Do not try to close db, if MongoDB is shutdown, db is null
+                // Do not try to close mongoClient, if MongoDB is shutdown,
+                // mongoClient is null
                 reject(error);
             } else {
-                callback(db, resolve, reject);
+                callback(mongoClient, resolve, reject);
             }
         });
     });
 
-const ifMongoConnected = (db: Db, err: MongoError, res: any[] |
+const ifMongoConnected = (mongoClient: MongoClient,
+        err: MongoError, res: any[] |
     DeleteWriteOpResultObject, resolve: (val?: any) => any, reject: (err?:
         any) => any): void => {
     if (err) {
-        db.close();
+        mongoClient.close();
         console.error(JSON.stringify(err));
         reject(err);
     } else {
-        db.close();
+        mongoClient.close();
         resolve(res);
     }
 };
@@ -39,43 +42,48 @@ export const AbstractBaremongoService: IAbstractService = {
 
     async getRecords(): Promise<any> {
         return promiseConnectToMongo(
-            (db, resolve, reject) => {
+            (mongoClient, resolve, reject) => {
                 const thisCollection = checkCollection(this.collection);
+                const db: Db = mongoClient.db(MONGO_DB_NAME);
                 db.collection(thisCollection)
                     .find()
                     .toArray((err, res) => {
-                    ifMongoConnected(db, err, res, resolve, reject);
+                    ifMongoConnected(mongoClient, err, res, resolve, reject);
                 });
             });
     },
 
     async getRecord(id: string): Promise<any> {
         return promiseConnectToMongo(
-            (db, resolve, reject) => {
+            (mongoClient, resolve, reject) => {
                 testId(id, reject);
                 const thisCollection = checkCollection(this.collection);
+                const db: Db = mongoClient.db(MONGO_DB_NAME);
                 db.collection(thisCollection)
                     .findOne({_id: id}, {}, ((err, res) => {
-                        ifMongoConnected(db, err, res, resolve, reject);
+                        ifMongoConnected(mongoClient,
+                            err, res, resolve, reject);
                     }));
             });
     },
 
     async deleteRecord(id: string): Promise<any> {
         return promiseConnectToMongo(
-            (db, resolve, reject) => {
+            (mongoClient, resolve, reject) => {
                 testId(id, reject);
                 const thisCollection = checkCollection(this.collection);
+                const db: Db = mongoClient.db(MONGO_DB_NAME);
                 db.collection(thisCollection)
                     .deleteOne({_id: id}, ((err, res) => {
-                        ifMongoConnected(db, err, res, resolve, reject);
+                        ifMongoConnected(mongoClient,
+                            err, res, resolve, reject);
                     }));
             });
     },
 
     async insertOrUpdate(abstractModel: AbstractModel): Promise<any> {
             return promiseConnectToMongo(
-                (db, resolve, reject) => {
+                (mongoClient, resolve, reject) => {
                     if (!abstractModel.id) {
                         // tslint:disable-next-line
                         // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
@@ -96,18 +104,19 @@ export const AbstractBaremongoService: IAbstractService = {
                     // Or more examples at mongodb client documentation 2.2
                     // http://mongodb.github.io/node-mongodb-native/2.2/api/Collection.html#save
                     const thisCollection = checkCollection(this.collection);
+                    const db: Db = mongoClient.db(MONGO_DB_NAME);
                     db.collection(thisCollection)
                     // tslint:disable:deprecation
                         .save(obj, (err, res) => {
                             if (err) {
-                                db.close();
+                                mongoClient.close();
                                 console.error(JSON.stringify(err));
                                 reject(err);
                             } else {
                                 if (res.result.nModified === 1) {
                                     console.log(`${this.collection} updated`);
                                     console.log(`result: ${res}`);
-                                    db.close();
+                                    mongoClient.close();
                                     resolve({
                                         isUpdate: true,
                                         entity: res
@@ -115,7 +124,7 @@ export const AbstractBaremongoService: IAbstractService = {
                                 } else {
                                     console.log(`${this.collection} inserted`);
                                     console.log(`result: ${res}`);
-                                    db.close();
+                                    mongoClient.close();
                                     resolve({
                                         isUpdate: false,
                                         entity: res
