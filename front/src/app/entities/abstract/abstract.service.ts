@@ -1,7 +1,7 @@
 import { HttpClient,
     HttpResponse,
     HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { IAbstract } from
     '../entities-interface/abstract.interface';

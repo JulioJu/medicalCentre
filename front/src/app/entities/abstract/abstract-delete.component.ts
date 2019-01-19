@@ -1,19 +1,20 @@
 import { OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AbstractService } from './abstract.service';
 
 export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
 
-    private id: string;
-    private stateDeletion: string;
+    protected id: string;
+    protected stateDeletion: string;
     private routeUnsubscribe: Subscription;
     protected abstract readonly entityNameVar: string;
 
     constructor(private readonly abstractService: AbstractService,
         private readonly route: ActivatedRoute,
-        private readonly router: Router) {}
+        private readonly router: Router) {
+    }
 
     private delete(id: string): void {
         this.abstractService

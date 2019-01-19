@@ -130,3 +130,7 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     « Deprecation warning: value provided is not in a recognized RFC2822 or ISO
     format. moment construction falls back to js Date()… + »
     No solution to avoid found this console.error()
+
+* Migrate to TypeScript 3.1 with `noUnusedLocal` raise error 6133 when a private
+    parameter is declared in a ts file and used in a template file (seems
+    logic). Therefore they are changed to become protected.

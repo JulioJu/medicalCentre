@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,
     HttpResponse,
     HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { INurse } from

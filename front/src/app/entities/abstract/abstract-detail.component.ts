@@ -9,7 +9,7 @@ export abstract class AbstractDetailComponent implements OnInit {
 
     @Input() isDeleteView: boolean;
 
-    private rowTable: IAbstract | null;
+    protected rowTable: IAbstract | null;
 
     constructor(private readonly abstractService: AbstractService,
         private readonly route: ActivatedRoute) {}

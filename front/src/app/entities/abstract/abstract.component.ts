@@ -5,7 +5,7 @@ import { IAbstract } from '../entities-interface/abstract.interface';
 
 export abstract class AbstractComponent implements OnInit {
 
-    private tableDB: IAbstract[] | null;
+    protected tableDB: IAbstract[] | null;
 
     constructor(protected readonly abstractService: AbstractService) {
     }
