@@ -1,7 +1,7 @@
 import { IFormPutSuccess } from '../../utils/form-rest-api/iformputsuccess';
 
 export interface IAbstractService {
-    collection: string | undefined;
+    collection?: string;
     getRecords(): Promise<any>;
     getRecord(_id: string): Promise<any>;
     deleteRecord(_id: string): Promise<any>;
@@ -16,7 +16,7 @@ export const checkCollection = (value: any): string => {
     }
 };
 
-export const testId = (_id: string, reject: any) => {
+export const testId = (_id: any, reject: any) => {
     if (!_id) {
         const mess = 'Can\'t find a record with _id null or undefined.';
         console.error(JSON.stringify(mess));

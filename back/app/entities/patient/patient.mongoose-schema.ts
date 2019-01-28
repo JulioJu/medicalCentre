@@ -1,17 +1,17 @@
 import { IPersonSchema } from '../person';
 
 export class PatientSchema implements IPersonSchema {
-    _id = String;
-    _idSSN = {type: String, required: true, unique: true,
+    public _id = String;
+    public _idSSN = {type: String, required: true, unique: true,
         validate: {
           isAsync: false,
           validator: (v: any) => /^\d{15}$/.test(v),
          message: '{VALUE} is not a valid social security number!'
         }
     };
-    _firstname  = {type: String, required: true};
-    _lastname   = {type: String, required: true};
-    _isMale     = {type: String, required: true};
-    _birthday   = {type: String, required: true};
-    _address    = {type: String, required: true};
+    public _firstname  = {type: String, required: true};
+    public _lastname   = {type: String, required: true};
+    public _isMale     = {type: String, required: true};
+    public _birthday   = {type: String, required: true};
+    public _address    = {type: String, required: true};
 }

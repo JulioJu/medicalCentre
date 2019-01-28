@@ -10,7 +10,7 @@ const promiseConnectToMongo = async (callback: (mongoClient: MongoClient,
             resolve: (val?: any) =>
         void, reject: (err?: any) => void)
     => void): Promise<any> =>
-    new Promise ((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
         MongoClient.connect(URLMONGODB, (error, mongoClient) => {
             if (error) {
                 // Do not try to close mongoClient, if MongoDB is shutdown,
@@ -27,11 +27,19 @@ const ifMongoConnected = (mongoClient: MongoClient,
     DeleteWriteOpResultObject, resolve: (val?: any) => any, reject: (err?:
         any) => any): void => {
     if (err) {
-        mongoClient.close();
+        mongoClient.close()
+            .catch((e: any) => {
+                console.error(e);
+                reject(e);
+            });
         console.error(JSON.stringify(err));
         reject(err);
     } else {
-        mongoClient.close();
+        mongoClient.close()
+            .catch((e: any) => {
+                console.error(e);
+                reject(e);
+            });
         resolve(res);
     }
 };
@@ -109,14 +117,22 @@ export const AbstractBaremongoService: IAbstractService = {
                     // tslint:disable:deprecation
                         .save(obj, (err, res) => {
                             if (err) {
-                                mongoClient.close();
+                                mongoClient.close()
+                                    .catch((e: any) => {
+                                        console.error(e);
+                                        reject(e);
+                                    });
                                 console.error(JSON.stringify(err));
                                 reject(err);
                             } else {
                                 if (res.result.nModified === 1) {
                                     console.log(`${this.collection} updated`);
                                     console.log(`result: ${res}`);
-                                    mongoClient.close();
+                                    mongoClient.close()
+                                        .catch((e: any) => {
+                                            console.error(e);
+                                            reject(e);
+                                        });
                                     resolve({
                                         isUpdate: true,
                                         entity: res
@@ -124,7 +140,11 @@ export const AbstractBaremongoService: IAbstractService = {
                                 } else {
                                     console.log(`${this.collection} inserted`);
                                     console.log(`result: ${res}`);
-                                    mongoClient.close();
+                                    mongoClient.close()
+                                        .catch((e: any) => {
+                                            console.error(e);
+                                            reject(e);
+                                        });
                                     resolve({
                                         isUpdate: false,
                                         entity: res

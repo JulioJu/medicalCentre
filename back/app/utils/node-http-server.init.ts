@@ -47,7 +47,7 @@ const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
 
 export const nodeHttpServerInit =
     async (app: express.Application): Promise<any> =>
-    new Promise((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
 
         // HTTP
         const portHTTP = process.env.portHTTP || 8080;

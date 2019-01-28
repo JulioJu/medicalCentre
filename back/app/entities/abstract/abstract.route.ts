@@ -65,7 +65,7 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                     }
                 );
         } else {
-            const modelConstructor: Array<any> = [];
+            const modelConstructor: any[] = [];
             Object.keys(putAllParametersOrdered)
                 .forEach((i: any) => {
                     let parameter = req.body[putAllParametersOrdered[i]];

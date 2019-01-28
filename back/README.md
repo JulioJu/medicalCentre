@@ -43,7 +43,7 @@
     https://github.com/devtools-html/debugger.html/blob/master/docs/getting-setup.md#starting-node.
     I've tested but doesn't seems to work well.
 
-# Create a new Entity herited from Person
+# Create a new Entity inherited from Person
 1. `cp -R patient nurse`
 2. `sed -i -e 's/patient/nurse/g' *`
 3. Change the model, and the json associated.
@@ -99,6 +99,23 @@
    On Github I've found that use Array<any> can give the same error.
    TODO resolve it.
    See tslint.yaml
+
+## Some small bad conceptions
+
+* For front, use `typedef: true` is a very bad idea. Too much boilerplate,
+    sometimes with this rule typedef are redundant e.g
+    (imagine with lot of param, sometimes we have param definition
+    on several lines).
+    ```javascript
+    const myFunc: (aa: string) => bool = (aa: string): bool => {
+        return true;
+    }
+    * For a complet beginner it's could be cool, as it now I understand
+        know it off by heart how to define types. But not cool when
+        I come back to the code, too much boilerplate.
+
+    * For back-end too much any. But ofen we don't know the type sent
+        by the MongoDB server.
 
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/

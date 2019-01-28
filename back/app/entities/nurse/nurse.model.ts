@@ -3,7 +3,7 @@ import { Person } from '../person';
 
 export class Nurse extends Person {
 
-    constructor(
+    public constructor(
         _id: string,
         _firstname: string,
         _lastname: string,
@@ -11,7 +11,7 @@ export class Nurse extends Person {
         super(_id, _firstname, _lastname, _address);
     }
 
-    toJSON(): INurse {
+    public toJSON(): INurse {
         // return Object.assign({}, super.toJSON());
         return {...super.toJSON()};
     }

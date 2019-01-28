@@ -20,8 +20,16 @@ export const dbMongoInit = async (): Promise<void> =>
                 } else {
                     const db: Db = mongoClient.db(MONGO_DB_NAME);
                     db.collection('patient')
-                        .createIndex({ _idSSN: 1 }, { unique: true });
-                    mongoClient.close();
+                        .createIndex({ _idSSN: 1 }, { unique: true })
+                        .catch((e: any) => {
+                            console.error(e);
+                            reject(e);
+                        });
+                    mongoClient.close()
+                        .catch((e: any) => {
+                            console.error(e);
+                            reject(e);
+                        });
                     resolve();
                 }
             });

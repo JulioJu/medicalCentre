@@ -11,7 +11,7 @@ const checkMongooseModel = (value: any): mongoose.Model<any> => {
 };
 
 interface IAbstractServiceMongooseType extends IAbstractService {
-    mongooseModel: mongoose.Model<any> | undefined;
+    mongooseModel?: mongoose.Model<any>;
     constructorStatic<U extends IAbstractSchema>(abstractSchemaTy: new
         (...args: any[]) => U, collection: string): void;
 }
@@ -85,6 +85,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
     },
 
     // Only insert, not update !!
+    // tslint:disable-next-line:cognitive-complexity
     async insertOrUpdate(myEntity: any):
         Promise<any> {
             return new Promise<any>((resolve, reject) => {
@@ -111,6 +112,10 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                                 entity: saved
                             });
                         }
+                    })
+                    .catch((e: any) => {
+                        console.error(e);
+                        reject(e);
                     });
                 } else {
                     // tslint:disable-next-line

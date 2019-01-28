@@ -3,7 +3,7 @@ import { IPerson } from '../entities-interface';
 
 export abstract class Person extends AbstractModel {
 
-    constructor(
+    public constructor(
         _id: string,
         private _firstname: string,
         private _lastname: string,
@@ -11,31 +11,31 @@ export abstract class Person extends AbstractModel {
         super(_id);
     }
 
-    get firstname(): string {
+    public get firstname(): string {
         return this._firstname;
     }
 
-    set firstname(firstname: string) {
+    public set firstname(firstname: string) {
         this._firstname = firstname;
     }
 
-    get lastname(): string {
+    public get lastname(): string {
         return this._lastname;
     }
 
-    set lastname(lastname: string) {
+    public set lastname(lastname: string) {
         this._lastname = lastname;
     }
 
-    get address(): string {
+    public get address(): string {
         return this._address;
     }
 
-    set address(address: string) {
+    public set address(address: string) {
         this._address = address;
     }
 
-    toJSON(): IPerson {
+    public toJSON(): IPerson {
         // return Object.assign({}, {
         //     _firstname: this._firstname,
         //     _lastname: this._lastname,
