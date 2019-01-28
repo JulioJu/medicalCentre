@@ -66,6 +66,99 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 * When unsubscribe?
     * See: https://github.com/angular/angular/issues/22410
 
+# Slippy Map
+
+* Definition: https://wiki.openstreetmap.org/wiki/Slippy_map
+
+* Actually, Google Map needs to create an API Key to use its service, even
+    if it's free
+    " If you’re just serving users a simple map with a marker, say to show
+    your office location, you’ll continue to pay nothing under the new system.
+    However, if you use the Embed API in Directions, Views or Search mode, you
+    will be eligible for billing.* "
+    See https://manifesto.co.uk/google-maps-api-pricing-changes/
+    for the current princing model of google.
+    * Before it was free for less than 50 000 requests. We see limitation of
+        using a proprietary solution (as for Java JDK, contrary to OpenJDK).
+
+* OpenStreetMap
+    See https://wiki.openstreetmap.org/wiki/Frameworks#Displaying_interactive_maps
+    for all solutions.
+    * Not that I've heard speak often of Leaflet.
+    * Open Street Map could also use Google API: see
+        https://wiki.openstreetmap.org/wiki/Google_Maps_Example
+        They advise Leaflet as an alternative.
+
+* Using Google API is not a good idea because Route Calculation are
+    not free, see https://cloud.google.com/maps-platform/pricing/sheet/
+
+* Viamichelin API are not free too : see https://api.viamichelin.com/
+
+* The teacher advise to use https://angular-maps.com/
+    but there is the limitation that we must be registred on Google (API Keys)
+    + we can't calculate routes for free.
+
+* There is https://www.targomo.com/developers/services/routing
+    it's seems so cool ! Seems to be very powerful . Calculate route with
+    tram or others. Free until 300 request per month. Could be
+    easy integrated thanks https://github.com/targomo/targomo-js
+    (written in TypeScript)
+
+* Solution for routing seems to use OSRM a "Modern C++ routing engine for
+    shortest paths in road networks."
+    "Supports car, bicycle, walk modes; easily customized through profiles."
+    http://project-osrm.org/
+    There is a package for ArchLinux.
+    * I've seen two JavaScript clients:
+        1. http://www.liedman.net/leaflet-routing-machine/
+            Integrate lot of API (OSRM, TomTom, Mapbox, GraphHopper, etc.)
+            More commits than bellow.
+            * There are definition for Leaflet routing machine.
+            * Same limitation as below.
+            * They advise GeoCoder for addresses.
+                See http://www.liedman.net/leaflet-routing-machine/tutorials/geocoders/
+        2. https://github.com/wwwouaiebe/leaflet.TravelNotes
+            As wwwouiabe said "Warning : This demo uses OSRM demo server. (…).
+            Due to heavy traffic on this server, you can frequently receive an
+            http error 429.  If you have a Mapbox or GraphHopper API key, you
+            can also use this (…) And with Mapbox and GraphHopper, you can
+            search a route for car, bike or pedestrian.
+            User guide in English or French.
+    * Note Mapbox API key is actually free until
+        "50,000 Directions requests / mo"
+        See https://www.mapbox.com/pricing/
+    * Note, as said above, using a demo server is not very usable
+        even for a demo to the teacher. I've experienced lot of access denied.
+        Therefore as I've said, I've build my own OSRM.
+
+
+* TODO As Liedman said, don't use unpkg CDN for production use.
+
+* An interesting solution is to embedded the metromobilite iframe:
+    ```html
+    <iframe src="https://www.metromobilite.fr/iti.html?dep=truc&arr=machin&lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924&iFrame=true&amp;tc=true&amp;" frameborder="0" width="100%" height="800"></iframe>
+    ```
+    Copyright: GNU Affero General Public License
+    Contributors:
+    NB/VT - sully-group - www.sully-group.fr - initialisation and implementation
+    See https://www.metromobilite.fr/# (in developers tools) for more infos.
+    * Website  https://www.tag.fr/7-itineraire.htm use something an iframe !
+        I've discovered this utilisation thanks it ;-).
+    * We could use REST API to use it ;-). So cool.
+        Like it:
+        https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
+    * Interesting Note: use OpenLayers and not Leaflet
+    * See also https://www.metromobilite.fr/pages/opendata/OpenDataApi.html#
+
+* Note: StackOverflow trends says that Leaflet is more used that OpenLayers
+    https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
+
+* I've sent an e-mail with argument to the teacher to ask him
+    which solution use.
+
+* See my experimentations at https://github.com/Project-OSRM/osrm-backend/wiki/Running-OSRM
+
+
 # TODO
 
 ## Secondary TODO
