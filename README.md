@@ -1,8 +1,31 @@
 « Cabinet medical » project.
+
+<!-- vim-markdown-toc GFM -->
+
+* [Back-end](#back-end)
+    * [How to build and start OSRM server](#how-to-build-and-start-osrm-server)
+* [Front-end](#front-end)
+    * [Routes](#routes)
+    * [Create a service with Angular-cli](#create-a-service-with-angular-cli)
+* [Observables](#observables)
+* [Slippy Map](#slippy-map)
+    * [OpenStreetMap solutions](#openstreetmap-solutions)
+    * [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
+    * [See also iframe with metromobilite (for updated traffic info in Grenoble)](#see-also-iframe-with-metromobilite-for-updated-traffic-info-in-grenoble)
+* [TODO](#todo)
+    * [Secondary TODO](#secondary-todo)
+    * [Principal TODO](#principal-todo)
+* [Notes for developers](#notes-for-developers)
+
+<!-- vim-markdown-toc -->
+
 # Back-end
 * See folder [./back](./back). Built with Typescript and Express.
 * See README written by me in [./back/README.md](./back/README.md).
 * It serves at http://localhost:8080/ or at https://localhost:8433/.
+
+## How to build and start OSRM server
+* See: [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
 
 # Front-end
 * See folder [./front](./front). Built with Angular.
@@ -139,15 +162,24 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
 
 
-## Therefore use OSRM and leaflet-routing-machine
+## OSRM and leaflet-routing-machine
 
 * To build OSRM see https://github.com/Project-OSRM/osrm-backend/wiki/Running-OSRM
     * Important: see also https://github.com/Project-OSRM/osrm-backend/issues/4736
         "host multiple profiles in same backend server."
-        * On my ArchLinux use commands like:
-        ```sh
-        $ osrm-extract rhone-alpes-latest.osm.pbf -p /usr/share/osrm/profiles/xxxxx.lua
-    ```
+        * To generate script, use the script that I've written:
+            It will build osrm files under folder `../osrm`
+            ```sh
+            ./ScriptGenerateOSRMFiles.sh # Execute it to show help.
+            ```
+        * To launch servers of corresponding`../osrm/*/.osrm`files
+            ```sh
+            ./ScriptStartOSRM
+            ```
+            * Actually, on port:
+                * 5005 there is osrm profile bicycle
+                * 5006 there is osrm profile foot
+                * 5007 there is osrm profile car
 
 * See also https://github.com/perliedman/leaflet-routing-machine/issues/109
 

@@ -1,3 +1,21 @@
+<!-- vim-markdown-toc GFM -->
+
+* [Utilisation](#utilisation)
+    * [Patches](#patches)
+* [Compilation](#compilation)
+    * [Debugger](#debugger)
+* [Create a new Entity inherited from Person](#create-a-new-entity-inherited-from-person)
+* [TODO](#todo)
+    * [Some small bad conceptions](#some-small-bad-conceptions)
+* [MongoDB](#mongodb)
+* [Routes](#routes)
+        * [Routes patients](#routes-patients)
+        * [Routes nurses](#routes-nurses)
+        * [Others routes](#others-routes)
+* [Notes for developers](#notes-for-developers)
+
+<!-- vim-markdown-toc -->
+
 # Utilisation
 * DO NOT USE NODE 8 https://github.com/nodejs/node/issues/12675:
     (console.debug not displayed).
