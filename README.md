@@ -81,16 +81,10 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     * Before it was free for less than 50 000 requests. We see limitation of
         using a proprietary solution (as for Java JDK, contrary to OpenJDK).
 
-* OpenStreetMap
-    See https://wiki.openstreetmap.org/wiki/Frameworks#Displaying_interactive_maps
-    for all solutions.
-    * Not that I've heard speak often of Leaflet.
-    * Open Street Map could also use Google API: see
-        https://wiki.openstreetmap.org/wiki/Google_Maps_Example
-        They advise Leaflet as an alternative.
-
 * Using Google API is not a good idea because Route Calculation are
     not free, see https://cloud.google.com/maps-platform/pricing/sheet/
+    Before summer 2018, it was free: see
+    https://developers.google.com/maps/previous-pricing
 
 * Viamichelin API are not free too : see https://api.viamichelin.com/
 
@@ -103,6 +97,16 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     tram or others. Free until 300 request per month. Could be
     easy integrated thanks https://github.com/targomo/targomo-js
     (written in TypeScript)
+
+## OpenStreetMap solutions
+
+* OpenStreetMap
+    See https://wiki.openstreetmap.org/wiki/Frameworks#Displaying_interactive_maps
+    for all solutions.
+    * Not that I've heard speak often of Leaflet.
+    * Open Street Map could also use Google API: see
+        https://wiki.openstreetmap.org/wiki/Google_Maps_Example
+        They advise Leaflet as an alternative.
 
 * Solution for routing seems to use OSRM a "Modern C++ routing engine for
     shortest paths in road networks."
@@ -131,8 +135,25 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         even for a demo to the teacher. I've experienced lot of access denied.
         Therefore as I've said, I've build my own OSRM.
 
+* Note: StackOverflow trends says that Leaflet is more used that OpenLayers
+    https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
+
+
+## Therefore use OSRM and leaflet-routing-machine
+
+* To build OSRM see https://github.com/Project-OSRM/osrm-backend/wiki/Running-OSRM
+    * Important: see also https://github.com/Project-OSRM/osrm-backend/issues/4736
+        "host multiple profiles in same backend server."
+        * On my ArchLinux use commands like:
+        ```sh
+        $ osrm-extract rhone-alpes-latest.osm.pbf -p /usr/share/osrm/profiles/xxxxx.lua
+    ```
+
+* See also https://github.com/perliedman/leaflet-routing-machine/issues/109
 
 * TODO As Liedman said, don't use unpkg CDN for production use.
+
+## See also iframe with metromobilite (for updated traffic info in Grenoble)
 
 * An interesting solution is to embedded the metromobilite iframe:
     ```html
@@ -149,14 +170,6 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
     * Interesting Note: use OpenLayers and not Leaflet
     * See also https://www.metromobilite.fr/pages/opendata/OpenDataApi.html#
-
-* Note: StackOverflow trends says that Leaflet is more used that OpenLayers
-    https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
-
-* I've sent an e-mail with argument to the teacher to ask him
-    which solution use.
-
-* See my experimentations at https://github.com/Project-OSRM/osrm-backend/wiki/Running-OSRM
 
 
 # TODO
