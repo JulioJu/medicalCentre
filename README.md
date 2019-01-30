@@ -189,7 +189,7 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 
 * An interesting solution is to embedded the metromobilite iframe:
     ```html
-    <iframe src="https://www.metromobilite.fr/iti.html?dep=truc&arr=machin&lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924&iFrame=true&amp;tc=true&amp;" frameborder="0" width="100%" height="800"></iframe>
+    <iframe src="https://www.metromobilite.fr/iti.html?dep=truc&arr=machin&lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924&iFrame=true&tc=true" frameborder="0" width="100%" height="800"></iframe>
     ```
     Copyright: GNU Affero General Public License
     Contributors:
@@ -202,6 +202,31 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
     * Interesting Note: use OpenLayers and not Leaflet
     * See also https://www.metromobilite.fr/pages/opendata/OpenDataApi.html#
+
+    * To investigate the page, use `wget -p -k https://www.metromobilite.fr/iti.html`
+        Do not download with Chromium or Firefox, as they don't download font,
+        and it breaks the webpage.
+
+    * I've sent a mail with the contact form under page opendata. I asked to
+        add modes:
+
+        > Objet: Documentation et amélioration de la page iti.html
+
+        > Bonjour,
+        >
+        > J'ai regardé un peu comment était construit votre page https://www.metromobilite.fr/js/iti.js
+        >
+        > Sur la page, https://www.metromobilite.fr/pages/opendata/OpenDataApi.html#, je me disais qu'il serait intéressant de documenter un peu les paramètres GET, notamment les paramètres dep, arr, lonlatDep, lonlatArr, iFrame, tc, velo et voiture. Ainsi les usagers de TAG pourraient très facilement se créer des raccourcis internet sans avoir à créer d'espace perso !
+        >
+        > De plus, peut-être que dans la function initForm() il serait intéressant de créer un paramètre `all` qui sélectionnerait tous les paramètres, ainsi qu'un paramètre `covoiturage` qui sélectionnerait uniquement le covoiturage, et un paramètre `doux` qui sélectionnerait le vélo, piéton  et tc. Ainsi dés dès le chargement de la page s'afficherait les modes que l'on désire. J'ai testé, ça marche bien. Dans ce cas il faudrait également modifier js/outils.js .
+        >
+        > Qu'en pensez-vous ?
+        >
+        > Si je peux aider, n'hésitez pas.
+        >
+        > Bien cordialement,
+        >
+        > Julio Prayer (https://github.com/JulioJu)
 
 
 # TODO
