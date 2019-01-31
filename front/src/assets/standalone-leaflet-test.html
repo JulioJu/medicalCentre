@@ -19,15 +19,19 @@
         <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
         <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
         <!-- Should be defined at the end, otherwise conflict with leaflet-routing-machine -->
         <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
         <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+
 
         <style>
             body {
                 text-align: center;
             }
-            #localLeafletOSM {
+            #orsmCyclist, #orsmWalker, #orsmCar, #geocoder {
                 display: inline-block;
                 width: 50%;
                 min-width: 500px;
@@ -36,35 +40,108 @@
         </style>
     </head>
     <body>
-        <div id="localLeafletOSM"></div>
+        <h4> ORSM for cyclist </h4>
+        <div id="orsmCyclist"></div>
 
+        <h4> ORSM for walker </h4>
+        <div id="orsmWalker"></div>
+
+        <h4> ORSM for car drivers </h4>
+        <div id="orsmCar"></div>
+
+        <h4> Geocoder to locate place </h4>
+        <div id="geocoder"></div>
+
+        <!-- or `velo=true`, or `voiture=true' or `tc=true', can't be the third  -->
+        <!-- We can't inject script du to cross-domain rules -->
+        <!-- https://stackoverflow.com/questions/16194398/inject-a-javascript-function-into-an-iframe -->
         <iframe src="https://www.metromobilite.fr/iti.html?dep=truc&arr=machin&lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924&iFrame=true&tc=true" frameborder="0" width="100%" height="800"></iframe>
 
+        <script src="./getPositionsFreegeoip.js"></script>
         <script>
-            const serviceUrl = "http://localhost:5000"
-            const coordinate = [45.1903777, 5.7302393];
-            // const coordinate = [57.74, 11.94];
 
-            // const map = L.map('localLeafletOSM').setView(coordinate, 17);
-            const map = L.map('localLeafletOSM');
 
-            map.addControl(new L.Control.Fullscreen());
+            const instantiateMap = (htmlDivMap, setView = false) => {
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+                const map = L.map(htmlDivMap);
 
-            L.marker(coordinate).addTo(map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                .openPopup();
+                if (setView) {
+                    map.setView([0, 0], 2)
+                }
 
-            L.Routing.control({
-                serviceUrl: "http://localhost:5000/route/v1",
-                waypoints: [
-                    L.latLng(45.1903777, 5.7302393),
-                    L.latLng(45.15857,8.70924)
-                ]
-            }).addTo(map);
+                map.addControl(new L.Control.Fullscreen());
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // L.marker(coordinateArrival).addTo(map)
+                //     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                //     .openPopup();
+
+                return map;
+            }
+
+            const orsmMapInitialiser = (htmlDivMap,
+                                        urlOrsm,
+                                        coordinateStart,
+                                        coordinateArrival) => {
+
+                const map = instantiateMap(htmlDivMap);
+
+                L.Routing.control({
+                    serviceUrl: urlOrsm,
+                    waypoints: [
+                        L.latLng(coordinateStart),
+                        L.latLng(coordinateArrival)
+                    ]
+                }).addTo(map);
+            }
+
+            const instantiateORSMMaps = async () => {
+                const coordinateStart = await retrieveGeoLocalisation();
+                console.log(coordinateStart);
+                const coordinateArrival = [57.74, 11.94];
+                const urlOrsmCyclist = "http://localhost:5005/route/v1"
+                const urlOrsmWalker = "http://localhost:5006/route/v1"
+                const urlOrsmDriver = "http://localhost:5007/route/v1"
+
+                orsmMapInitialiser("orsmCyclist", urlOrsmCyclist,
+                                   coordinateStart, coordinateArrival);
+                orsmMapInitialiser("orsmWalker", urlOrsmWalker,
+                                   coordinateStart, coordinateArrival);
+                orsmMapInitialiser("orsmCar", urlOrsmDriver,
+                                   coordinateStart, coordinateArrival);
+
+            }
+
+            instantiateORSMMaps().catch((e) => alert(e));
+
+            const mapGeocoder = instantiateMap('geocoder', true)
+
+            L.Control.geocoder({
+                collapsed: false,
+                geocoder: new L.Control.Geocoder.Nominatim({
+                    serviceUrl: "https://nominatim.openstreetmap.org/",
+                    // geocodingQueryParams: {
+                    //     // Often not the good Address, hard to find address
+                    //     // saved in Database. For instance it doesn't know
+                    //     // "1 bis place Jean Achard"
+                    //     street: "1 place Jean Achard",
+                    //     postalcode: "38000",
+                    //     city: "Grenoble",
+                    //     country: "France"
+                    // },
+                })
+            })
+            .on('markgeocode', (e) => {
+                console.log(e);
+            })
+            .addTo(mapGeocoder);
+
+
+            document.querySelector('#geocoder div.leaflet-control-geocoder-form > input').value = '1 place Jean Achard 38000 Grenoble France';
+
         </script>
     </body>
 </html>

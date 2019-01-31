@@ -12,6 +12,9 @@
     * [OpenStreetMap solutions](#openstreetmap-solutions)
     * [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
     * [See also iframe with metromobilite (for updated traffic info in Grenoble)](#see-also-iframe-with-metromobilite-for-updated-traffic-info-in-grenoble)
+    * [Geocoder](#geocoder)
+    * [Get current location](#get-current-location)
+        * [Note: XMLHttpRequest is deprecated](#note-xmlhttprequest-is-deprecated)
 * [TODO](#todo)
     * [Secondary TODO](#secondary-todo)
     * [Principal TODO](#principal-todo)
@@ -189,6 +192,9 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 
 * An interesting solution is to embedded the metromobilite iframe:
     ```html
+    <!-- or `velo=true`, or `voiture=true' or `tc=true', can't be the third  -->
+    <!-- We can't inject script du to cross-domain rules -->
+    <!-- https://stackoverflow.com/questions/16194398/inject-a-javascript-function-into-an-iframe -->
     <iframe src="https://www.metromobilite.fr/iti.html?dep=truc&arr=machin&lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924&iFrame=true&tc=true" frameborder="0" width="100%" height="800"></iframe>
     ```
     Copyright: GNU Affero General Public License
@@ -206,6 +212,10 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     * To investigate the page, use `wget -p -k https://www.metromobilite.fr/iti.html`
         Do not download with Chromium or Firefox, as they don't download font,
         and it breaks the webpage.
+
+    * Sadly, we can't inject script to change display cause of cross-domain
+        rules. Therefore actually the better solution is to patch the app
+        and server its own version of the app. License permit that.
 
     * I've sent a mail with the contact form under page opendata. I asked to
         add modes:
@@ -228,6 +238,95 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         >
         > Julio Prayer (https://github.com/JulioJu)
 
+
+## Geocoder
+
+* https://github.com/smeijer/leaflet-geosearch
+    Leaflet geosearching/geocoding control
+    Actually 452 stars
+
+* https://github.com/perliedman/leaflet-control-geocoder
+    A simple geocoder form to locate places. Easily extended to multiple data providers.
+    http://www.liedman.net/leaflet-control-geocoder/
+    Actually 258 stars
+    Same author that leaflet-routing-machine (used above)
+
+* To have autocompletion, we must build our own Nominatim server or pay
+    a service or get an API key. Actually, simply press enter to search.
+
+* I use https://nominatim.openstreetmap.org/ , but it's not very powerful
+    contrary to Google or Bing
+    . If the address doesn't match exactly, found
+    nothing or wrong result.
+    For instance, type 'République Grenoble France' give nothing.
+    * The 01/31/2019, during some minutes nominatim didn't work.
+
+* At https://www.bing.com/maps we could obtain very easy longitude and latitude
+    of a point. In the contextual menu (right-click).
+
+* In Google Map Website we could retrieve coordinate but less easy, contrary to
+    bing. Simply right-click to a pin => `what's here` then click to coordinate
+    in the popup windows tha appears. On the left pan that appears, you could
+    see decimal coordinates. Same if you drop a pin.
+
+* The best one is Google Earth. Probably advise to the Secratary to use an
+    other service than Nominatim. In Google Earth simply use `ctrl + shift v`
+    See also https://support.google.com/earth/answer/148068?hl=en
+    https://productforums.google.com/forum/#!topic/earth/csRTq684l4c
+
+## Get current location
+
+* https://github.com/jakubdostal/leaflet-geoip
+    ~~GeoIP Plugin for Leaflet.js
+    GeoIP Plugin for Leaflet.js. This plugin allows you to find the approximate
+    position of the client machine based on their IP address. Additionally, you
+    can center the map on this location.~~
+    * ~~See simply
+        https://github.com/jakubdostal/leaflet-geoip/blob/master/leaflet-geoip.js
+        and transforme it to promise like
+        https://stackoverflow.com/questions/48969495/in-javascript-how-do-i-should-i-use-async-await-with-xmlhttprequest~~
+     https://freegeoip.net/json is Deprecated
+    * Some solutions https://github.com/jakubdostal/leaflet-geoip/issues/7
+        * https://freegeoip.app/json/ (no need API keys). You
+            could build your own server: https://github.com/apilayer/freegeoip/
+            Written in Go. **Exactly the same result than Google** !
+
+* As for Direction, Neominatim has limitation for use in prod, but
+    installation on a Server is very, very, very, very fat.
+    * But we could use Google or other, maybe for free, but we must have API
+        key.
+    * There is https://ipinfo.io/pricing free under 1000 request a day, but we
+        must obtain an API key.
+    * Found thanks: https://www.iplocation.net/
+
+* There is also HTML5 API, with Google Map
+    https://www.google.com/maps/d/u/0/viewer?ie=UTF8&hl=en&msa=0&ll=27.760949999999994,-97.11523499999998&spn=34.668997,78.662109&z=4&mid=10Dg861xJNy18dTvB6dHk9fp8dRQ
+
+* The solution is https://medium.com/@adeyinkaadegbenro/how-to-detect-the-location-of-your-websites-visitor-using-javascript-92f9e91c095f
+    * You could also use https://freegeoip.app/json/ if you want
+        ask permission to geolocate (see above). But I don't like.
+        (also needed for IE 10 or opera mini)
+    * For Geolocalisation, Firefox uses Google services
+        https://www.reddit.com/r/waterfox/comments/8oief0/waterfox_5620_geolocation_not_working/
+        Could be changed to put in `about:config`, under key `geo.wifi.uri`:
+        `https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%`
+
+* Tested, but google geolocalisation is very very bad (tested on Chromium too)
+    (it use https://www.googleapis.com/geolocation/v1/geolocate?key=%GOOGLE_API_KEY%)
+       * https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%
+            is a little bit better.
+            See also https://support.google.com/maps/answer/2839911?co=GENIE.Platform=Desktop&hl=en
+
+* Probably, could be good for mobile phone, or change to an IP fixe :-) !!.
+
+### Note: XMLHttpRequest is deprecated
+
+When I run ./deprecatedXMLHttpRequest.ts (compiled thanks `tsc -t es2017`) I have:
+```
+Synchronous XMLHttpRequest on the main thread is deprecated because of its
+detrimental effects to the end user’s experience. For more help
+http://xhr.spec.whatwg.org/
+```
 
 # TODO
 
@@ -297,3 +396,8 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 * Migrate to TypeScript 3.1 with `noUnusedLocal` raise error 6133 when a private
     parameter is declared in a ts file and used in a template file (seems
     logic). Therefore they are changed to become protected.
+
+* When for error handling `await` / `async` see
+    https://javascript.info/async-await#error-handling
+    Note that in a Promise, we must continue to catch Promises called even if
+    it is marked `async`.

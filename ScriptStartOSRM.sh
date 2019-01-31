@@ -93,7 +93,7 @@ testWorkingFolder() {
             error 5 "${numberOfProfileFile} files match the pattern" \
                 "'${profileFile}'. Only one match should be found."
         fi
-        local -i port=500${profileFileNameArrayIndex}
+        local -i port="500$((profileFileNameArrayIndex+5))"
         if grep "${port}" < <(ss -nap)
         then
             grep "${port}" < <(ss -nap)
