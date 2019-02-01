@@ -225,6 +225,3 @@ rules:
 
   # Could be cool, but I've used too much magic-numbers
   no-magic-numbers: false
-
-  # See my comment above
-  restict-plus-operand: false

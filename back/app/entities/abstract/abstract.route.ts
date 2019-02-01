@@ -36,6 +36,7 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
         const maxParam = putAllParametersOrdered.length;
         if (!req.body || reqLength < minParam || reqLength > maxParam) {
             parametersAreOk = false;
+            // tslint:disable-next-line:restrict-plus-operands
             errorMessage = 'Bad request: number of variables not correct.' +
                 ' You have ' + reqLength +
                 ' parameters, and you should have at least ' + minParam +
@@ -45,6 +46,7 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
             .forEach((i: any) => {
                 const parameter = req.body[putMandatoriesParameters[i]];
                 if (!parameter) {
+                    // tslint:disable-next-line:restrict-plus-operands
                     errorMessage = errorMessage + 'Bad request: parameter ' +
                         putMandatoriesParameters[i] + ' missing.\n';
                     parametersAreOk = false;

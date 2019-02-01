@@ -31,11 +31,11 @@ if (semver.lte(nodeversion, '9.5.0')) {
 // https://nodejs.org/api/process.html#process_event_exit
 process.on('exit', (code) => {
     console.debug(`This process have pid ${process.pid}`);
-    console.info('If you run with npm or yarn, this process have one parent:'
-        + '"node /usr/bin/yarn" (or npm)' +
-        '. That\'s why when we type \`echo $?\' we might not have ' +
-        'the exit code ' + code + ', but we have the exit code of yarn/npm.'
-        + ' You could run directly `node ./appJS/server.js\'');
+    console.info('If you run with npm or yarn, this process have one parent:',
+        '"node /usr/bin/yarn" (or npm)',
+        '. That\'s why when we type \`echo $?\' we might not have',
+        'the exit code', code, ', but we have the exit code of yarn/npm.',
+        'You could run directly `node ./appJS/server.js\'');
 });
 
 // Tests args

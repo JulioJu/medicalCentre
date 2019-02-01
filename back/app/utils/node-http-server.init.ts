@@ -14,15 +14,15 @@ const connectToServer = (resolve: (val?: any) => void, reject: (err?: any) =>
     // https://nodejs.org/api/net.html#net_server_listen
     // https://nodejs.org/api/events.html#events_emitter_on_eventname_listener
     server.on('error', (e: any) => {
-        console.error('There is an error during the instatiation of the server'
-            + ' with port ' + PORT + ' (error \'' + e.code + '\').');
+        console.error('There is an error during the instatiation of the server',
+            ' with port ', PORT, ' (error \'', e.code, '\').');
         if (e.code === 'EADDRINUSE') {
-            console.info('Port ' + PORT + ' in use, retrying... (n°'
-                + connectToPort + ')');
+            console.info('Port ', PORT, ' in use, retrying... (n°',
+                connectToPort, ')');
             ++connectToPort;
             if (connectToPort > 3) {
-                console.error('More than 3 retrying with the port ' + PORT +
-                    ' (too much). It is in used.' +
+                console.error('More than 3 retrying with the port ', PORT,
+                    ' (too much). It is in used.',
                     ' Therefore nodeJS will be stoped with error code 2.');
                 reject();
             } else {
