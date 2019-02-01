@@ -1,11 +1,11 @@
 import { HttpHeaders } from '@angular/common/http';
 
 // Used in:
-// front/src/app/entities/abstract/abstract-form.dynamic-form.component.ts
+// ../front/src/app/entities/abstract/abstract-form.dynamic-form.component.ts
 // =========
 
 // Referenced in
-// back/app/entities/abstract/abstract.route.ts
+// ../back/app/entities/abstract/abstract.route.ts
 // =========
 
 // https://angular.io/api/common/http/HttpErrorResponse

@@ -3,11 +3,14 @@ import { AbstractModel, IAbstractService } from './';
 import { IFormPutSuccess } from
     '../../utils/form-rest-api/iformputsuccess';
 
-export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
-    (...args: any[]) => T, entityName: string,  router: Router,
-    routeName: string, abstractService: IAbstractService,
-    putMandatoriesParameters: T[any],
-    putAllParametersOrdered: T[any]) => {
+export const AbstractRoute = <T extends AbstractModel>(
+        abstractModel: new (...args: any[]) => T,
+        entityName: string,
+        router: Router,
+        routeName: string,
+        abstractService: IAbstractService,
+        putMandatoriesParameters: T[any],
+        putAllParametersOrdered: T[any]) => {
 
     router.get(routeName, (req: Request, res: Response) => {
         abstractService.getRecords()
@@ -84,16 +87,17 @@ export const AbstractRoute = <T extends AbstractModel>(abstractModel: new
                 .then((response: IFormPutSuccess) => {
                     res.send(response);
                 })
-                .catch((e) => {
-                    res.status(400)
+                .catch((e: Error) => {
+                    // console.error(e);
+                    res.status(502)
                     .json(
                         // its type is IHttpErrorResponseFormPutError
                         // defined in
         // ../../../../form-http-interface/ihttperrorresponseformputerror.ts
                         {
-                            error_message: e.errmsg,
+                            error_message: e.message,
                             error_message_origin: 'mongo',
-                            details: e
+                            details: e.stack
                         }
                     );
                 });

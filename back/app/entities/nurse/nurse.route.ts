@@ -7,10 +7,18 @@ const putMandatoriesParameters = ['_firstname', '_lastname',
 const putAllParametersOrdered = ['_id', '_firstname', '_lastname',
     '_address'];
 export const NurseBaremongoRoute = (): express.Router =>
-    AbstractRoute<Nurse>(Nurse, 'Nurse', express.Router(),
-        '/nurses', NurseBaremongoService, putMandatoriesParameters,
+    AbstractRoute<Nurse>(Nurse,
+        'Nurse',
+        express.Router(),
+        '/nurses',
+        NurseBaremongoService,
+        putMandatoriesParameters,
         putAllParametersOrdered);
 export const NurseMongooseRoute = (): express.Router =>
-    AbstractRoute<Nurse>(Nurse, 'Nurse', express.Router(),
-        '/nurses', NurseMongooseService, putMandatoriesParameters,
+    AbstractRoute<Nurse>(Nurse,
+        'Nurse',
+        express.Router(),
+        '/nurses',
+        NurseMongooseService,
+        putMandatoriesParameters,
         putAllParametersOrdered);

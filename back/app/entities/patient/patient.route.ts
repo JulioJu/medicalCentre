@@ -7,10 +7,18 @@ const putMandatoriesParameters = ['_idSSN', '_firstname', '_lastname',
 const putAllParametersOrdered = ['_id', '_idSSN', '_firstname',
     '_lastname', '_isMale', '_birthday', '_address'];
 export const PatientBaremongoRoute = (): express.Router =>
-    AbstractRoute<Patient>(Patient, 'Patient', express.Router(),
-    '/patients', PatientBaremongoService, putMandatoriesParameters,
-    putAllParametersOrdered);
+    AbstractRoute<Patient>(Patient,
+        'Patient',
+        express.Router(),
+        '/patients',
+        PatientBaremongoService,
+        putMandatoriesParameters,
+        putAllParametersOrdered);
 export const PatientMongooseRoute = (): express.Router =>
-    AbstractRoute<Patient>(Patient, 'Patient', express.Router(),
-    '/patients', PatientMongooseService, putMandatoriesParameters,
-    putAllParametersOrdered);
+    AbstractRoute<Patient>(Patient,
+        'Patient',
+        express.Router(),
+        '/patients',
+        PatientMongooseService,
+        putMandatoriesParameters,
+        putAllParametersOrdered);

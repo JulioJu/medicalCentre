@@ -21,15 +21,22 @@ export const dbMongoInit = async (): Promise<void> =>
                     const db: Db = mongoClient.db(MONGO_DB_NAME);
                     db.collection('patient')
                         .createIndex({ _idSSN: 1 }, { unique: true })
+                        .then((value) => {
+                            console.info('Dbmongo.init: created', value);
+                        })
                         .catch((e: any) => {
                             console.error(e);
                             reject(e);
                         });
                     mongoClient.close()
+                        .then((value) => {
+                            console.info('Dbmongo.init: closed', value);
+                        })
                         .catch((e: any) => {
                             console.error(e);
                             reject(e);
                         });
+                    console.info('You are connected to ', URLMONGODB, '.');
                     resolve();
                 }
             });

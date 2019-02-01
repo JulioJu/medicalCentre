@@ -95,7 +95,7 @@ const mongoStatements = () => {
                     routeMain(app);
                 }
             })
-        .catch (() => { mongoConnectionError(); });
+            .catch (() => { mongoConnectionError(); });
     }
 };
 
@@ -108,8 +108,8 @@ const mongooseStatements = () => {
                 app.use('/mongoose', NurseMongooseRoute());
                 // should be at the end
                 routeMain(app);
-        })
-        .catch (() => { mongoConnectionError(); });
+            })
+            .catch (() => { mongoConnectionError(); });
     }
 };
 

@@ -89,6 +89,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
     async insertOrUpdate(myEntity: any):
         Promise<any> {
             return new Promise<any>((resolve, reject) => {
+                // For Create an AbstractModel
                 if (!myEntity._id) {
                     // Defined here, because with Mongoose 5, variable
                     // defined 4 lines below have null variable.
@@ -99,25 +100,39 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                         checkMongooseModel(this.mongooseModel);
                     const abstractModel: mongoose.Document =
                         new thisMongooseModel(myEntity);
-                    abstractModel.save((err, saved) => {
-                        if (err) {
-                            console.error(JSON.stringify(err));
-                            reject(err);
-                        } else {
+                    abstractModel.save()
+                        .then((doc) => {
                             console.info('You have tried to save the object',
-                            myEntity,
-                            '\nYou have saved:\n', saved);
+                                myEntity,
+                                '\nYou have saved:\n', doc);
                             resolve({
                                 isUpdate: false,
-                                entity: saved
+                                entity: doc
                             });
-                        }
                     })
-                    .catch((e: any) => {
-                        console.error(e);
-                        reject(e);
-                    });
-                } else {
+                    .catch((err) => {
+                        console.error(JSON.stringify(err));
+                        reject(err);
+                    }) ;
+                    // Or following (without promises).
+                    // abstractModel.save((err, saved) => {
+                    //     if (err) {
+                    //         console.error(JSON.stringify(err));
+                    //         reject(err);
+                    //     } else {
+                    //         console.info('You have tried to save the object',
+                    //         myEntity,
+                    //         '\nYou have saved:\n', saved);
+                    //         resolve({
+                    //             isUpdate: false,
+                    //             entity: saved
+                    //         });
+                    //     }
+                    // });
+                }
+                // For Edit an AbstractModel
+                // tslint:disable-next-line:one-line
+                else {
                     // tslint:disable-next-line
                     // https://silvantroxler.ch/2016/insert-or-update-with-mongodb-and-mongoose/
                     // http://mongoosejs.com/docs/api.html#Model

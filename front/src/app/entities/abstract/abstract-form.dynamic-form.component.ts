@@ -116,20 +116,20 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
             .insertOrUpdate(abstract)
             // tslint:disable-next-line:no-any
             .subscribe((response: any) => {
-                // if (response.ok)
-                console.info(response);
-                sessionStorage.removeItem(this.formRoute);
-                // tslint:disable-next-line:no-unsafe-any
-                if (response && response.body && response.body) {
-                    this.router.navigate([
-                        // tslint:disable-next-line:restrict-plus-operands
-                        '/' + this.entityName + '/' +
-                        // tslint:disable-next-line:no-unsafe-any
-                        response.body.entity._id
-                    ])
-                    .catch((e: Error) => console.error(e));
-                }
-            },
+                    // if (response.ok)
+                    console.info(response);
+                    sessionStorage.removeItem(this.formRoute);
+                    // tslint:disable-next-line:no-unsafe-any
+                    if (response && response.body && response.body) {
+                        this.router.navigate([
+                            // tslint:disable-next-line:restrict-plus-operands
+                            '/' + this.entityName + '/' +
+                            // tslint:disable-next-line:no-unsafe-any
+                            response.body.entity._id
+                        ])
+                        .catch((e: Error) => console.error(e));
+                    }
+                },
                 (err: IHttpErrorResponseFormPutError) => {
                     console.error('ERROR', err);
                     const docErrorForm: HTMLElement | null = document

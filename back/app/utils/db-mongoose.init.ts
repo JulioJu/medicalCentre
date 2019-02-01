@@ -17,7 +17,7 @@ export const dbMongooseInit = async (): Promise<void> =>
             reject(e);
         });
         dbMongoose.once('open', () => {
-            console.info('You are connected to ' + URLMONGOOSE + '.');
+            console.info('You are connected to ', URLMONGOOSE, '.');
             resolve();
         });
 
