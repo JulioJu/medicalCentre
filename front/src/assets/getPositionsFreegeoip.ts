@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 31 Jan 2019 01:41:44 AM CET
-  *       MODIFIED: Thu 31 Jan 2019 07:31:42 PM CET
+  *       MODIFIED: Sat 02 Feb 2019 03:53:26 PM CET
   *
   *          USAGE:
   *
@@ -69,6 +69,7 @@ const retrieveGeoLocalisation = async (): Promise<longLat> =>
             // Tested, work well.
             // But we don't ask to the user the authorization.
              getPosition()
+                .then(resolve)
                 .catch(reject);
         }
     });

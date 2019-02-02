@@ -94,7 +94,7 @@ testWorkingFolder() {
                 "'${profileFile}'. Only one match should be found."
         fi
         local -i port="500$((profileFileNameArrayIndex+5))"
-        if grep "${port}" < <(ss -nap)
+        if grep "\* ${port} " < <(ss -nap)
         then
             grep "${port}" < <(ss -nap)
             error 6 "port '${port}' busy."

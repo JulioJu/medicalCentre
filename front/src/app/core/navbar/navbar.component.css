@@ -34,3 +34,6 @@ li a:hover:not(.active) {
     background-color: #4CAF50;
 }
 
+li.verticalBar {
+    border-right: 0.1em solid white;
+}

@@ -399,5 +399,6 @@ http://xhr.spec.whatwg.org/
 
 * When for error handling `await` / `async` see
     https://javascript.info/async-await#error-handling
-    Note that in a Promise, we must continue to catch Promises called even if
-    it is marked `async`.
+    Note that in a Promise, we must continue to try and catch Promises
+    called even if it is marked `async`.
+    It's logical.

@@ -32,6 +32,13 @@ export const NURSE_ROUTE: Routes = [
         }
     },
     {
+        path: 'nurse-form/:id',
+        component: NurseCreateOrEditComponent,
+        data: {
+            pageTitle: 'Edit patient' + APPLICATION_NAME_PIPE
+        }
+    },
+    {
         path: 'nurse-delete/:id',
         component: NurseDeleteComponent,
         data: {

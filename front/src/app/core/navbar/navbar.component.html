@@ -1,7 +1,7 @@
 <!-- https://developer.mozilla.org/en&#45;US/docs/Web/HTML/Element/nav -->
 <nav>
     <ul>
-    <li>
+    <li class="verticalBar">
         <a alt="home"
             routerLink="/"
             routerLinkActive="active"
@@ -16,6 +16,13 @@
             List of nurses
         </a>
     </li>
+    <li class="verticalBar">
+        <a alt="create/edit a nurse"
+           routerLink="/nurse-form"
+           routerLinkActive="active" >
+           Create/Edit a nurse
+        </a>
+    </li>
     <li>
         <a alt="list of patients"
            routerLink="/patients"
@@ -23,14 +30,7 @@
             List of patients
         </a>
     </li>
-    <li>
-        <a alt="form prototype"
-           routerLink="/patient-form-proto"
-           routerLinkActive="active" >
-            Form prototype
-        </a>
-    </li>
-    <li>
+    <li class="verticalBar">
         <a alt="create/edit a patient"
            routerLink="/patient-form"
            routerLinkActive="active" >
@@ -38,10 +38,10 @@
         </a>
     </li>
     <li>
-        <a alt="create/edit a nurse"
-           routerLink="/nurse-form"
+        <a alt="form prototype"
+           routerLink="/patient-form-proto"
            routerLinkActive="active" >
-           Create/Edit a nurse
+            Form prototype
         </a>
     </li>
     </ul>

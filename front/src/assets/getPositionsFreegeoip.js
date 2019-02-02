@@ -10,7 +10,7 @@
   *    DESCRIPTION:
   * ============================================================================
   */
-const getPosition = async () => new Promise((resolve, 
+const getPosition = async () => new Promise((resolve,
 // tslint:disable-next-line:no-any
 reject) => {
     const url = 'https://freegeoip.app/json/';
@@ -35,7 +35,7 @@ reject) => {
         }
     });
 });
-const retrieveGeoLocalisation = async () => 
+const retrieveGeoLocalisation = async () =>
 // See https://medium.com/@adeyinkaadegbenro/how-to-detect-the-location-of-your-websites-visitor-using-javascript-92f9e91c095f
 new Promise((resolve, reject) => {
     if ('geolocation' in navigator) {
@@ -57,6 +57,7 @@ new Promise((resolve, reject) => {
         // Tested, work well.
         // But we don't ask to the user the authorization.
         getPosition()
+            .then(resolve)
             .catch(reject);
     }
 });
