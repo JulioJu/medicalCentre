@@ -7,6 +7,8 @@
                 <th>_id</th>
                 <ng-container *ngTemplateOutlet="appAbstractThead">
                 </ng-container>
+                <th>Created at</th>
+                <th>Updated at</th>
                 <div *ngIf='!isDeleteView' >
                     <th>Deletion</th>
                     <th>Edition</th>
@@ -19,6 +21,8 @@
                 <ng-container *ngTemplateOutlet="appAbstractTbody,
                        context: { $implicit: rowTable }" >
                 </ng-container>
+                <td>{{rowTable.createdAt}}</td>
+                <td>{{rowTable.updatedAt}}</td>
                 <div *ngIf='!isDeleteView' >
                     <td><button type="submit"
                                 [routerLink]="['/' + entityNameVarChild +

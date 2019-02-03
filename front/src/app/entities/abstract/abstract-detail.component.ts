@@ -5,6 +5,8 @@ import { HttpResponse } from '@angular/common/http';
 import { IAbstract } from '../entities-interface/abstract.interface';
 import { AbstractService } from './abstract.service';
 
+import * as moment  from 'moment';
+
 export abstract class AbstractDetailComponent implements OnInit {
 
     @Input() public isDeleteView: boolean;
@@ -19,6 +21,10 @@ export abstract class AbstractDetailComponent implements OnInit {
             .find(id)
             .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
                 this.rowTable = abstractResponse.body;
+                if (this.rowTable && this.rowTable.createdAt
+                    && typeof this.rowTable.createdAt === 'string') {
+                    console.log(moment(this.rowTable.createdAt));
+                }
             });
     }
 

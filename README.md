@@ -3,6 +3,7 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Back-end](#back-end)
+    * [How to delete too much database record](#how-to-delete-too-much-database-record)
     * [How to build and start OSRM server](#how-to-build-and-start-osrm-server)
 * [Front-end](#front-end)
     * [Routes](#routes)
@@ -26,6 +27,10 @@
 * See folder [./back](./back). Built with Typescript and Express.
 * See README written by me in [./back/README.md](./back/README.md).
 * It serves at http://localhost:8080/ or at https://localhost:8433/.
+
+## How to delete too much database record
+
+Use `./deleteTooMuchDatabaseRecord.sh`
 
 ## How to build and start OSRM server
 * See: [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
