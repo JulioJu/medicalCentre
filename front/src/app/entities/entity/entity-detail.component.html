@@ -21,8 +21,8 @@
                 <ng-container *ngTemplateOutlet="appAbstractTbody,
                        context: { $implicit: rowTable }" >
                 </ng-container>
-                <td>{{rowTable.createdAt}}</td>
-                <td>{{rowTable.updatedAt}}</td>
+                <td>{{displayMomentDate(rowTable.createdAt)}}</td>
+                <td>{{displayMomentDate(rowTable.updatedAt)}}</td>
                 <div *ngIf='!isDeleteView' >
                     <td><button type="submit"
                                 [routerLink]="['/' + entityNameVarChild +
