@@ -5,19 +5,19 @@ import {
     TextboxQuestion  }     from './../../../shared';
 import { messageREGEXSLASHW, REGEXSLASHW }     from '../../../app.constants';
 
-import { IAbstractFormQuestionService } from
-    '../../abstract/abstract.questions.service';
+import { IAbstractCreateOrEditQuestionsService } from
+    '../../abstract/abstract-create-or-edit.questions.service';
 
-import { PatientFormQuestionService } from
-    '../../patient/patient-form.questions.service';
+import { PatientCreateOrEditQuestionsService } from
+    '../patient-create-or-edit.questions.service';
 
 // TODO should become plain object
 @Injectable()
 export class PatientFormQuestionProtoComponent implements
-        IAbstractFormQuestionService {
+        IAbstractCreateOrEditQuestionsService {
 
     public getQuestions: Array<QuestionBase<string>> =
-        new PatientFormQuestionService().getQuestions.concat([
+        new PatientCreateOrEditQuestionsService().getQuestions.concat([
 
             new TextboxQuestion({
                 key: 'numbertest',

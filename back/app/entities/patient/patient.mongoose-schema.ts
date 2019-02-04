@@ -1,7 +1,6 @@
-import { IPersonSchema } from '../person';
+import { PersonSchema } from '../person';
 
-export class PatientSchema implements IPersonSchema {
-    public _id = String;
+export class PatientSchema extends PersonSchema {
     public _idSSN = {type: String, required: true, unique: true,
         validate: {
           isAsync: false,
@@ -9,9 +8,9 @@ export class PatientSchema implements IPersonSchema {
          message: '{VALUE} is not a valid social security number!'
         }
     };
-    public _firstname  = {type: String, required: true};
-    public _lastname   = {type: String, required: true};
     public _isMale     = {type: String, required: true};
     public _birthday   = {type: String, required: true};
     public _address    = {type: String, required: true};
+    public _longitude  = {type: Number, required: true};
+    public _latitude   = {type: Number, required: true};
 }

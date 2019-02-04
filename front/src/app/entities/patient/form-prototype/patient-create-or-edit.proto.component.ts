@@ -7,7 +7,7 @@ import {
     QuestionControlService
 }     from './..//../../shared';
 import { PatientFormQuestionProtoComponent } from
-    './patient-form-proto.questions.service';
+    './patient-create-or-edit.proto.questions.service';
 
 import { IAbstract } from '../../entities-interface/abstract.interface';
 
@@ -16,7 +16,7 @@ import { IAbstract } from '../../entities-interface/abstract.interface';
         .form-row{
             margin-top: 10px;
         }`],
-    templateUrl: './patient-form-proto.dynamic-form.component.html',
+    templateUrl: './patient-create-or-edit.proto.component.html',
     providers:  [
         QuestionControlService,
         PatientFormQuestionProtoComponent

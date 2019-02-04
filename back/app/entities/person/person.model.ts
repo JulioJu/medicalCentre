@@ -6,8 +6,7 @@ export abstract class Person extends AbstractModel {
     public constructor(
         _id: string,
         private _firstname: string,
-        private _lastname: string,
-        private _address: string) {
+        private _lastname: string) {
         super(_id);
     }
 
@@ -27,14 +26,6 @@ export abstract class Person extends AbstractModel {
         this._lastname = lastname;
     }
 
-    public get address(): string {
-        return this._address;
-    }
-
-    public set address(address: string) {
-        this._address = address;
-    }
-
     public toJSON(): IPerson {
         // return Object.assign({}, {
         //     _firstname: this._firstname,
@@ -43,8 +34,7 @@ export abstract class Person extends AbstractModel {
         // }, super.toJSON());
         return {...{
             _firstname: this._firstname,
-            _lastname: this._lastname,
-            _address: this._address
+            _lastname: this._lastname
         }, ...super.toJSON()};
     }
 }

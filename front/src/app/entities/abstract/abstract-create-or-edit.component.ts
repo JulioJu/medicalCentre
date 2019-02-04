@@ -13,8 +13,8 @@ import {
 
 import { IAbstract } from
     '../entities-interface/abstract.interface';
-
-import { IAbstractFormQuestionService } from './abstract.questions.service';
+import { IAbstractCreateOrEditQuestionsService } from
+    './abstract-create-or-edit.questions.service';
 import { AbstractService } from './abstract.service';
 
 export abstract class AbstractCreateOrEditComponent implements OnInit {
@@ -29,7 +29,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         private readonly router: Router,
         private readonly qcs: QuestionControlService,
         private readonly abstractService: AbstractService,
-        service: IAbstractFormQuestionService
+        service: IAbstractCreateOrEditQuestionsService
     ) {
         this.questions = service.getQuestions;
         this.formRoute = router.url;
@@ -78,6 +78,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         this.abstractService
         .find(id)
         .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
+            console.debug('coucou', abstractResponse);
             let rowTable: IAbstract | null;
             rowTable = abstractResponse.body;
             if (rowTable) {

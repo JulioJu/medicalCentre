@@ -10,8 +10,11 @@ export class Patient extends Person {
         _lastname: string,
         private _isMale: boolean,
         private _birthday: string,
-        _address: string) {
-        super(_id, _firstname, _lastname, _address);
+        private _address: string,
+        private _longitude: number,
+        private _latitude: number
+    ) {
+        super(_id, _firstname, _lastname);
     }
 
     public get idSSN(): string {
@@ -38,11 +41,41 @@ export class Patient extends Person {
         this._birthday = birthday;
     }
 
+    public get address(): string {
+        return this._address;
+    }
+
+    public set address(address: string) {
+        this._address = address;
+    }
+
+    public get longitude(): number {
+        return this._longitude;
+    }
+
+    public set longitude(longitude: number) {
+        this._longitude = longitude;
+    }
+
+    public get latitude(): number {
+        return this._latitude;
+    }
+
+    public set latitude(latitude: number) {
+        this._latitude = latitude;
+    }
+
     public toJSON(): IPatient {
         // return Object.assign({}, {_idSSN: this._idSSN, _isMale: this._isMale,
         //     _birthday: this._birthday}, super.toJSON());
-        return {...{_idSSN: this._idSSN, _isMale: this._isMale,
-            _birthday: this._birthday}, ...super.toJSON()};
+        return {...{_idSSN: this._idSSN,
+                    _isMale: this._isMale,
+                    _birthday: this._birthday,
+                    _address: this._address,
+                    _longitude: this._longitude,
+                    _latitude: this._latitude
+                    }
+                , ...super.toJSON()};
     }
 
 }

@@ -3,7 +3,6 @@
     <ng-template #appAbstractTheadAttr>
         <th>_firstname</th>
         <th>_lastname</th>
-        <th>_address</th>
         <!-- Could not use ng-content because it adds tag div who
                     breaks the tag thead -->
         <ng-container *ngTemplateOutlet="appPersonThead">
@@ -12,7 +11,6 @@
     <ng-template #appAbstractTbodyAttr let-entity>
         <td>{{entity._firstname}}</td>
         <td>{{entity._lastname}}</td>
-        <td>{{entity._address}}</td>
         <ng-container *ngTemplateOutlet="appPersonTbody,
                 context: {$implicit: entity}"> </ng-container>
     </ng-template>

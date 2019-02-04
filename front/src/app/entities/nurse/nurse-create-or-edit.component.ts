@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AbstractCreateOrEditComponent } from
-    '../abstract/abstract-form.dynamic-form.component';
+    '../abstract/abstract-create-or-edit.component';
 
 import { QuestionControlService }     from './../../shared';
 
-import { PatientFormQuestionService } from
-    './patient-form.questions.service';
-import { PatientService } from './patient.service';
+import { NurseCreateOrEditQuestionsService } from
+    './nurse-create-or-edit.questions.service';
+import { NurseService } from './nurse.service';
 
 @Component({
     styles: [`
@@ -18,22 +18,21 @@ import { PatientService } from './patient.service';
     templateUrl: './../../shared/form/dynamic-form.component.html',
     providers:  [
         QuestionControlService,
-        PatientFormQuestionService
+        NurseCreateOrEditQuestionsService
     ]
 })
-export class PatientCreateOrEditComponent
-        extends AbstractCreateOrEditComponent {
+export class NurseCreateOrEditComponent extends AbstractCreateOrEditComponent {
 
-    protected entityName: string = 'patient';
+    protected entityName: string = 'nurse';
 
     public constructor(
         route: ActivatedRoute,
         router: Router,
         qcs: QuestionControlService,
-        patientService: PatientService,
-        service: PatientFormQuestionService
+        nurseService: NurseService,
+        service: NurseCreateOrEditQuestionsService
     ) {
-        super(route, router, qcs, patientService, service);
+        super(route, router, qcs, nurseService, service);
     }
 
 }

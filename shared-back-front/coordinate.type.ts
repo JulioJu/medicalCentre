@@ -2,8 +2,8 @@
   *         AUTHOR: JulioJu
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
-  *        CREATED: Mon 04 Feb 2019 10:03:29 AM CET
-  *       MODIFIED: Mon 04 Feb 2019 11:27:47 PM CET
+  *        CREATED: Mon 04 Feb 2019 06:44:22 PM CET
+  *       MODIFIED: Mon 04 Feb 2019 06:46:43 PM CET
   *
   *          USAGE:
   *
@@ -11,5 +11,7 @@
   * ============================================================================
   */
 
-// Just for bare Mongo (not Mangoose)
-export const PutBareMongoMandatoryPerson = ['_firstname', '_lastname'];
+class coordinateType {
+    public longitude: number;
+    public latitude: number;
+}

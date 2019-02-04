@@ -4,6 +4,7 @@
 
 * [Back-end](#back-end)
     * [How to delete too much database record](#how-to-delete-too-much-database-record)
+    * [Important note](#important-note)
     * [How to build and start OSRM server](#how-to-build-and-start-osrm-server)
 * [Front-end](#front-end)
     * [Routes](#routes)
@@ -31,6 +32,11 @@
 ## How to delete too much database record
 
 Use `./deleteTooMuchDatabaseRecord.sh`
+
+## Important note
+
+* For HTTP PUT We don't test if there is too much POST params sent
+    (as in ASP.NET CORE)
 
 ## How to build and start OSRM server
 * See: [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
@@ -374,6 +380,7 @@ http://xhr.spec.whatwg.org/
     http://jasonwatmore.com/post/2017/06/25/angular&#45;2&#45;4&#45;alert&#45;toaster&#45;notifications
     Probably it's better if we have different sorts of messages.
 
+* WARNING depreciation warnings for CRUD in back. Correct it.
 
 # Notes for developers
 
@@ -407,3 +414,17 @@ http://xhr.spec.whatwg.org/
     Note that in a Promise, we must continue to try and catch Promises
     called even if it is marked `async`.
     It's logical.
+
+* For hierarchy of inheritance, with a class at the end, prefer use only
+    classes (e.b ./back/app/entities/abstract/abstract.model)
+    see at for instance at
+    ./shared-back-front/entities-interface/abstract.interface.ts
+    ```
+    // with "noImplicitAny": false in your tsconfig.json compilerOptions
+    // section. following code line:
+    // [_id: string]: string;
+    // Raise error:
+    // ERROR in src/app/entities/entities-interface/patient.interface.ts(5,5):
+    // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
+    // string index type 'string'.
+    ```

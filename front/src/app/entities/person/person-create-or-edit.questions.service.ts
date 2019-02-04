@@ -1,12 +1,12 @@
 import { TextboxQuestion  }     from './../../shared';
 import { messageREGEXSLASHW, REGEXSLASHW,
-    REGEXFRENCH, messageREGEXFRENCH,
-    REGEXADDRESS, messageREGEXADDRESS }     from '../../app.constants';
+    REGEXFRENCH, messageREGEXFRENCH }     from '../../app.constants';
 
-import { IAbstractFormQuestionService } from
-    '../abstract/abstract.questions.service';
+import { IAbstractCreateOrEditQuestionsService } from
+    '../abstract/abstract-create-or-edit.questions.service';
 
-export const PersonFormQuestionService: IAbstractFormQuestionService = {
+export const PersonFormQuestionService:
+        IAbstractCreateOrEditQuestionsService = {
 
     getQuestions: [
 
@@ -46,18 +46,6 @@ export const PersonFormQuestionService: IAbstractFormQuestionService = {
             title: messageREGEXFRENCH,
             pattern: REGEXFRENCH,
             patternMessage: messageREGEXFRENCH
-        }),
-
-        new TextboxQuestion({
-            key: '_address',
-            label: 'Address',
-            required: true,
-            placeholder: '1 place de la République 75011 Paris',
-            minLength: 3,
-            maxLength: 180,
-            title: messageREGEXADDRESS,
-            pattern: REGEXADDRESS,
-            patternMessage: messageREGEXADDRESS
         })
 
     ]

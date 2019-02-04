@@ -1,7 +1,6 @@
-import { IAbstractSchema } from '../abstract';
+import { AbstractSchema } from '../abstract';
 
-export interface IPersonSchema extends IAbstractSchema {
-    _firstname: {type: StringConstructor; required: boolean};
-    _lastname: {type: StringConstructor; required: boolean};
-    _address: {type: StringConstructor; required: boolean};
+export abstract class PersonSchema extends AbstractSchema {
+    public _firstname = {type: String, required: true};
+    public _lastname  = {type: String, required: true};
 }

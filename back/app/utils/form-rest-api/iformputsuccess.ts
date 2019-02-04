@@ -1,1 +1,1 @@
-../../../../form-rest-api/iformputsuccess.ts
+../../../../shared-back-front/form-rest-api/iformputsuccess.ts

@@ -2,15 +2,16 @@ import { Injectable }       from '@angular/core';
 
 import { QuestionBase }     from './../../shared';
 
-import { IAbstractFormQuestionService } from
-    '../abstract/abstract.questions.service';
+import { IAbstractCreateOrEditQuestionsService } from
+    '../abstract/abstract-create-or-edit.questions.service';
 
 import { PersonFormQuestionService } from
-    '../person/person-form.question.service';
+    '../person/person-create-or-edit.questions.service';
 
 // TODO should become plain object
 @Injectable()
-export class NurseFormQuestionService implements IAbstractFormQuestionService {
+export class NurseCreateOrEditQuestionsService implements
+        IAbstractCreateOrEditQuestionsService {
 
     public getQuestions: Array<QuestionBase<string>> =
         PersonFormQuestionService.getQuestions;
