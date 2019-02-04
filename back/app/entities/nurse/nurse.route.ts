@@ -2,23 +2,21 @@ import * as express from 'express';
 import { Nurse, NurseBaremongoService, NurseMongooseService } from './';
 import { AbstractRoute } from '../abstract';
 
-const putMandatoriesParameters = ['_firstname', '_lastname',
-    '_address'];
-const putAllParametersOrdered = ['_id', '_firstname', '_lastname',
-    '_address'];
+import { PutBareMongoMandatoryPerson, PutAllParametersPerson }
+    from '../person/person.route';
+
 export const NurseBaremongoRoute = (): express.Router =>
     AbstractRoute<Nurse>(Nurse,
         'Nurse',
         express.Router(),
         '/nurses',
         NurseBaremongoService,
-        putMandatoriesParameters,
-        putAllParametersOrdered);
+        PutAllParametersPerson,
+        PutBareMongoMandatoryPerson);
 export const NurseMongooseRoute = (): express.Router =>
     AbstractRoute<Nurse>(Nurse,
         'Nurse',
         express.Router(),
         '/nurses',
         NurseMongooseService,
-        putMandatoriesParameters,
-        putAllParametersOrdered);
+        PutAllParametersPerson);

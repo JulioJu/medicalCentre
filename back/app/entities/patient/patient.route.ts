@@ -2,23 +2,29 @@ import * as express from 'express';
 import { Patient, PatientBaremongoService, PatientMongooseService } from './';
 import { AbstractRoute } from '../abstract';
 
-const putMandatoriesParameters = ['_idSSN', '_firstname', '_lastname',
-    '_isMale', '_birthday', '_address'];
-const putAllParametersOrdered = ['_id', '_idSSN', '_firstname',
-    '_lastname', '_isMale', '_birthday', '_address'];
+import { PutBareMongoMandatoryPerson, PutAllParametersPerson }
+    from '../person/person.route';
+
+const commonArray = ['_idSSN', '_isMale', '_birthday'];
+
+const putAllParameters = PutAllParametersPerson.concat
+    (commonArray);
+
+const putBareMongoMandatoriesParameters = PutBareMongoMandatoryPerson
+    .concat(commonArray);
+
 export const PatientBaremongoRoute = (): express.Router =>
     AbstractRoute<Patient>(Patient,
         'Patient',
         express.Router(),
         '/patients',
         PatientBaremongoService,
-        putMandatoriesParameters,
-        putAllParametersOrdered);
+        putAllParameters,
+        putBareMongoMandatoriesParameters);
 export const PatientMongooseRoute = (): express.Router =>
     AbstractRoute<Patient>(Patient,
         'Patient',
         express.Router(),
         '/patients',
         PatientMongooseService,
-        putMandatoriesParameters,
-        putAllParametersOrdered);
+        putAllParameters);
