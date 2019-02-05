@@ -1,6 +1,13 @@
-import { AbstractSchema } from '../abstract';
+import * as mongoose from 'mongoose';
 
-export abstract class PersonSchema extends AbstractSchema {
-    public _firstname = {type: String, required: true};
-    public _lastname  = {type: String, required: true};
-}
+import { AbstractSchemaObject } from '../abstract';
+
+export const PersonSchemaObject = {
+    ...AbstractSchemaObject,
+    _firstname: {type: String, required: true},
+    _lastname: {type: String, required: true}
+};
+
+export const PersonSchema = new mongoose.Schema ({
+    ...PersonSchemaObject
+});

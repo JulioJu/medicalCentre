@@ -92,17 +92,17 @@ setTimeout(() => myEmitter.emit('next'), 8000);
 // tslint:disable:prefer-method-signature
 // // Some interesting examples to understand Promise and Observer mechamism
 // OR const observable = Rx.Observer.create(observer) => {
-const observableSubscribe = (observer: {next: (x: any) => void}) => {
+const observableSubscribe = (observer: {next: (x: string) => void}): void => {
     // Emit « next» 10 second after the start : NOT PRINT AT THE SAME TIME
     setTimeout(() => observer.next('a'), 10000);
 };
 // « subscribe »
 // OR observable.subscribe({next: (x) => {
-observableSubscribe({next: (x) => {
+observableSubscribe({next: (x: string): void => {
     console.log('firstObsListener');
 }});
 // « subscribe » 4 second after the start
-setTimeout(() => observableSubscribe({next: (x) => {
+setTimeout(() => observableSubscribe({next: (x: string): void => {
     console.log('secondObsListener');
 }}), 4000);
 

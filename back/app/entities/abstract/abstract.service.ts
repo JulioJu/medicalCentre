@@ -1,14 +1,22 @@
-import { IFormPutSuccess } from '../../utils/form-rest-api/iformputsuccess';
-
+import { AbstractModel } from '../abstract/abstract.model';
+import { IAbstract } from '../entities-interface';
+import * as mongoose from 'mongoose';
+import { FindAndModifyWriteOpResultObject, DeleteWriteOpResultObject }
+    from 'mongodb';
 export interface IAbstractService {
+    // any needed otherwise inherited entities complains that types are not
+        // compatibles
     collection?: string;
-    getRecords(): Promise<any>;
-    getRecord(_id: string): Promise<any>;
-    deleteRecord(_id: string): Promise<any>;
-    insertOrUpdate(myEntity: any): Promise<IFormPutSuccess>;
+    // tslint:disable-next-line:no-any
+    getRecords(): Promise<any | IAbstract[] | mongoose.Document[]>;
+    // tslint:disable-next-line:no-any
+    getRecord(_id: string): Promise<any | IAbstract | mongoose.Document>;
+    deleteRecord(_id: string): Promise<DeleteWriteOpResultObject['result']>;
+    insertOrUpdate(myEntity: AbstractModel):
+        Promise<FindAndModifyWriteOpResultObject<IAbstract>>;
 }
 
-export const checkCollection = (value: any): string => {
+export const checkCollection = (value?: string): string => {
     if (value) {
         return value;
     } else {
@@ -16,14 +24,8 @@ export const checkCollection = (value: any): string => {
     }
 };
 
-export const testId = (_id: any, reject: any) => {
+export const testId = (_id: string): void => {
     if (!_id) {
-        const mess = 'Can\'t find a record with _id null or undefined.';
-        console.error(JSON.stringify(mess));
-        reject(new Error(mess));
-    } else if (typeof _id !== 'string') {
-        const mess = 'Your _id is not a string, so it\'s not a valid _id.';
-        console.error(JSON.stringify(mess));
-        reject(new Error(mess));
+        throw new Error('Can\'t find a record with _id null or undefined.');
     }
 };

@@ -1,3 +1,9 @@
-export abstract class AbstractSchema {
-    public _id = String;
-}
+import * as mongoose from 'mongoose';
+
+export const AbstractSchemaObject = {
+    _id: String
+};
+
+export const AbstractSchema = new mongoose.Schema ({
+    ...AbstractSchemaObject
+});

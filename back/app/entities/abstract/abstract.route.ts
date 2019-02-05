@@ -1,7 +1,16 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { AbstractModel, IAbstractService } from './';
-import { IFormPutSuccess } from
-    '../../utils/form-rest-api/iformputsuccess';
+import { MongoError,
+    FindAndModifyWriteOpResultObject,
+    DeleteWriteOpResultObject }
+    from 'mongodb';
+import { IAbstract } from '../entities-interface';
+
+const Res502 = (res: Response, e: MongoError): void => {
+    console.error(JSON.stringify(e));
+    res.status(502);
+    res.json(e);
+};
 
 const put = <T extends AbstractModel>(req: Request,
         res: Response,
@@ -17,23 +26,10 @@ const put = <T extends AbstractModel>(req: Request,
     Object.assign(myModel, req.body);
 
     abstractService.insertOrUpdate(myModel)
-        .then((response: IFormPutSuccess) => {
+        .then((response: FindAndModifyWriteOpResultObject<IAbstract>) => {
             res.send(response);
         })
-        .catch((e: Error) => {
-            // console.error(e);
-            res.status(502)
-            .json(
-                // its type is IHttpErrorResponseFormPutError
-                // defined in
-// ../../../../form-http-interface/ihttperrorresponseformputerror.ts
-                {
-                    error_message: e.message,
-                    error_message_origin: 'mongo',
-                    details: e.stack
-                }
-            );
-        });
+        .catch((e: MongoError) => Res502(res, e));
 };
 
 const putBareMongo = <T extends AbstractModel>(req: Request,
@@ -76,29 +72,30 @@ const putBareMongo = <T extends AbstractModel>(req: Request,
  *
  */
 export const AbstractRoute = <T extends AbstractModel>(
+    // tslint:disable-next-line:no-any
         AbstractModelType: new (...args: any[]) => T,
         entityName: string,
         router: Router,
         routeName: string,
         abstractService: IAbstractService,
-        putBareMongoMandatoriesParameters?: string[]) => {
+        putBareMongoMandatoriesParameters?: string[]): Router => {
 
     router.get(routeName, (req: Request, res: Response) => {
         abstractService.getRecords()
-            .then((str) => res.json(str))
-            .catch((e) => res.json(e));
+            .then((str: string) => res.json(str))
+            .catch((e: MongoError) => Res502(res, e));
     });
 
     router.get(routeName + '/:_id', (req: Request, res: Response) => {
         abstractService.getRecord(req.params._id)
-            .then((str) => res.json(str))
-            .catch((e) => res.json(e));
+            .then((str: string) => res.json(str))
+            .catch((e: MongoError) => Res502(res, e));
     });
 
     router.delete(routeName + '/:_id', (req: Request, res: Response) => {
         abstractService.deleteRecord(req.params._id)
-            .then((str) => res.json(str))
-            .catch((e) => res.json(e));
+            .then((str: DeleteWriteOpResultObject['result']) => str)
+            .catch((e: MongoError) => Res502(res, e));
     });
 
     router.put(routeName, (req: Request, res: Response, next: NextFunction) => {

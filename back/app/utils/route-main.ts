@@ -1,7 +1,7 @@
 import * as express from 'express';             // The application server
 import * as path from 'path';                   // Deal with system paths
 
-export const routeMain = (app: express.Application): any => {
+export const routeMain = (app: express.Application): void => {
 
     app.get('/', (req: express.Request, res: express.Response) => {
         res.json({message: 'Il va falloir implémenter tout ça...'});

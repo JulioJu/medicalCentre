@@ -15,6 +15,8 @@ rules:
   # |    These rules find errors related to TypeScript features:
   # =========================
 
+  ban-ts-ignore: false
+
   # # Traditional functions don’t bind lexical scope, which can lead to unexpected
   # # behavior when accessing ‘this’.
   # only-arrow-functions: false
@@ -117,6 +119,18 @@ rules:
         typeLiterals: never
       esSpecCompliant: true
 
+  typedef:
+    - true
+    - call-signature # checks return type of functions.
+    - arrow-call-signature #  checks return type of arrow functions.
+    - parameter #  checks type specifier of function parameters for non-arrow functions
+    - arrow-parameter # checks type specifier of function parameters for arrow functions.
+    - property-declaratio # checks return types of interface propertiesn
+    # - variable-declaration # checks non-binding variable declarations
+    # - member-variable-declaration
+    - object-destructuring
+    - array-destructuring
+
   # =========================
   # |   Style
   # |   These rules enforce consistent style across your codebase:
@@ -212,12 +226,7 @@ rules:
   # |   But not very cool as it.
   # =========================
 
-  # Often we don't know which object is sent by the client.
-  no-any: false
   no-unsafe-any: false
-
-  # See the ../README.md. Maybe should be improve to become less redundant.
-  typedef: false
 
   # My code is not well aligned :'(
   # Can't be well fixed thanks option `--fix`

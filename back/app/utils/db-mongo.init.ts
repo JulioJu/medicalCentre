@@ -2,7 +2,8 @@ import { MongoClient, MongoError, Db } from 'mongodb';
 import { URLMONGODB, MONGO_DB_NAME } from './';
 
 export const dbMongoInit = async (): Promise<void> =>
-    new Promise<void>((resolve, reject) => {
+    new Promise((resolve: (v: void) => void,
+            reject: (e: Error) => void): void => {
         MongoClient
             .connect(URLMONGODB, {useNewUrlParser: true}, (error: MongoError,
                     mongoClient: MongoClient) => {
@@ -16,23 +17,23 @@ export const dbMongoInit = async (): Promise<void> =>
                     * not be closed.
                     * mongoClient.close();
                     */
-                    reject();
+                    reject(error);
                 } else {
                     const db: Db = mongoClient.db(MONGO_DB_NAME);
                     db.collection('patient')
                         .createIndex({ _idSSN: 1 }, { unique: true })
-                        .then((value) => {
+                        .then((value: string) => {
                             console.info('Dbmongo.init: created', value);
                         })
-                        .catch((e: any) => {
+                        .catch((e: MongoError) => {
                             console.error(e);
                             reject(e);
                         });
                     mongoClient.close()
-                        .then((value) => {
-                            console.info('Dbmongo.init: closed', value);
+                        .then((value: void) => {
+                            console.info('Dbmongo.init: closed');
                         })
-                        .catch((e: any) => {
+                        .catch((e: MongoError) => {
                             console.error(e);
                             reject(e);
                         });

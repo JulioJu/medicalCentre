@@ -29,7 +29,7 @@ if (semver.lte(nodeversion, '9.5.0')) {
 }
 
 // https://nodejs.org/api/process.html#process_event_exit
-process.on('exit', (code) => {
+process.on('exit', (code: number) => {
     console.debug(`This process have pid ${process.pid}`);
     console.info('If you run with npm or yarn, this process have one parent:',
         '"node /usr/bin/yarn" (or npm)',
@@ -41,7 +41,7 @@ process.on('exit', (code) => {
 // Tests args
 const baremongoArg = 'baremongo';
 const mongooseArg = 'mongoose';
-const errorMessageArg = () => {
+const errorMessageArg = (): void => {
     console.error('You must use at least one database, either "' + baremongoArg
         + '", or "' + mongooseArg + '"". You could use both.'
         + ' With Yarn you could write `yarn start ' + baremongoArg + '\' or'
@@ -66,7 +66,7 @@ if (process.argv.length !== 3 &&  process.argv.length !== 4) {
     }
 }
 
-const mongoConnectionSuccess = (name: string, url: string) => {
+const mongoConnectionSuccess = (name: string, url: string): void => {
     console.info('\n  ===================================\n',
     '| You use ' + name + '. \n',
     '| You could access to their functionnalities thanks URLs "/'
@@ -74,7 +74,7 @@ const mongoConnectionSuccess = (name: string, url: string) => {
     '===================================\n');
 };
 
-const mongoConnectionError = () => {
+const mongoConnectionError = (): void => {
     console.error('Cannot connect to the database. Maybe your'
         + ' MongoDB server is not running, or there is a'
         + ' problem with your'
@@ -82,45 +82,50 @@ const mongoConnectionError = () => {
     process.exit(15);
 };
 
-const mongoStatements = () => {
+const mongoStatements = async (): Promise<void> => {
     if (useBaremongo) {
-        dbMongoInit()
-            .then(() => {
-                mongoConnectionSuccess('bare MongoDB Node.JS Driver',
-                    'baremongo');
-                app.use('/baremongo', PatientBaremongoRoute());
-                app.use('/baremongo', NurseBaremongoRoute());
-                if (!useMongoose) {
-                    // should be at the end
-                    routeMain(app);
-                }
-            })
-            .catch (() => { mongoConnectionError(); });
+        try {
+            await dbMongoInit();
+        } catch {
+            mongoConnectionError();
+            return Promise.reject();
+        }
+        mongoConnectionSuccess('bare MongoDB Node.JS Driver',
+            'baremongo');
+        app.use('/baremongo', PatientBaremongoRoute());
+        app.use('/baremongo', NurseBaremongoRoute());
     }
+    return Promise.resolve();
 };
 
-const mongooseStatements = () => {
+const mongooseStatements = async (): Promise<void> => {
     if (useMongoose) {
-        dbMongooseInit()
-            .then(() => {
-                mongoConnectionSuccess('Mongoose', 'mongoose');
-                app.use('/mongoose', PatientMongooseRoute());
-                app.use('/mongoose', NurseMongooseRoute());
-                // should be at the end
-                routeMain(app);
-            })
-            .catch (() => { mongoConnectionError(); });
+        try {
+            await dbMongooseInit();
+        } catch {
+            mongoConnectionError();
+            return Promise.reject();
+        }
+        mongoConnectionSuccess('Mongoose', 'mongoose');
+        app.use('/mongoose', PatientMongooseRoute());
+        app.use('/mongoose', NurseMongooseRoute());
     }
+    return Promise.resolve();
 };
 
-// First promise
-nodeHttpServerInit(app)
-    .then(() => {
-        mongooseStatements();
-        mongoStatements();
-    })
-    .catch(() => {
+const main = async (): Promise<void> => {
+    try {
+        await nodeHttpServerInit(app);
+        await mongooseStatements();
+        await mongoStatements();
+        routeMain(app);
+    } catch (e) {
         console.error('Error during the instatiation of the HTTP Server.' +
             ' Node is stopping with error code 16');
         process.exit(16);
-    });
+    }
+};
+
+main()
+    .then(() => console.info('All instantiated with success.'))
+    .catch();

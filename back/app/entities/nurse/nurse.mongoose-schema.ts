@@ -1,7 +1,7 @@
-import { PersonSchema } from '../person';
+import * as mongoose from 'mongoose';
 
-export class NurseSchema implements PersonSchema {
-    public _id         = String;
-    public _firstname  = {type: String, required: true};
-    public _lastname   = {type: String, required: true};
-}
+import { PersonSchemaObject } from '../person';
+
+export const NurseSchema = new mongoose.Schema ({
+    ...PersonSchemaObject
+});

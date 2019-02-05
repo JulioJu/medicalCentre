@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { IAbstract } from
     './../../entities/entities-interface/abstract.interface';
 
@@ -8,6 +9,6 @@ import { IAbstract } from
 // =========
 
 export interface IFormPutSuccess {
-    isupdate: boolean;
-    entity: IAbstract;
+    isUpdate: boolean;
+    entity: IAbstract | mongoose.Document;
 }
