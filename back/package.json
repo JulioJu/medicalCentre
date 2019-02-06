@@ -5,15 +5,15 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./appJS/server.js",
+    "startInspect:all": "node --inspect ./appJS/server baremongo mongoose ",
     "compile": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc",
     "compileWatch": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc --watch",
     "lint": "node ./node_modules/tslint/bin/tslint --project ./tsconfig.json --config \"./tslint.yaml\" \"app/**/*.ts\" --format verbose",
+    "lint:lazy": "yarn run lint || echo -e '\\nLint error\\n\\n'",
     "watch:lint": "node ./node_modules/chokidar-cli/index.js 'app/**/*.ts' -c \"npm run lint\" --initial --verbose",
     "compileAndLint": "npm-run-all --parallel watch:lint compileWatch",
-    "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn lint && node ./appJS/server.js baremongo mongoose'",
-    "tscwatchNoLint": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node --inspect ./appJS/server.js baremongo mongoose' ",
-    "tscwatchNoLintBaremongo": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node  ./appJS/server.js baremongo'",
-    "tscwatchNoLintMongoose": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'node ./appJS/server.js mongoose'"
+    "tscwatch": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'npm-run-all lint:lazy startInspect:all'",
+    "tscwatchNoLint": "rm -Rf ./appJS/ && node ./node_modules/tsc-watch --onSuccess 'yarn run startInspect:all' "
   },
   "engines": {
     "node": ">=9.5.0"

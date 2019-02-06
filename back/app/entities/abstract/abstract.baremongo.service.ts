@@ -2,7 +2,7 @@ import { MongoError, MongoClient, Db,
     FindAndModifyWriteOpResultObject, DeleteWriteOpResultObject }
     from 'mongodb';
 
-import { testId, IAbstractService, AbstractModel } from './';
+import { IAbstractService, AbstractModel } from './';
 import { IAbstract } from '../entities-interface';
 // FIX circular dependencies. See ../../../AnotherCircularDependenciesError
 import { URLMONGODB, MONGO_DB_NAME } from '../../utils/const';
@@ -57,7 +57,6 @@ export const AbstractBaremongoService: IAbstractService = {
     async getRecord(id: string): Promise<IAbstract | null> {
         let mongoClient: MongoClient;
         try {
-            testId(id);
             mongoClient = await promiseConnectToMongo();
         } catch (error) {
             // type MongoError

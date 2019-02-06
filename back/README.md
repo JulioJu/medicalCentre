@@ -1,6 +1,7 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Utilisation](#utilisation)
+    * [Quick start and development](#quick-start-and-development)
     * [Patches](#patches)
 * [Compilation](#compilation)
     * [Debugger](#debugger)
@@ -26,6 +27,17 @@
 * If you have forgotten to start MongoDB service, or if there is a problem
     to be connected to the database, the application exit with error code 3.
 * You should not have two same idSSN. My code check that idSSN should be UNIQUE.
+
+## Quick start and development
+
+* ***Run***:
+    ```sh
+    yarn tscwatch
+    ```
+
+*  Compile in watch mode, then on compilation success launch the linter,
+    then launch the server (even if there are linter error).
+
 ## Patches
 * RXJS SHOULD BE PATCH.
     * `patch ./node_modules/rxjs/scheduler/VirtualTimeScheduler.d.ts < VirtualTimeScheduler.d.ts.patch`

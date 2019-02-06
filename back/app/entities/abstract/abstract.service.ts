@@ -3,6 +3,7 @@ import { IAbstract } from '../entities-interface';
 import * as mongoose from 'mongoose';
 import { FindAndModifyWriteOpResultObject, DeleteWriteOpResultObject }
     from 'mongodb';
+
 export interface IAbstractService {
     // any needed otherwise inherited entities complains that types are not
         // compatibles
@@ -15,9 +16,3 @@ export interface IAbstractService {
     insertOrUpdate(myEntity: AbstractModel):
         Promise<FindAndModifyWriteOpResultObject<IAbstract>>;
 }
-
-export const testId = (_id: string): void => {
-    if (!_id) {
-        throw new Error('Can\'t find a record with _id null or undefined.');
-    }
-};

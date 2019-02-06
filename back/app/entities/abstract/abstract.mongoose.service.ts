@@ -1,4 +1,4 @@
-import { testId, IAbstractService, AbstractModel } from './';
+import { IAbstractService, AbstractModel } from './';
 import { IAbstract } from '../entities-interface';
 import * as mongoose from 'mongoose';
 // import { ObjectID } from 'bson';
@@ -10,8 +10,6 @@ interface IAbstractServiceMongooseType extends IAbstractService {
     constructorStatic(abstractSchema: mongoose.Schema,
         collection: string): void;
 }
-
-const ErrorDBMessage = {errorMessage: 'Object garbaged'};
 
 export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
 
@@ -25,67 +23,48 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
         ): void {
         this.collection = collection;
         this.mongooseModel = mongoose
-            .model(this.collection as string, abstractSchema);
+            .model(this.collection, abstractSchema);
     },
 
     async getRecords(): Promise<mongoose.Document[]> {
-        if (this.mongooseModel) {
-            return this.mongooseModel.find();
-        } else {
-            return Promise.reject(ErrorDBMessage);
-        }
+        return (this.mongooseModel as mongoose.Model<mongoose.Document>).find();
     },
 
     async getRecord(_id: string): Promise<mongoose.Document | null> {
-        try {
-            testId(_id);
-        } catch (error) {
-            throw new Error(error as string);
-        }
-        if (this.mongooseModel) {
-            return this.mongooseModel.findById(_id);
-        } else {
-            return Promise.reject(ErrorDBMessage);
-        }
+        return (this.mongooseModel as mongoose.Model<mongoose.Document>)
+            .findById(_id);
     },
 
     async deleteRecord(id: string):
             Promise<DeleteWriteOpResultObject['result']> {
-        if (this.mongooseModel) {
-            return this.mongooseModel.deleteOne({_id: id});
-        } else {
-            return Promise.reject(ErrorDBMessage);
-        }
+        return (this.mongooseModel as mongoose.Model<mongoose.Document>)
+                .deleteOne({_id: id});
     },
 
     // tslint:disable:max-line-length
     async insertOrUpdate(myEntity: AbstractModel):
         Promise<FindAndModifyWriteOpResultObject<IAbstract>> {
-        if (this.mongooseModel) {
-            // FIXME: actually totally wrong defnition at @types/mongodb!!
-            //  post a Pull Request
-            // @ts-ignore: 2345
-            const result: FindAndModifyWriteOpResultObject<IAbstract> =
-                this.mongooseModel.findOneAndUpdate(
-                    // find a document with that filter
-                    {_id: myEntity.id},
-                    // document to insert when nothing was found
-                    { $set: myEntity } ,
-                    // options
-                    {upsert: true, new: true, runValidators: true
-                        , rawResult: true});
-            let savedOrUpdated = 'saved';
-            // tslint:disable-next-line:no-unsafe-any
-            if (result.lastErrorObject.updatedExisting) {
-                savedOrUpdated = 'updated';
-                // isUpdated = true;
-            }
-            console.info('You have', savedOrUpdated, ':\n',
-                result);
-            return result;
-        } else {
-            return Promise.reject(ErrorDBMessage);
+        // FIXME: actually totally wrong defnition at @types/mongodb!!
+        //  post a Pull Request
+        // @ts-ignore: 2345
+        const result: FindAndModifyWriteOpResultObject<IAbstract> =
+            (this.mongooseModel as mongoose.Model<mongoose.Document>).findOneAndUpdate(
+                // find a document with that filter
+                {_id: myEntity.id},
+                // document to insert when nothing was found
+                { $set: myEntity } ,
+                // options
+                {upsert: true, new: true, runValidators: true
+                    , rawResult: true});
+        let savedOrUpdated = 'saved';
+        // tslint:disable-next-line:no-unsafe-any
+        if (result.lastErrorObject.updatedExisting) {
+            savedOrUpdated = 'updated';
+            // isUpdated = true;
         }
+        console.info('You have', savedOrUpdated, ':\n',
+            result);
+        return result;
     }
 
 };
