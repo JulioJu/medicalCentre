@@ -1,8 +1,6 @@
 import { PersonSchemaObject } from '../person';
 
-import * as mongoose from 'mongoose';
-
-export const PatientSchema = new mongoose.Schema ({
+export const PatientSchema = {
     ...PersonSchemaObject,
     _idSSN : {type: String, required: true, unique: true,
         validate: {
@@ -16,4 +14,4 @@ export const PatientSchema = new mongoose.Schema ({
     _address    : {type: String, required: true},
     _longitude  : {type: Number, required: true},
     _latitude   : {type: Number, required: true}
-});
+};

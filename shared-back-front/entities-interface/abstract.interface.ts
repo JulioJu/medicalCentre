@@ -1,3 +1,5 @@
+type typesOfIAbstract = string | boolean | number | Date | undefined;
+
 export interface IAbstract  {
     // FIXME (for eventual JHipster PR)
     // with "noImplicitAny": false in your tsconfig.json compilerOptions
@@ -8,5 +10,8 @@ export interface IAbstract  {
     // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
     // string index type 'string'.
 
-    [_id: string]: string | boolean | number;
+    // Type Date is in reality mongoose.Schema.Types.Date
+    [_id: string]: typesOfIAbstract;
+    _createdAt?: Date;
+    _updatedAt?: Date;
 }

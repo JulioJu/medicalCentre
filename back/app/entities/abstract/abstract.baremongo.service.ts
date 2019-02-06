@@ -1,6 +1,7 @@
 import { MongoError, MongoClient, Db,
     FindAndModifyWriteOpResultObject, DeleteWriteOpResultObject }
     from 'mongodb';
+import { ObjectID } from 'bson';
 
 import { IAbstractService, AbstractModel } from './';
 import { IAbstract } from '../entities-interface';
@@ -30,6 +31,7 @@ const closeMongo = (mongoClient: MongoClient): void => {
         });
 };
 
+// If we use a class, we could easy factorize
 export const AbstractBaremongoService: IAbstractService = {
 
     collection: undefined,
@@ -89,6 +91,11 @@ export const AbstractBaremongoService: IAbstractService = {
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
             const obj: IAbstract = abstractModel.toJSON();
+            if (!obj.id) {
+                // tslint:disable-next-line
+                // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
+                obj.id = new ObjectID().toHexString();
+            }
             // See documentation at:
             // https://docs.mongodb.com/manual/reference/method/db.collection.save/
             // Note save is DEPRECATED.

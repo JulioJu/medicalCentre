@@ -12,7 +12,7 @@ import { AbstractService } from '../abstract';
 export class NurseService extends AbstractService {
 
     public constructor(protected readonly http: HttpClient) {
-        super(http, SERVER_API_URL + 'baremongo/nurses');
+        super(http, SERVER_API_URL + 'mongoose/nurses');
     }
 
 }

@@ -34,9 +34,12 @@
     ```sh
     yarn tscwatch
     ```
-
+* Or
+    ```sh
+    make
+    ```
 *  Compile in watch mode, then on compilation success launch the linter,
-    then launch the server (even if there are linter error).
+    then launch the server (even if there are linter errors).
 
 ## Patches
 * RXJS SHOULD BE PATCH.

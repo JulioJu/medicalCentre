@@ -2,6 +2,9 @@ import { HttpClient,
     HttpResponse,
     HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FindAndModifyWriteOpResultObject,
+    DeleteWriteOpResultObject
+} from 'mongodb';
 
 import { IAbstract } from
     '../entities-interface/abstract.interface';
@@ -15,10 +18,12 @@ export abstract class AbstractService {
     public constructor(protected readonly http: HttpClient,
         protected readonly resourceUrl: string) {}
 
-    public insertOrUpdate(abtractI: IAbstract): Observable<EntityResponseType> {
+    public insertOrUpdate(abtractI: IAbstract):
+            // tslint:disable-next-line:max-line-length
+            Observable<HttpResponse<FindAndModifyWriteOpResultObject<IAbstract>>> {
         return this.http
-            .put<IAbstract>(this.resourceUrl, abtractI,
-                { observe: 'response' });
+            .put<FindAndModifyWriteOpResultObject<IAbstract>>(
+                this.resourceUrl, abtractI, { observe: 'response' });
     }
 
     public find(id: string): Observable<EntityResponseType> {
@@ -34,9 +39,10 @@ export abstract class AbstractService {
                 { params: options, observe: 'response' });
     }
 
-    public delete(id: string): Observable<HttpResponse<IAbstract>> {
-        return this.http.delete<IAbstract>(`${this.resourceUrl}/${id}`,
-            { observe: 'response'});
+    public delete(id: string):
+            Observable<HttpResponse<DeleteWriteOpResultObject['result']>> {
+        return this.http.delete<DeleteWriteOpResultObject['result']>
+        (`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
 
 }

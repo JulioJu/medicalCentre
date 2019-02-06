@@ -4,10 +4,11 @@ import * as mongoose from 'mongoose';
 // import { ObjectID } from 'bson';
 import { FindAndModifyWriteOpResultObject,
     DeleteWriteOpResultObject } from 'mongodb';
+import { ObjectID } from 'bson';
 
 interface IAbstractServiceMongooseType extends IAbstractService {
     mongooseModel?: mongoose.Model<mongoose.Document>;
-    constructorStatic(abstractSchema: mongoose.Schema,
+    constructorStatic(abstractSchema: { _id: StringConstructor },
         collection: string): void;
 }
 
@@ -18,12 +19,13 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
     mongooseModel: undefined,
 
     constructorStatic (
-            abstractSchema: mongoose.Schema,
+            abstractSchema: {},
             collection: string
         ): void {
         this.collection = collection;
         this.mongooseModel = mongoose
-            .model(this.collection, abstractSchema);
+            .model(this.collection,
+                new mongoose.Schema({...abstractSchema}, {timestamps: true}));
     },
 
     async getRecords(): Promise<mongoose.Document[]> {
@@ -44,6 +46,11 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
     // tslint:disable:max-line-length
     async insertOrUpdate(myEntity: AbstractModel):
         Promise<FindAndModifyWriteOpResultObject<IAbstract>> {
+        if (!myEntity.id) {
+            // tslint:disable-next-line
+            // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
+            myEntity.id = new ObjectID().toHexString();
+        }
         // FIXME: actually totally wrong defnition at @types/mongodb!!
         //  post a Pull Request
         // @ts-ignore: 2345

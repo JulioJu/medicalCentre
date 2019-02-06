@@ -4,6 +4,9 @@ export abstract class AbstractModel {
     // not mandatory, because it's better if MongoDB create it's own id.
     // We could instantiate an AbstractModel without _id.
 
+    private readonly _createdAt?: Date;
+    private readonly _updatedAt?: Date;
+
     public constructor(private _id: string) {
     }
 
@@ -15,7 +18,18 @@ export abstract class AbstractModel {
         this._id = _id;
     }
 
+    public get createdAt(): Date | undefined {
+        return this._createdAt;
+    }
+
+    public get updatedAt(): Date | undefined {
+        return this._updatedAt;
+    }
+
     public toJSON(): IAbstract {
-        return {_id: this._id};
+        return {_id: this._id,
+            _createdAt: this._createdAt,
+            _updatedAt: this._updatedAt
+        };
     }
 }

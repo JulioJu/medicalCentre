@@ -7,7 +7,7 @@
     "start": "cd ../back && node ./appJS/server.js baremongo mongoose & cd ../front && ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint --format verbose",
     "e2e": "ng e2e"
   },
   "private": true,

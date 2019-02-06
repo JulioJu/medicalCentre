@@ -2,14 +2,14 @@ import { OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DeleteWriteOpResultObject } from 'mongodb';
 
 import { AbstractService } from './abstract.service';
 
-import { IAbstract } from '../entities-interface/abstract.interface';
-
-interface IHttpResponseDeletion {
-    n: number;
-}
+import {
+    CatchAndDisplayError,
+    ShowMongoError
+} from './../../shared';
 
 export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
 
@@ -26,24 +26,29 @@ export abstract class AbstractDeleteComponent implements OnDestroy, OnInit {
     private delete(id: string): void {
         this.abstractService
             .delete(id)
-            .subscribe((response: HttpResponse<IHttpResponseDeletion
-                    | IAbstract>) => {
-                if (!response || !response.body || !response.body.n ||
-                    response.body.n === 0) {
-                    this.router
-                        .navigate([
-                            '/' + this.entityNameVar + '-delete/' + id,
-                            { confirmation: 'false', stateDeletion: 'error' }])
-                        .catch((e: Error) => console.error(e));
-                } else {
-                    this.router
-                        .navigate([
-                            '/' + this.entityNameVar + '-delete/' + id,
-                            { confirmation: 'false', stateDeletion: 'deleted' }
-                        ])
-                        .catch((e: Error) => console.error(e));
-                }
-            });
+            .subscribe(
+                // tslint:disable-next-line:max-line-length
+                (response: HttpResponse<DeleteWriteOpResultObject['result']>) => {
+                    if (!response || !response.body || !response.body.n ||
+                        response.body.n === 0) {
+                        this.router
+                            .navigate([
+                                '/' + this.entityNameVar + '-delete/' + id,
+                                { confirmation: 'false',
+                                  stateDeletion: 'error' }])
+                            .catch(CatchAndDisplayError);
+                    } else {
+                        this.router
+                            .navigate([
+                                '/' + this.entityNameVar + '-delete/' + id,
+                                { confirmation: 'false',
+                                  stateDeletion: 'deleted' }
+                            ])
+                            .catch(CatchAndDisplayError);
+                    }
+                },
+                (ShowMongoError)
+            );
     }
 
     public ngOnInit(): void {

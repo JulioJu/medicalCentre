@@ -3,13 +3,16 @@ import { FormGroup, AbstractControl } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { IHttpErrorResponseFormPutError } from
-    '../../shared/form-rest-api/ihttperrorresponseformputerror';
+import { FindAndModifyWriteOpResultObject, } from 'mongodb';
 
 import {
     QuestionBase,
-    QuestionControlService
-}     from './../../shared';
+    QuestionControlService,
+    TriggerRemoveBanner,
+    ShowMongoError,
+    ShowError,
+    CatchAndDisplayError
+} from './../../shared';
 
 import { IAbstract } from
     '../entities-interface/abstract.interface';
@@ -62,6 +65,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         });
     }
 
+    /** Browser Session Storage */
     private loadFromSessionStorage(): void {
         if (sessionStorage.getItem(this.formRoute)) {
             const abstractJSON: string = sessionStorage
@@ -91,71 +95,31 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         });
     }
 
-    private readonly showError = (docErrorForm: HTMLElement,
-        err: IHttpErrorResponseFormPutError): void => {
-
-        docErrorForm.appendChild(
-            document.createTextNode(
-                'ERROR: ' + err.error.error_message
-            )
-        );
-        docErrorForm.style.display = 'block';
-    }
-
-    private readonly removeErrorBanner = (docErrorForm: HTMLElement): void => {
-        while (docErrorForm.firstChild) {
-            docErrorForm
-                .removeChild(docErrorForm.firstChild);
-            docErrorForm.style.display = 'none';
-        }
-    }
-
     protected onSubmit(): void {
         const abstract: IAbstract = this.form.value as IAbstract;
         console.debug('You try to save or update:', abstract);
         this.abstractService
             .insertOrUpdate(abstract)
-            // tslint:disable-next-line:no-any
-            .subscribe((response: any) => {
-                    // if (response.ok)
-                    console.info(response);
+            .subscribe(
+                // tslint:disable-next-line:max-line-length
+                (response: HttpResponse<FindAndModifyWriteOpResultObject<IAbstract>>) => {
                     sessionStorage.removeItem(this.formRoute);
-                    // tslint:disable-next-line:no-unsafe-any
-                    if (response && response.body && response.body) {
+                    if (response && response.body && response.body.value) {
                         this.router.navigate([
                             // tslint:disable-next-line:restrict-plus-operands
                             '/' + this.entityName + '/' +
-                            // tslint:disable-next-line:no-unsafe-any
-                            response.body.entity._id
+                            response.body.value._id
                         ])
-                        .catch((e: Error) => console.error(e));
+                        .catch(CatchAndDisplayError);
+                    } else {
+                        ShowError('Error unknown in request');
                     }
                 },
-                (err: IHttpErrorResponseFormPutError) => {
-                    console.error('ERROR', err);
-                    const docErrorForm: HTMLElement | null = document
-                        .getElementById('errorForm');
-                    if (docErrorForm) {
-                        if (docErrorForm.firstChild) {
-                            this.removeErrorBanner(docErrorForm);
-                            window.setTimeout(() => {
-                                this.showError(docErrorForm, err);
-                            // tslint:disable-next-line:no-magic-numbers
-                            } , 50);
-                        } else {
-                            this.showError(docErrorForm, err);
-                        }
-                    }
-                }
-            );
+                (ShowMongoError));
     }
 
-    protected reset(): void {
-        const docErrorForm: HTMLElement | null =
-            document.getElementById('errorForm');
-        if (docErrorForm && docErrorForm.firstChild) {
-            this.removeErrorBanner(docErrorForm);
-        }
+    protected reset = (): void => {
+        TriggerRemoveBanner();
     }
 
     public ngOnInit(): void {
