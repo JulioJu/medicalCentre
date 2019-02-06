@@ -96,7 +96,7 @@ export const AbstractRoute = <T extends AbstractModel>(
 
     router.delete(routeName + '/:_id', (req: Request, res: Response) => {
         abstractService.deleteRecord(req.params._id)
-            .then((str: DeleteWriteOpResultObject['result']) => str)
+            .then((str: DeleteWriteOpResultObject['result']) => res.json(str))
             .catch((e: MongoError) => Res502(res, e));
     });
 

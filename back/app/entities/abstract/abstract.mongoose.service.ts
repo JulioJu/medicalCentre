@@ -48,7 +48,11 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
         //  post a Pull Request
         // @ts-ignore: 2345
         const result: FindAndModifyWriteOpResultObject<IAbstract> =
-            (this.mongooseModel as mongoose.Model<mongoose.Document>).findOneAndUpdate(
+            // Said  'Invalid 'await' of a non-Promise value.', but
+            // it's a promise, I have tested !!
+            // tslint:disable-next-line:await-promise
+            await (this.mongooseModel as mongoose.Model<mongoose.Document>)
+                    .findOneAndUpdate(
                 // find a document with that filter
                 {_id: myEntity.id},
                 // document to insert when nothing was found

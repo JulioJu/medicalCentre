@@ -35,13 +35,7 @@ export const AbstractBaremongoService: IAbstractService = {
     collection: undefined,
 
     async getRecords(): Promise<IAbstract[]> {
-        let mongoClient: MongoClient;
-        try {
-            mongoClient = await promiseConnectToMongo();
-        } catch (error) {
-            // type MongoError
-            return Promise.reject(error);
-        }
+        const mongoClient = await promiseConnectToMongo();
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
             return await db.collection(this.collection as string)
@@ -55,13 +49,7 @@ export const AbstractBaremongoService: IAbstractService = {
     },
 
     async getRecord(id: string): Promise<IAbstract | null> {
-        let mongoClient: MongoClient;
-        try {
-            mongoClient = await promiseConnectToMongo();
-        } catch (error) {
-            // type MongoError
-            return Promise.reject(error);
-        }
+        const mongoClient = await promiseConnectToMongo();
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
             return await db.collection(this.collection as string)
@@ -76,17 +64,11 @@ export const AbstractBaremongoService: IAbstractService = {
 
     async deleteRecord(id: string):
             Promise<DeleteWriteOpResultObject['result']> {
-        let mongoClient: MongoClient;
-        try {
-            mongoClient = await promiseConnectToMongo();
-        } catch (error) {
-            return Promise.reject(error);
-        }
+        const mongoClient = await promiseConnectToMongo();
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
-            const res: DeleteWriteOpResultObject =
-                await db.collection(this.collection as string)
-                    .deleteOne({_id: id});
+            const res = await db.collection(this.collection as string)
+                .deleteOne({_id: id});
             return res.result;
         } catch (error) {
             // type MongoError

@@ -9,6 +9,7 @@
         "inlineSourceMap": false,
         "outDir": "./appJS",
         "watch": false,
+        "preserveWatchOutput": true,
         "baseUrl": ".", // This must be specified if "paths" is.
         "paths": {
           "@data/*": ["./app/data/*"],

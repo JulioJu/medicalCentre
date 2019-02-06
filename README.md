@@ -431,6 +431,7 @@ http://xhr.spec.whatwg.org/
     called even if it is marked `async`.
     It's logical.~~
     Nested Promises, simply return the Promise!
+    No need to try catch nested promises,
 
 * For hierarchy of inheritance, with a class at the end, prefer use only
     classes (e.b ./back/app/entities/abstract/abstract.model)
