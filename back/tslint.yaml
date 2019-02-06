@@ -127,7 +127,7 @@ rules:
     - arrow-parameter # checks type specifier of function parameters for arrow functions.
     - property-declaratio # checks return types of interface propertiesn
     # - variable-declaration # checks non-binding variable declarations
-    # - member-variable-declaration
+    - member-variable-declaration
     - object-destructuring
     - array-destructuring
 
@@ -226,7 +226,11 @@ rules:
   # |   But not very cool as it.
   # =========================
 
-  no-unsafe-any: false
+  # In this project, `// tslint:disable:no-unsafe-any' in
+  # app/utils/route-main.ts
+  # app/entities/abstract/abstract.route.ts
+  # app/ObserverTests.ts
+  # no-unsafe-any: false
 
   # My code is not well aligned :'(
   # Can't be well fixed thanks option `--fix`

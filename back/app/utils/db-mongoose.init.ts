@@ -12,7 +12,11 @@ export const dbMongooseInit = async (): Promise<void> =>
                 console.error(e);
                 reject(e);
             });
+
+        // https://github.com/Automattic/mongoose/issues/6880
+        // https://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
         mongoose.set('useCreateIndex', true);
+
         mongoose.set('useFindAndModify', false);
         const dbMongoose = mongoose.connection;
         dbMongoose.on('error', (e: MongoError) => {

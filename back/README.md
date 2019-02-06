@@ -6,7 +6,6 @@
     * [Debugger](#debugger)
 * [Create a new Entity inherited from Person](#create-a-new-entity-inherited-from-person)
 * [TODO](#todo)
-    * [Some small bad conceptions](#some-small-bad-conceptions)
 * [MongoDB](#mongodb)
 * [Routes](#routes)
         * [Routes patients](#routes-patients)
@@ -118,23 +117,6 @@
    TODO resolve it.
    See tslint.yaml
 
-## Some small bad conceptions
-
-* For front, use `typedef: true` is a very bad idea. Too much boilerplate,
-    sometimes with this rule typedef are redundant e.g
-    (imagine with lot of param, sometimes we have param definition
-    on several lines).
-    ```javascript
-    const myFunc: (aa: string) => bool = (aa: string): bool => {
-        return true;
-    }
-    * For a complet beginner it's could be cool, as it now I understand
-        know it off by heart how to define types. But not cool when
-        I come back to the code, too much boilerplate.
-
-    * For back-end too much any. But ofen we don't know the type sent
-        by the MongoDB server.
-
 # MongoDB
 * See also http://mongodb.github.io/node-mongodb-native/2.2/tutorials/crud/
 * See http://mongodb.github.io/node-mongodb-native/2.2/quick-start/quick-start/
@@ -189,7 +171,15 @@ error-handling middleware)
     and https://github.com/Microsoft/TypeScript/issues/21225
     Automatically detected thanks a linter rule.
 * We must send the REST error thanks:
-```json
-console.error(JSON.stringify(err)); // better for me than toString()
-reject(err); // we have the same result as above
+    ```javascript
+    console.error(JSON.stringify(err)); // better for me than toString()
+    reject(err); // we have the same result as above
 ```
+* Deprecated collection methods from mongodb
+    * https://github.com/Automattic/mongoose/issues/6880
+    * https://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
+    * See corresponding code at ./app/utils/db-mongoose.init.ts
+
+* Note: for ./app/entities/abstract/abstract.mongoose.service.ts
+    `Promise<mongoose.Document>` could become
+    `Promise<IAbstract>` could become if IAbstract inherit mongoose.Document

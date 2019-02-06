@@ -1,6 +1,8 @@
 import * as express from 'express';             // The application server
 import * as path from 'path';                   // Deal with system paths
 
+// tslint:disable:no-unsafe-any
+
 export const routeMain = (app: express.Application): void => {
 
     app.get('/', (req: express.Request, res: express.Response) => {

@@ -8,6 +8,7 @@
     * [How to build and start OSRM server](#how-to-build-and-start-osrm-server)
 * [Front-end](#front-end)
     * [Routes](#routes)
+    * [Rest API](#rest-api)
     * [Create a service with Angular-cli](#create-a-service-with-angular-cli)
 * [Observables](#observables)
 * [Slippy Map](#slippy-map)
@@ -21,6 +22,7 @@
     * [Secondary TODO](#secondary-todo)
     * [Principal TODO](#principal-todo)
 * [Notes for developers](#notes-for-developers)
+    * [Linting](#linting)
 
 <!-- vim-markdown-toc -->
 
@@ -84,6 +86,17 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     during navigation or page reload without submit.
     It's the default behaviour in Firefox for a simple HTML form (not Angular).
     For fields with value non empty, Angular Validation is performed.
+
+## Rest API
+
+* Bare Mongo Client or Mongoose send
+    * MongoError
+    * IAbstract
+    * DeleteWriteOpResultObject['result']
+    * FindAndModifyWriteOpResultObject
+    * => See also
+        * ./back/app/entities/abstract/abstract.baremongo.service.ts
+        * ./back/app/entities/abstract/abstract.mongoose.service.ts
 
 ## Create a service with Angular-cli
 * To create a new module with its service and component. With Angular-cli
@@ -361,6 +374,9 @@ http://xhr.spec.whatwg.org/
         ensure than `sessionStorage.getItem(this.formRoute)._id = ''` and
         display title `Creation`. Otherwise display `Edition`.
 
+* Open a PR on @types/mongoose, see
+    ./back/app/entities/abstract/abstract.mongoose.service
+
 ## Principal TODO
 
 * <!-- * See [./tslint.yaml](./tslint.yaml) @todo. -->
@@ -411,9 +427,10 @@ http://xhr.spec.whatwg.org/
 
 * When for error handling `await` / `async` see
     https://javascript.info/async-await#error-handling
-    Note that in a Promise, we must continue to try and catch Promises
+    ~~Note that in a Promise, we must continue to try and catch Promises
     called even if it is marked `async`.
-    It's logical.
+    It's logical.~~
+    Nested Promises, simply return the Promise!
 
 * For hierarchy of inheritance, with a class at the end, prefer use only
     classes (e.b ./back/app/entities/abstract/abstract.model)
@@ -428,3 +445,24 @@ http://xhr.spec.whatwg.org/
     // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
     // string index type 'string'.
     ```
+## Linting
+
+* Use `typedef: true` is a very bad idea. Too much boilerplate,
+    sometimes with this rule typedef are redundant e.g
+    (imagine with lot of param, sometimes we have param definition
+    on several lines).
+    ```javascript
+    const myFunc: (aa: string) => bool = (aa: string): bool => {
+        return true;
+    }
+    ```
+    * For a complet beginner it's could be cool, as it now I understand
+        know it off by heart how to define types. But not cool when
+        I come back to the code, too much boilerplate.
+    * Therefore for back I use `typdef: true` except for `variable-declaration`
+
+* In this project, `// tslint:disable:no-unsafe-any` in:
+    * back/app/utils/route-main.ts
+    * back/app/entities/abstract/abstract.route.ts
+    * back/app/ObserverTests.ts
+    * back/no-unsafe-any: false

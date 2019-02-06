@@ -6,6 +6,8 @@ import { MongoError,
     from 'mongodb';
 import { IAbstract } from '../entities-interface';
 
+// tslint:disable:no-unsafe-any
+
 const Res502 = (res: Response, e: MongoError): void => {
     console.error(JSON.stringify(e));
     res.status(502);

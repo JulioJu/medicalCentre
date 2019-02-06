@@ -1,4 +1,4 @@
-import { testId, checkCollection, IAbstractService, AbstractModel } from './';
+import { testId, IAbstractService, AbstractModel } from './';
 import { IAbstract } from '../entities-interface';
 import * as mongoose from 'mongoose';
 // import { ObjectID } from 'bson';
@@ -23,11 +23,9 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
             abstractSchema: mongoose.Schema,
             collection: string
         ): void {
-        this.collection = checkCollection(collection);
-        if (!this.mongooseModel) {
-            this.mongooseModel = mongoose
-                .model(this.collection, abstractSchema);
-        }
+        this.collection = collection;
+        this.mongooseModel = mongoose
+            .model(this.collection as string, abstractSchema);
     },
 
     async getRecords(): Promise<mongoose.Document[]> {
@@ -42,7 +40,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
         try {
             testId(_id);
         } catch (error) {
-            throw new Error(error);
+            throw new Error(error as string);
         }
         if (this.mongooseModel) {
             return this.mongooseModel.findById(_id);
@@ -64,7 +62,8 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
     async insertOrUpdate(myEntity: AbstractModel):
         Promise<FindAndModifyWriteOpResultObject<IAbstract>> {
         if (this.mongooseModel) {
-            // FIXME: actually totally wrong defnition !!
+            // FIXME: actually totally wrong defnition at @types/mongodb!!
+            //  post a Pull Request
             // @ts-ignore: 2345
             const result: FindAndModifyWriteOpResultObject<IAbstract> =
                 this.mongooseModel.findOneAndUpdate(
@@ -76,7 +75,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                     {upsert: true, new: true, runValidators: true
                         , rawResult: true});
             let savedOrUpdated = 'saved';
-            // let isUpdated = false;
+            // tslint:disable-next-line:no-unsafe-any
             if (result.lastErrorObject.updatedExisting) {
                 savedOrUpdated = 'updated';
                 // isUpdated = true;

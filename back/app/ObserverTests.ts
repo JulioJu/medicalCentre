@@ -1,4 +1,7 @@
 // tslint:disable:max-line-length
+
+// tslint:disable:no-unsafe-any
+
 // =====
 // | Notes |
 // =====

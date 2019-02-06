@@ -16,14 +16,6 @@ export interface IAbstractService {
         Promise<FindAndModifyWriteOpResultObject<IAbstract>>;
 }
 
-export const checkCollection = (value?: string): string => {
-    if (value) {
-        return value;
-    } else {
-        throw new Error('collection is not defined');
-    }
-};
-
 export const testId = (_id: string): void => {
     if (!_id) {
         throw new Error('Can\'t find a record with _id null or undefined.');

@@ -2,7 +2,7 @@ import { MongoError, MongoClient, Db,
     FindAndModifyWriteOpResultObject, DeleteWriteOpResultObject }
     from 'mongodb';
 
-import { testId, checkCollection, IAbstractService, AbstractModel } from './';
+import { testId, IAbstractService, AbstractModel } from './';
 import { IAbstract } from '../entities-interface';
 // FIX circular dependencies. See ../../../AnotherCircularDependenciesError
 import { URLMONGODB, MONGO_DB_NAME } from '../../utils/const';
@@ -42,10 +42,9 @@ export const AbstractBaremongoService: IAbstractService = {
             // type MongoError
             return Promise.reject(error);
         }
-        const thisCollection = checkCollection(this.collection);
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
-            return await db.collection(thisCollection)
+            return await db.collection(this.collection as string)
                 .find()
                 .toArray();
         } catch (error) {
@@ -64,10 +63,9 @@ export const AbstractBaremongoService: IAbstractService = {
             // type MongoError
             return Promise.reject(error);
         }
-        const thisCollection = checkCollection(this.collection);
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
-            return await db.collection(thisCollection)
+            return await db.collection(this.collection as string)
                 .findOne({_id: id}, {});
         } catch (error) {
             // type MongoError
@@ -85,11 +83,10 @@ export const AbstractBaremongoService: IAbstractService = {
         } catch (error) {
             return Promise.reject(error);
         }
-        const thisCollection = checkCollection(this.collection);
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
             const res: DeleteWriteOpResultObject =
-                await db.collection(thisCollection)
+                await db.collection(this.collection as string)
                     .deleteOne({_id: id});
             return res.result;
         } catch (error) {
@@ -108,7 +105,6 @@ export const AbstractBaremongoService: IAbstractService = {
         } catch (error) {
             return Promise.reject(error);
         }
-        const thisCollection = checkCollection(this.collection);
         const db: Db = mongoClient.db(MONGO_DB_NAME);
         try {
             const obj: IAbstract = abstractModel.toJSON();
@@ -121,10 +117,11 @@ export const AbstractBaremongoService: IAbstractService = {
             // See also
             // https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/
             const res: FindAndModifyWriteOpResultObject<IAbstract>
-                = await db.collection(thisCollection)
+                = await db.collection(this.collection as string)
                 .findOneAndUpdate({_id: obj._id},
                     { $set: obj} ,
                     {upsert: true});
+            // tslint:disable-next-line:no-unsafe-any
             if (res.lastErrorObject.updatedExisting === true) {
                 console.log(`${this.collection} updated`);
                 console.log(`result: ${res}`);

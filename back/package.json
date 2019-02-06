@@ -23,7 +23,6 @@
   "dependencies": {
     "@types/semver": "^5.5.0",
     "body-parser": "^1.18.3",
-    "bson": "^4.0.1",
     "console-error": "^0.0.4",
     "console-info": "^0.0.5",
     "console-warn": "^0.0.4",
