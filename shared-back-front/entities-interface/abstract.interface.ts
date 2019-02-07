@@ -10,8 +10,8 @@ export interface IAbstract  {
     // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
     // string index type 'string'.
 
-    // Type Date is in reality mongoose.Schema.Types.Date
-    [_id: string]: typesOfIAbstract;
+    [key: string]: typesOfIAbstract;
+    _id: string;
     _createdAt?: Date;
     _updatedAt?: Date;
 }

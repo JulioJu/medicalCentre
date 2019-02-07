@@ -198,3 +198,20 @@ error-handling middleware)
 * Note: for ./app/entities/abstract/abstract.mongoose.service.ts
     `Promise<mongoose.Document>` could become
     `Promise<IAbstract>` could become if IAbstract inherit mongoose.Document
+
+* abstract.model.ts is used by Mongoose, and all properties should be in
+    the constructor! Otherwise can't parse to JSON.
+
+* Baremongo don't manage timestamps actually
+
+* We could have `_id=null`, that's why we use boson to generate id.
+
+* For abstract.baremongo.service.ts/insertOrUpdate()
+    if (obj.id) and object not already created
+    obj.createdAt will be null.
+    Furthermore in this case we can't deduce created date
+    from id.
+
+* For update timestamp in Mongoose see https://github.com/Automattic/mongoose/issues/4768
+    actually I manually set updateAt
+

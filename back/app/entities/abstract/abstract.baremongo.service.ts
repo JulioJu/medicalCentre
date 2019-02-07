@@ -94,8 +94,14 @@ export const AbstractBaremongoService: IAbstractService = {
             if (!obj.id) {
                 // tslint:disable-next-line
                 // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
-                obj.id = new ObjectID().toHexString();
+                obj._id = new ObjectID().toHexString();
+                // FIXME if {obj.id } and object not already created
+                // obj.createdAt will be null.
+                // Furthermore in this case we can't deduce created date
+                // from id.
+                obj.createdAt = new Date();
             }
+            obj.updatedAt = new Date();
             // See documentation at:
             // https://docs.mongodb.com/manual/reference/method/db.collection.save/
             // Note save is DEPRECATED.
@@ -115,6 +121,11 @@ export const AbstractBaremongoService: IAbstractService = {
                 console.log(`result: ${res}`);
                 closeMongo(mongoClient);
             } else {
+
+                // Otherwise it's null, contrary to findOneAndUpdate of
+                // Mongoose
+                res.value = obj;
+
                 console.log(`${this.collection} inserted`);
                 console.log(`result: ${res}`);
                 closeMongo(mongoClient);

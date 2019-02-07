@@ -4,10 +4,10 @@ export abstract class AbstractModel {
     // not mandatory, because it's better if MongoDB create it's own id.
     // We could instantiate an AbstractModel without _id.
 
-    private readonly _createdAt?: Date;
-    private readonly _updatedAt?: Date;
-
-    public constructor(private _id: string) {
+    public constructor(private _id: string,
+        // should be in constructor for Mongoose
+        private _createdAt?: Date,
+        private _updatedAt?: Date) {
     }
 
     public get id(): string {
@@ -22,8 +22,16 @@ export abstract class AbstractModel {
         return this._createdAt;
     }
 
+    public set createdAt(_createdAt: Date | undefined)  {
+        this._createdAt = _createdAt;
+    }
+
     public get updatedAt(): Date | undefined {
         return this._updatedAt;
+    }
+
+    public set updatedAt(_updatedAt: Date | undefined)  {
+        this._updatedAt = _updatedAt;
     }
 
     public toJSON(): IAbstract {

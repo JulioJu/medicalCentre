@@ -94,6 +94,11 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     * IAbstract
     * DeleteWriteOpResultObject['result']
     * FindAndModifyWriteOpResultObject
+    * https://mongoosejs.com/docs/api.html#Error
+        (but not handle properly in front and in back). Even if it's
+        a validation error, send error 502. Should send error 400.
+        * See also https://mongoosejs.com/docs/validation.html
+        * See also errors types
     * => See also
         * ./back/app/entities/abstract/abstract.baremongo.service.ts
         * ./back/app/entities/abstract/abstract.mongoose.service.ts
@@ -397,6 +402,8 @@ http://xhr.spec.whatwg.org/
     Probably it's better if we have different sorts of messages.
 
 * WARNING depreciation warnings for CRUD in back. Correct it.
+
+* Use better mongoose Validation. See also section REST API above
 
 # Notes for developers
 

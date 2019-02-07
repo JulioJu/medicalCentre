@@ -14,5 +14,6 @@ export interface IAbstractService {
     getRecord(_id: string): Promise<any | IAbstract | mongoose.Document>;
     deleteRecord(_id: string): Promise<DeleteWriteOpResultObject['result']>;
     insertOrUpdate(myEntity: AbstractModel):
-        Promise<FindAndModifyWriteOpResultObject<IAbstract>>;
+        Promise<FindAndModifyWriteOpResultObject<IAbstract>
+            | mongoose.Error.ValidatorError>;
 }

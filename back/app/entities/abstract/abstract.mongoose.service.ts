@@ -51,6 +51,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
             // https://stackoverflow.com/questions/10593337/is-there-any-way-to-create-mongodb-like-id-strings-without-mongodb
             myEntity.id = new ObjectID().toHexString();
         }
+        myEntity.updatedAt = new Date();
         // FIXME: actually totally wrong defnition at @types/mongodb!!
         //  post a Pull Request
         // @ts-ignore: 2345

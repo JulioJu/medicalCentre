@@ -5,7 +5,7 @@
 #
 #         USAGE: See README.md
 #
-#   DESCRIPTION:
+#   DESCRIPTION: Not very useful, just for fun. Use mongo shell instead.
 #
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -76,7 +76,8 @@ usage() {
     error 5 "${NC}Should have one or two arguments." \
         "\n\t* First one: name 'baremongo' or 'mongoose' to indicate which" \
             "one to delete." \
-        "\n\t* Seconde one (optional): '--all': delete all records."
+        "\n\t* Seconde one (optional): '--all': delete all records " \
+        " (use mongo shell to drop database instead)."
 }
 
 testCommandLine(){
@@ -112,7 +113,7 @@ deleteTooMuchDatabaseRecord() {
     echo -e "\n\n${URED}deleteTooMuchDatabaseRecord ${entityName}${NC}" \
         "\n==============\n"
     set -x
-    curl --fail --silent "http://localhost:4200/${database}/${entityName}" \
+    curl --fail --silent "http://localhost:8080/${database}/${entityName}" \
         > "${tmpfile}"
     nvim --headless -c "set ts=4 sw=4 et ft=json | Neoformat | x" "${tmpfile}"
     set +x
@@ -133,12 +134,12 @@ deleteTooMuchDatabaseRecord() {
             then
                 set -x
                 curl --fail --silent -X DELETE \
-                    "http://localhost:4200/${database}/${entityName}/${i}" \
+                    "http://localhost:8080/${database}/${entityName}/${i}" \
                     > /dev/null
                 numberOfRecordsDeleted=$((numberOfRecordsDeleted+1))
                 set +x
             else
-                echo "http://localhost:4200/${database}/${entityName}/${i}" \
+                echo "http://localhost:8080/${database}/${entityName}/${i}" \
                     "skipped to let some entities in database."
             fi
             numberOfRecords=$((numberOfRecords+1))
