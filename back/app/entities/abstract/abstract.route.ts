@@ -4,6 +4,7 @@ import { MongoError,
     FindAndModifyWriteOpResultObject,
     DeleteWriteOpResultObject }
     from 'mongodb';
+import * as mongoose from 'mongoose';
 import { IAbstract } from '../entities-interface';
 
 // tslint:disable:no-unsafe-any
@@ -14,10 +15,25 @@ const Res502 = (res: Response, e: MongoError): void => {
     res.json(e);
 };
 
+const ResInsertOrUpdate = (res: Response,
+        e: MongoError | mongoose.Error.ValidationError,
+        isMongoose: boolean): void => {
+    console.error(JSON.stringify(e));
+    if (isMongoose && (e as mongoose.Error.ValidationError).errors) {
+        res.status(400);
+    } else if ((e as MongoError).code === 11000) {
+        res.status(400);
+    } else {
+        res.status(502);
+    }
+    res.json(e);
+};
+
 const put = <T extends AbstractModel>(req: Request,
         res: Response,
         AbstractModelType: new (...args: string[]) => T,
-        abstractService: IAbstractService): void => {
+        abstractService: IAbstractService,
+        isMongoose: boolean): void => {
 
     console.debug('POST params sent from front and tried to be persisted:' ,
         req.body);
@@ -31,7 +47,7 @@ const put = <T extends AbstractModel>(req: Request,
         .then((response: FindAndModifyWriteOpResultObject<IAbstract>) => {
             res.send(response);
         })
-        .catch((e: MongoError) => Res502(res, e));
+        .catch((e: MongoError) => ResInsertOrUpdate(res, e, isMongoose));
 };
 
 const putBareMongo = <T extends AbstractModel>(req: Request,
@@ -50,7 +66,7 @@ const putBareMongo = <T extends AbstractModel>(req: Request,
         }
     }
     if (errorMessage === '') {
-        put(req, res, AbstractModelType, abstractService);
+        put(req, res, AbstractModelType, abstractService, false);
     } else {
         let formSent: string | {};
         req.body ? formSent = req.body
@@ -105,7 +121,7 @@ export const AbstractRoute = <T extends AbstractModel>(
             putBareMongo(req, res, AbstractModelType, abstractService,
                 putBareMongoMandatoriesParameters);
         } else {
-            put(req, res, AbstractModelType, abstractService);
+            put(req, res, AbstractModelType, abstractService, true);
         }
     });
 

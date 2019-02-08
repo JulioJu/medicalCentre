@@ -8,6 +8,7 @@
 * [Create a new Entity inherited from Person](#create-a-new-entity-inherited-from-person)
 * [TODO](#todo)
 * [MongoDB](#mongodb)
+* [Mongoose](#mongoose)
 * [Routes](#routes)
         * [Routes patients](#routes-patients)
         * [Routes nurses](#routes-nurses)
@@ -142,6 +143,20 @@
     BECAUSE IT'S A VERY OLD DOCUMENTATION.
     USE INSTEAD:
     https://mongodb.github.io/node-mongodb-native/
+
+# Mongoose
+* See my Pull Request
+    * https://github.com/Automattic/mongoose/pull/7499
+    * https://github.com/Automattic/mongoose/pull/7499
+
+* TODO post an Issue on mongoose Documentation.
+    all Mongoose CRUD operations are Promises
+    For instance for findOneAndUpdate()
+    https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/model.js#L2246
+    https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L2812
+    https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L4109
+    * Don't forget that it's no mandatory to add keyboard `await`
+        when we call a Promise in a return function.
 
 # Routes
 See

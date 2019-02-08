@@ -91,17 +91,32 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 
 * Bare Mongo Client or Mongoose send
     * MongoError
+        * If HTTP Code 400
+            * error.code === 11000 means it's there is an DuplicateKey error
+                * See also how to manipulate it
+                    * https://github.com/Automattic/mongoose/issues/2129
+                    * https://github.com/DefinitelyTyped/DefinitelyTyped/blob/510f81374c99b2b985400faa92af10444c3b8127/types/mongodb/index.d.ts#L212,L228
+        * If HTTP Code 502: error that is not Validation Error
+            (mongo server shutdown for instance)
     * IAbstract
     * DeleteWriteOpResultObject['result']
     * FindAndModifyWriteOpResultObject
-    * https://mongoosejs.com/docs/api.html#Error
-        (but not handle properly in front and in back). Even if it's
-        a validation error, send error 502. Should send error 400.
+    * ValidationError (only for mongoose) with HTTP Code 400
+        https://mongoosejs.com/docs/api.html#Error
+        ~~(but not handle properly in front and in back). Even if it's
+        a validation error, send  502. Should send error 400.~~
+        Done
         * See also https://mongoosejs.com/docs/validation.html
         * See also errors types
+    * Custom object with ``{ e.error_message_origin: 'back'}`` with HTTP error 400
+        * Only for baremongo error, check only mandatory parameters.
+        * Not very well idea, should use Mongodb Schema instead,
+            but Mongoose Validation is more powerful,
+            more capabilities and definitions are more clear.
     * => See also
         * ./back/app/entities/abstract/abstract.baremongo.service.ts
         * ./back/app/entities/abstract/abstract.mongoose.service.ts
+        * ./back/app/entities/abstract/abstract.route.ts
 
 ## Create a service with Angular-cli
 * To create a new module with its service and component. With Angular-cli
