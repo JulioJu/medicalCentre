@@ -1,5 +1,6 @@
 <div>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <form *ngIf="form ; else loading"
+            (ngSubmit)="onSubmit()" [formGroup]="form">
         <div *ngFor="let question of questions" class="form-row">
             <app-question [question]="question" [form]="form"></app-question>
         </div>
@@ -9,4 +10,9 @@
             <button type="reset" (click)="reset()" >Clear</button>
         </div>
     </form>
+    <ng-template #loading>
+        <div class="loading-container" style="display: flex; align-items: center;">
+            <div class="loading"></div><span>Loading Form...</span>
+        </div>
+    </ng-template>
 </div>

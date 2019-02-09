@@ -1,4 +1,4 @@
-type typesOfIAbstract = string | boolean | number | Date | undefined;
+export type TypesOfIAbstract = string | boolean | number | Date | undefined;
 
 export interface IAbstract  {
     // FIXME (for eventual JHipster PR)
@@ -10,7 +10,7 @@ export interface IAbstract  {
     // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
     // string index type 'string'.
 
-    [key: string]: typesOfIAbstract;
+    [key: string]: TypesOfIAbstract;
     _id: string;
     _createdAt?: Date;
     _updatedAt?: Date;

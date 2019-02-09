@@ -1,3 +1,4 @@
 export const AbstractSchemaObject = {
-    _id: String
+    _id: String,
+    updatedAt: Date
 };

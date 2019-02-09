@@ -40,7 +40,6 @@ export class PatientCreateOrEditQuestionsService
                 type: 'date',
                 placeholder: 'dd / mm / yyyy',
                 min: new Date(new Date('1900-01-01')),
-                // TODO why 864e5
                 max: new Date(Date.now() - this.oneDay)
             }),
 

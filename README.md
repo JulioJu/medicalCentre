@@ -8,7 +8,7 @@
     * [How to build and start OSRM server](#how-to-build-and-start-osrm-server)
 * [Front-end](#front-end)
     * [Routes](#routes)
-    * [Rest API](#rest-api)
+    * [Rest API for PUT an entity](#rest-api-for-put-an-entity)
     * [Create a service with Angular-cli](#create-a-service-with-angular-cli)
 * [Observables](#observables)
 * [Slippy Map](#slippy-map)
@@ -23,6 +23,7 @@
     * [Principal TODO](#principal-todo)
 * [Notes for developers](#notes-for-developers)
     * [Linting](#linting)
+    * [Credit](#credit)
 
 <!-- vim-markdown-toc -->
 
@@ -87,7 +88,7 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     It's the default behaviour in Firefox for a simple HTML form (not Angular).
     For fields with value non empty, Angular Validation is performed.
 
-## Rest API
+## Rest API for PUT an entity
 
 * Bare Mongo Client or Mongoose send
     * MongoError
@@ -489,3 +490,7 @@ http://xhr.spec.whatwg.org/
     * back/app/entities/abstract/abstract.route.ts
     * back/app/ObserverTests.ts
     * back/no-unsafe-any: false
+
+## Credit
+
+* For css animation https://loading.io/css/

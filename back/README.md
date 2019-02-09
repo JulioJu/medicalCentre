@@ -149,14 +149,15 @@
     * https://github.com/Automattic/mongoose/pull/7499
     * https://github.com/Automattic/mongoose/pull/7499
 
-* TODO post an Issue on mongoose Documentation.
-    all Mongoose CRUD operations are Promises
-    For instance for findOneAndUpdate()
-    https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/model.js#L2246
-    https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L2812
-    https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L4109
+* All Mongoose CRUD operations are thenable (but not Promises)
+    See https://mongoosejs.com/docs/promises.html
+    * Rational for findOneAndUpdate()
+        https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/model.js#L2246
+        https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L2812
+        https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L4109
     * Don't forget that it's no mandatory to add keyboard `await`
         when we call a Promise in a return function.
+    * I've posted a new issue at https://github.com/Automattic/mongoose/issues/7506
 
 # Routes
 See

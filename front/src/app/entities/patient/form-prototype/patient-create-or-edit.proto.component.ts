@@ -39,24 +39,28 @@ export class PatientCreateOrEditProtoComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.form = this.qcs.toFormGroup(this.questions);
-        if (sessionStorage.getItem(this.formRoute)) {
-            const abstractJSON: string = sessionStorage
-                .getItem(this.formRoute) as string;
-            // I've tested. If the JSON doesn't match the form, no bugs.
-            this.form.setValue(JSON.parse(abstractJSON) as IAbstract);
-            Object.keys(this.form.controls)
-                .forEach((field: string) => {
-                    const control: AbstractControl | null =
-                        this.form.get(field);
-                    if (control && control.value as string
-                            && (control.value as string).length > 0) {
-                        control.markAsTouched({ onlySelf: true });
-                    }
-            });
-        }
-        this.form.valueChanges.subscribe((val: string) => {
-            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
+        this.qcs.toFormGroup(this.questions, undefined)
+            .then((formRetrieved: FormGroup): void => {
+                this.form = formRetrieved;
+                if (sessionStorage.getItem(this.formRoute)) {
+                    const abstractJSON: string = sessionStorage
+                        .getItem(this.formRoute) as string;
+                    // I've tested. If the JSON doesn't match the form, no bugs.
+                    this.form.setValue(JSON.parse(abstractJSON) as IAbstract);
+                    Object.keys(this.form.controls)
+                        .forEach((field: string) => {
+                            const control: AbstractControl | null =
+                                this.form.get(field);
+                            if (control && control.value as string
+                                    && (control.value as string).length > 0) {
+                                control.markAsTouched({ onlySelf: true });
+                            }
+                    });
+                    this.form.valueChanges.subscribe((val: string) => {
+                        sessionStorage
+                            .setItem(this.formRoute, JSON.stringify(val));
+                    });
+            }
         });
     }
 

@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+// import * as mongoose from 'mongoose';
 import { PersonSchemaObject } from '../person';
 
 export const PatientSchema = {
@@ -18,7 +18,14 @@ export const PatientSchema = {
     },
 
     _isMale     : {type: String, required: true},
-    _birthday   : {type: mongoose.Schema.Types.Date, required: true},
+
+    // Not compatible with JavaScript Date
+    // _birthday   : {type: mongoose.Schema.Types.Date, required: true},
+
+    // Actually date is in stored as
+    // https://en.wikipedia.org/wiki/ISO_8601
+    _birthday   : {type: Date, required: true},
+
     _address    : {type: String, required: true},
     _longitude  : {type: Number, required: true},
     _latitude   : {type: Number, required: true}

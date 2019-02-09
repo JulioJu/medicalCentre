@@ -6,6 +6,8 @@ import { FindAndModifyWriteOpResultObject,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
 
+// tslint:disable:no-unsafe-any
+
 // tslint:disable:no-any interface-name
 declare module 'mongoose' {
     // See my pull request
@@ -38,13 +40,6 @@ interface IAbstractServiceMongooseType extends IAbstractService {
     constructorStatic(abstractSchema: { _id: StringConstructor },
         collection: string): void;
 }
-
-// TODO post an Issue on mongoose Documentation.
-// all Mongoose CRUD operations are Promises
-// For instance for findOneAndUpdate()
-// https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/model.js#L2246
-// https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L2812
-// https://github.com/Automattic/mongoose/blob/bee1e1b4669185579168d691c214d17077b8bd6e/lib/query.js#L4109
 
 // Don't forget that it's no mandatory to add keyboard `await`
 // when we call a Promise in a return function.
@@ -89,20 +84,18 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
         }
         myEntity.updatedAt = new Date();
 
-        const entityToSave = new
-            (this.mongooseModel as mongoose.Model<mongoose.Document>)(myEntity);
-        console.log(entityToSave);
-
-        // I've checked on the code, `findOneAndUpdate' trigger validate
-        // like this and no validateSync
-        // type Promise<void> because return void if success!!
-        await entityToSave.validate();
+        // // I've checked on the code, `findOneAndUpdate' trigger validate
+        // // like this and no validateSync
+        // // type Promise<void> because return void if success!!
+        // const entityToSave = new
+        //     (this.mongooseModel as mongoose.Model<mongoose.Document>)(myEntity);
+        // console.log(entityToSave);
+        // await entityToSave.validate();
 
         const result:
             FindAndModifyWriteOpResultObject<IAbstract> =
-            // Said  'Invalid 'await' of a non-Promise value.', but
-            // it's a promise, I have tested !!
-            // See my comment in front of the current class
+            // See ./back/README.md and:
+            // https://github.com/Automattic/mongoose/issues/7506
             // tslint:disable-next-line:await-promise no-invalid-await
             await (this.mongooseModel as mongoose.Model<mongoose.Document>)
                     .findOneAndUpdate(
@@ -111,7 +104,7 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                 // document to insert when nothing was found
                 { $set: myEntity } ,
                 // options
-                {upsert: true, new: true, runValidators: false,
+                {upsert: true, new: true, runValidators: true,
                         rawResult: true });
         let savedOrUpdated = 'saved';
         // tslint:disable-next-line:no-unsafe-any

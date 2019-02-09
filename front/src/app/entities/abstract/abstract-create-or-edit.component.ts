@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -22,7 +22,7 @@ import { AbstractService } from './abstract.service';
 
 export abstract class AbstractCreateOrEditComponent implements OnInit {
 
-    private readonly questions: Array<QuestionBase<string>> = [];
+    private questions: Array<QuestionBase<string>> = [];
     private form: FormGroup;
     private readonly formRoute: string;
     protected abstract entityName: string;
@@ -36,63 +36,6 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
     ) {
         this.questions = service.getQuestions;
         this.formRoute = router.url;
-    }
-
-    private convertToFormGroup(rowTable: IAbstract): void {
-        const rowTableNotNull: IAbstract = rowTable;
-        const rowTableCasted: IAbstract = {_id: ''};
-        Object.keys(this.form.value as string)
-        .forEach((key: string) => {
-            rowTableCasted[key] = rowTableNotNull[key];
-        });
-        try {
-            this.form.setValue(rowTableCasted);
-        } catch {
-            // Thanks the code inside `Object.key…' above
-            // this code below should not be used.
-            console.error(this.form);
-            console.error('doesn\'t match');
-            console.error(rowTableCasted);
-        }
-        Object.keys(this.form.controls)
-        .forEach((field: string) => {
-            const control: AbstractControl | null = this.form.get(field);
-            if (control
-                && control.value
-                && (control.value as string[]).length > 0) {
-                control.markAsTouched({ onlySelf: true });
-            }
-        });
-    }
-
-    /** Browser Session Storage */
-    private loadFromSessionStorage(): void {
-        if (sessionStorage.getItem(this.formRoute)) {
-            const abstractJSON: string = sessionStorage
-                .getItem(this.formRoute) as string;
-            // TODO maybe try catch and display error in front
-            // if abstractJSON is not a valid JSON.
-            const rowTable: IAbstract = JSON.parse(abstractJSON) as IAbstract;
-            this.convertToFormGroup(rowTable);
-        }
-    }
-
-    private loadFromRouteParam(id: string): void {
-        console.info('Try to load the rowTable with id', id);
-        this.abstractService
-        .find(id)
-        .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
-            console.debug('coucou', abstractResponse);
-            let rowTable: IAbstract | null;
-            rowTable = abstractResponse.body;
-            if (rowTable) {
-                this.convertToFormGroup(rowTable);
-            } else {
-                // TODO display this error
-                console.error('Could not load the data with id "', id,
-                    '"(nothing found)');
-            }
-        });
     }
 
     protected onSubmit(): void {
@@ -122,18 +65,63 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         TriggerRemoveBanner();
     }
 
+    private instantiateForm(form: FormGroup): void {
+        this.form = form;
+        this.form.valueChanges.subscribe((val: string) => {
+            sessionStorage.setItem(this.formRoute, JSON.stringify(val));
+        });
+    }
+
+    /** Load from node server */
+    private async loadFromRouteParam(id: string): Promise<FormGroup> {
+        return new Promise((res: (value: FormGroup) => void): void => {
+            console.info('Try to load the data of the form with id', id);
+            this.abstractService
+            .find(id)
+            .subscribe((abstractResponse: HttpResponse<IAbstract>) => {
+                let formDatas: IAbstract | null;
+                formDatas = abstractResponse.body;
+                // TODO display "loading"
+                if (formDatas) {
+                    this.qcs.toFormGroup(this.questions, formDatas)
+                        .then(res);
+                } else {
+                    // TODO display this error
+                    throw new Error('Could not load the data with id "' + id +
+                        '"(nothing found)');
+                }
+            });
+        });
+    }
+
+    /** Browser Session Storage */
+    private async loadFromSessionStorage(): Promise<FormGroup> {
+        const sessionStorageForm: string = sessionStorage
+            .getItem(this.formRoute) as string;
+        if (sessionStorageForm) {
+            // TODO maybe try catch and display error in front
+            // if abstractJSON is not a valid JSON.
+            const formDatas: IAbstract =
+                JSON.parse(sessionStorageForm) as IAbstract;
+            return this.qcs.toFormGroup(this.questions, formDatas);
+        }
+        return this.qcs.toFormGroup(this.questions, undefined);
+    }
+
     public ngOnInit(): void {
-        this.form = this.qcs.toFormGroup(this.questions);
 
         this.route.params.subscribe((params: Params) => {
             if (params.id) {
-                this.loadFromRouteParam(params.id as string);
+                this.loadFromRouteParam(params.id as string)
+                    .then(((form: FormGroup): void => {
+                        this.instantiateForm(form);
+                    }));
             } else {
-                this.loadFromSessionStorage();
+                this.loadFromSessionStorage()
+                    .then(((form: FormGroup): void => {
+                        this.instantiateForm(form);
+                    }));
             }
-            this.form.valueChanges.subscribe((val: string) => {
-                sessionStorage.setItem(this.formRoute, JSON.stringify(val));
-            });
         });
 
     }
