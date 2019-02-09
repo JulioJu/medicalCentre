@@ -13,11 +13,12 @@ export const dbMongooseInit = async (): Promise<void> =>
                 reject(e);
             });
 
-        // https://github.com/Automattic/mongoose/issues/6880
         // https://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
         mongoose.set('useCreateIndex', true);
 
+        // https://github.com/Automattic/mongoose/issues/6880
         mongoose.set('useFindAndModify', false);
+
         const dbMongoose = mongoose.connection;
         dbMongoose.on('error', (e: MongoError) => {
             console.error.bind(console, 'connection error');

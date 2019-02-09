@@ -44,12 +44,13 @@ export class PatientCreateOrEditQuestionsService
             }),
 
             new DropdownQuestion({
-                key: '_isMale',
-                label: 'Sex',
+                key: '_gender',
+                label: 'Gender',
                 required: true,
                 options: [
                     {key: 'male',  value: 'Male'},
-                    {key: 'woman',  value: 'Woman'}
+                    {key: 'woman',  value: 'Woman'},
+                    {key: 'other',  value: 'Other'}
                 ]
             }),
 

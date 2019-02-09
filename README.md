@@ -23,6 +23,7 @@
     * [Principal TODO](#principal-todo)
 * [Notes for developers](#notes-for-developers)
     * [Linting](#linting)
+    * [Update](#update)
     * [Credit](#credit)
 
 <!-- vim-markdown-toc -->
@@ -408,7 +409,7 @@ http://xhr.spec.whatwg.org/
 * For entities, actually REGEX of back doesn't match REGEX of back.
     See for example at `http://localhost:4200/#/bb` an object added thanks:
     ```
-    $ curl --data "_id=bb&_idSSN=790089941908186&_firstname=value2&_lastname=value3&_isMale=true&_birthday=coucou&_address=chouette" -X PUT http://localhost:8080/mongoose/patients
+    $ curl --data "_id=bb&_idSSN=790089941908186&_firstname=value2&_lastname=value3&_gender=male&_birthday=coucou&_address=chouette" -X PUT http://localhost:8080/mongoose/patients
     ```
 * Check if we could add validator for question-dropdown.ts
 * Add success message for deletion, add, edit…
@@ -460,15 +461,14 @@ http://xhr.spec.whatwg.org/
     classes (e.b ./back/app/entities/abstract/abstract.model)
     see at for instance at
     ./shared-back-front/entities-interface/abstract.interface.ts
-    ```
-    // with "noImplicitAny": false in your tsconfig.json compilerOptions
-    // section. following code line:
-    // [_id: string]: string;
-    // Raise error:
-    // ERROR in src/app/entities/entities-interface/patient.interface.ts(5,5):
-    // error TS2411: Property '_isMale' of type 'boolean' is not assignable to
-    // string index type 'string'.
-    ```
+
+* ./shared-back-front/entities-interface/abstract.interface.ts contains
+    all type allowed. Could be any, probably, easier !
+    See index signature at https://www.typescriptlang.org/docs/handbook/interfaces.html
+
+* https://github.com/angular/angular/issues/13721
+    Reactive forms are not strongly typed
+
 ## Linting
 
 * Use `typedef: true` is a very bad idea. Too much boilerplate,
@@ -490,6 +490,11 @@ http://xhr.spec.whatwg.org/
     * back/app/entities/abstract/abstract.route.ts
     * back/app/ObserverTests.ts
     * back/no-unsafe-any: false
+
+## Update
+* Note for update, check
+    https://github.com/Automattic/mongoose/issues/4768
+    timestamps: updatedAt after findByIdAndUpdate
 
 ## Credit
 

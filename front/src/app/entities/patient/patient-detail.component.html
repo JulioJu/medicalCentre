@@ -3,12 +3,12 @@
         [isDeleteView]='isDeleteView' >
     <ng-template #appPersonTheadAttr>
         <th>_idSSN</th>
-        <th>_isMale</th>
+        <th>_gender</th>
         <th>_birthday</th>
     </ng-template>
     <ng-template #appPersonTbodyAttr let-entity>
         <td>{{rowTable._idSSN}}</td>
-        <td>{{rowTable._isMale}}</td>
+        <td>{{rowTable._gender}}</td>
         <td>{{rowTable._birthday}}</td>
     </ng-template>
 </app-person-detail>

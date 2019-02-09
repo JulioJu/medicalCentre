@@ -19,7 +19,8 @@ declare module 'mongoose' {
         & { new: true } & QueryFindOneAndUpdateOptions,
       callback?: (err: any,
           doc: FindAndModifyWriteOpResultObject<IAbstract>, res: any) => void):
-                FindAndModifyWriteOpResultObject<IAbstract> & QueryHelpers;
+                Promise<FindAndModifyWriteOpResultObject<IAbstract>>
+                & QueryHelpers;
     }
     // Documentation: Document.prototype.validateSync returns ValidationError
     // See my pull request:

@@ -5,7 +5,7 @@ import { AbstractRoute } from '../abstract';
 import { PutBareMongoMandatoryPerson } from '../person/person.route';
 
 const putBareMongoMandatoriesParameters = PutBareMongoMandatoryPerson
-    .concat(['_idSSN', '_isMale', '_birthday', '_address',
+    .concat(['_idSSN', '_gender', '_birthday', '_address',
     '_longitude', '_latitude']);
 
 export const PatientBaremongoRoute = (): express.Router =>

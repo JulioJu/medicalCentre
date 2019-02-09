@@ -1,5 +1,6 @@
 // import * as mongoose from 'mongoose';
 import { PersonSchemaObject } from '../person';
+import { EnumGenderMongoose } from '../entities-interface/enum-gender';
 
 export const PatientSchema = {
     ...PersonSchemaObject,
@@ -17,7 +18,7 @@ export const PatientSchema = {
         }
     },
 
-    _isMale     : {type: String, required: true},
+    _gender      : {type: String, enum: EnumGenderMongoose, required: true},
 
     // Not compatible with JavaScript Date
     // _birthday   : {type: mongoose.Schema.Types.Date, required: true},

@@ -1,4 +1,4 @@
-import { IPatient } from '../entities-interface';
+import { IPatient, EnumGenderType } from '../entities-interface';
 import { Person } from '../person';
 
 export class Patient extends Person {
@@ -8,13 +8,14 @@ export class Patient extends Person {
         private _idSSN: string,
         _firstname: string,
         _lastname: string,
-        private _isMale: boolean,
+        private _gender: EnumGenderType,
         private _birthday: string,
         private _address: string,
         private _longitude: number,
-        private _latitude: number
+        private _latitude: number,
+        updatedAt: Date
     ) {
-        super(_id, _firstname, _lastname);
+        super(_id, _firstname, _lastname, updatedAt);
     }
 
     public get idSSN(): string {
@@ -25,12 +26,12 @@ export class Patient extends Person {
         this._idSSN = idSSN;
     }
 
-    public get isMale(): boolean {
-        return this._isMale;
+    public get isMale(): EnumGenderType {
+        return this._gender;
     }
 
-    public set isMale(isMale: boolean) {
-        this._isMale = isMale;
+    public set isMale(isMale: EnumGenderType) {
+        this._gender = isMale;
     }
 
     public get birthday(): string {
@@ -66,10 +67,10 @@ export class Patient extends Person {
     }
 
     public toJSON(): IPatient {
-        // return Object.assign({}, {_idSSN: this._idSSN, _isMale: this._isMale,
+        // return Object.assign({}, {_idSSN: this._idSSN, _gender: this._gender,
         //     _birthday: this._birthday}, super.toJSON());
         return {...{_idSSN: this._idSSN,
-                    _isMale: this._isMale,
+                    _gender: this._gender,
                     _birthday: this._birthday,
                     _address: this._address,
                     _longitude: this._longitude,

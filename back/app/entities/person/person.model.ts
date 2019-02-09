@@ -6,8 +6,9 @@ export abstract class Person extends AbstractModel {
     public constructor(
         _id: string,
         private _firstname: string,
-        private _lastname: string) {
-        super(_id);
+        private _lastname: string,
+        updatedAt: Date) {
+        super(_id, updatedAt);
     }
 
     public get firstname(): string {
