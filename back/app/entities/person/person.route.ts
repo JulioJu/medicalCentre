@@ -12,4 +12,4 @@
   */
 
 // Just for bare Mongo (not Mangoose)
-export const PutBareMongoMandatoryPerson = ['_firstname', '_lastname'];
+export const PutMongoNativeMandatoryPerson = ['_firstname', '_lastname'];

@@ -113,13 +113,13 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         * See also errors types
         * Handle in Angular form
     * Custom object with ``{ e.error_message_origin: 'back'}`` with HTTP error 400
-        * Only for baremongo error, check only mandatory parameters.
+        * Only for mongonative error, check only mandatory parameters.
         * Not very well idea, should use Mongodb Schema instead,
             but Mongoose Validation is more powerful,
             more capabilities and definitions are more clear.
         * Not handle in Angular Front
     * => See also
-        * ./back/app/entities/abstract/abstract.baremongo.service.ts
+        * ./back/app/entities/abstract/abstract.mongonative.service.ts
         * ./back/app/entities/abstract/abstract.mongoose.service.ts
         * ./back/app/entities/abstract/abstract.route.ts
 

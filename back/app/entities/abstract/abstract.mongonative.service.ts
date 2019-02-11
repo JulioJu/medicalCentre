@@ -32,7 +32,7 @@ const closeMongo = (mongoClient: MongoClient): void => {
 };
 
 // If we use a class, we could easy factorize
-export const AbstractBaremongoService: IAbstractService = {
+export const AbstractMongoNativeService: IAbstractService = {
 
     collection: undefined,
 

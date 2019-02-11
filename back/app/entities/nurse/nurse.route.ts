@@ -1,17 +1,17 @@
 import * as express from 'express';
-import { Nurse, NurseBaremongoService, NurseMongooseService } from './';
+import { Nurse, NurseMongoNativeService, NurseMongooseService } from './';
 import { AbstractRoute } from '../abstract';
 
-import { PutBareMongoMandatoryPerson }
+import { PutMongoNativeMandatoryPerson }
     from '../person/person.route';
 
-export const NurseBaremongoRoute = (): express.Router =>
+export const NurseMongoNativeRoute = (): express.Router =>
     AbstractRoute<Nurse>(Nurse,
         'Nurse',
         express.Router(),
         '/nurses',
-        NurseBaremongoService,
-        PutBareMongoMandatoryPerson);
+        NurseMongoNativeService,
+        PutMongoNativeMandatoryPerson);
 export const NurseMongooseRoute = (): express.Router =>
     AbstractRoute<Nurse>(Nurse,
         'Nurse',

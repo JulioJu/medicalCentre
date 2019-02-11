@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "cd ../back && node ./appJS/server.js baremongo mongoose & cd ../front && ng serve --proxy-config proxy.conf.json",
+    "start": "cd ../back && node ./appJS/server.js mongonative mongoose & cd ../front && ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint --format verbose",

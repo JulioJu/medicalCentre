@@ -74,7 +74,7 @@ error() {
 
 usage() {
     error 5 "${NC}Should have one or two arguments." \
-        "\n\t* First one: name 'baremongo' or 'mongoose' to indicate which" \
+        "\n\t* First one: name 'mongonative' or 'mongoose' to indicate which" \
             "one to delete." \
         "\n\t* Seconde one (optional): '--all': delete all records " \
         " (use mongo shell to drop database instead)."
@@ -85,7 +85,7 @@ testCommandLine(){
     then
         usage
     fi
-    if { [[ ! ${1} = "baremongo" ]] && [[ ! ${1} = "mongoose" ]] ; }
+    if { [[ ! ${1} = "mongonative" ]] && [[ ! ${1} = "mongoose" ]] ; }
     then
         usage
     fi

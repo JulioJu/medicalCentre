@@ -21,7 +21,7 @@
 * DO NOT USE NODE 8 https://github.com/nodejs/node/issues/12675:
     (console.debug not displayed).
 * Code must be run with `node appJS/server.js db=mongoose\' or
-    `node appJS/server.js db=baremongo\'
+    `node appJS/server.js db=mongonative\'
     * Mongoose and the bare MongoDB Node.js Driver have different DB, it's more
     safe.
 * If the port 8080 is already in use, exit with error code 2.
@@ -171,10 +171,10 @@ See
 ### Routes patients
 (with express.Router middleware, Router-level middleware, could have
 error-handling middleware)
-**"baremongo" and "mongoose" havn't the same database.**
-* « :driver » must be replaced either by `mongoose` or by `baremongo`.
+**"mongonative" and "mongoose" havn't the same database.**
+* « :driver » must be replaced either by `mongoose` or by `mongonative`.
     * `mongoose` use the mongoose Driver
-    * `baremongo` use bare MongoDB Node.js Driver
+    * `mongonative` use bare MongoDB Node.js Driver
 * GET `/:driver/patients` (get all patients)
 * PUT `/:driver/patients` (idempotent, so UPDATE and CREATE)
 * GET `/:driver/patients/:id` (get the patient with id :id)
@@ -218,11 +218,11 @@ error-handling middleware)
 * abstract.model.ts is used by Mongoose, and all properties should be in
     the constructor! Otherwise can't parse to JSON.
 
-* Baremongo don't manage timestamps actually
+* Mongonative don't manage timestamps actually
 
 * We could have `_id=null`, that's why we use boson to generate id.
 
-* For abstract.baremongo.service.ts/insertOrUpdate()
+* For abstract.mongonative.service.ts/insertOrUpdate()
     if (obj.id) and object not already created
     obj.createdAt will be null.
     Furthermore in this case we can't deduce created date

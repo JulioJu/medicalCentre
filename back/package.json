@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./appJS/server.js",
-    "startInspect:all": "node --inspect ./appJS/server baremongo mongoose ",
+    "startInspect:all": "node --inspect ./appJS/server mongonative mongoose ",
     "compile": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc",
     "compileWatch": "rm -Rf ./appJS && node ./node_modules/typescript/bin/tsc --watch",
     "lint": "node ./node_modules/tslint/bin/tslint --project ./tsconfig.json --config \"./tslint.yaml\" \"app/**/*.ts\" --format verbose",

@@ -1,8 +1,8 @@
 import * as express from 'express';             // The application server
 import * as semver from 'semver';
-import { PatientBaremongoRoute,
+import { PatientMongoNativeRoute,
     PatientMongooseRoute } from './entities/patient';
-import { NurseBaremongoRoute, NurseMongooseRoute } from './entities/nurse';
+import { NurseMongoNativeRoute, NurseMongooseRoute } from './entities/nurse';
 import { nodeHttpServerInit, routeMain, dbMongoInit,
     dbMongooseInit } from './utils';
 // You could instead use https://nodejs.org/en/docs/inspector/
@@ -39,29 +39,31 @@ process.on('exit', (code: number) => {
 });
 
 // Tests args
-const baremongoArg = 'baremongo';
+const mongonativeArg = 'mongonative';
 const mongooseArg = 'mongoose';
 const errorMessageArg = (): void => {
-    console.error('You must use at least one database, either "' + baremongoArg
+    console.error('You must use at least one database, either "'
+        + mongonativeArg
         + '", or "' + mongooseArg + '"". You could use both.'
-        + ' With Yarn you could write `yarn start ' + baremongoArg + '\' or'
+        + ' With Yarn you could write `yarn start ' + mongonativeArg + '\' or'
         + ' `yarn start ' + mongooseArg + '\' or'
-        + ' `yarn start ' + baremongoArg + ' ' + mongooseArg + '\'.'
+        + ' `yarn start ' + mongonativeArg + ' ' + mongooseArg + '\'.'
     );
 };
 let useMongoose = false;
-let useBaremongo = false;
+let useMongoNative = false;
 if (process.argv.length !== 3 &&  process.argv.length !== 4) {
     errorMessageArg();
     process.exit(17);
 } else {
-    if (baremongoArg === process.argv[2] || baremongoArg === process.argv[3]) {
-        useBaremongo = true;
+    if (mongonativeArg === process.argv[2]
+            || mongonativeArg === process.argv[3]) {
+        useMongoNative = true;
     }
     if (mongooseArg === process.argv[2] || mongooseArg === process.argv[3]) {
         useMongoose = true;
     }
-    if (!useMongoose && !useBaremongo) {
+    if (!useMongoose && !useMongoNative) {
         errorMessageArg();
     }
 }
@@ -83,7 +85,7 @@ const mongoConnectionError = (): void => {
 };
 
 const mongoStatements = async (): Promise<void> => {
-    if (useBaremongo) {
+    if (useMongoNative) {
         try {
             await dbMongoInit();
         } catch {
@@ -91,9 +93,9 @@ const mongoStatements = async (): Promise<void> => {
             return Promise.reject();
         }
         mongoConnectionSuccess('bare MongoDB Node.JS Driver',
-            'baremongo');
-        app.use('/baremongo', PatientBaremongoRoute());
-        app.use('/baremongo', NurseBaremongoRoute());
+            'mongonative');
+        app.use('/mongonative', PatientMongoNativeRoute());
+        app.use('/mongonative', NurseMongoNativeRoute());
     }
     return Promise.resolve();
 };

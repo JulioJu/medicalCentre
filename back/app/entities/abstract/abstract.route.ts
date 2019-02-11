@@ -51,15 +51,15 @@ const put = <T extends AbstractModel>(req: Request,
         .catch((e: MongoError) => ResInsertOrUpdate(res, e, isMongoose));
 };
 
-const putBareMongo = <T extends AbstractModel>(req: Request,
+const putMongoNative = <T extends AbstractModel>(req: Request,
         res: Response,
         AbstractModelType: new (...args: string[]) => T,
         abstractService: IAbstractService,
-        putBareMongoMandatoriesParameters: string[]
+        putMongoNativeMandatoriesParameters: string[]
 ): void => {
     // TODO check if data are well formed
     let errorMessage = '';
-    for (const mandatoryKey of putBareMongoMandatoriesParameters) {
+    for (const mandatoryKey of putMongoNativeMandatoriesParameters) {
         if (!req.body[mandatoryKey] || req.body[mandatoryKey] === '') {
                 // tslint:disable-next-line:restrict-plus-operands
                 errorMessage += errorMessage + 'Bad request: parameter ' +
@@ -86,7 +86,7 @@ const putBareMongo = <T extends AbstractModel>(req: Request,
 };
 
 /**
- *  @param putBareMongoMandatoriesParameters
+ *  @param putMongoNativeMandatoriesParameters
  *      used for the Mongo client bare, without Mangoose.
  *
  */
@@ -97,7 +97,7 @@ export const AbstractRoute = <T extends AbstractModel>(
         router: Router,
         routeName: string,
         abstractService: IAbstractService,
-        putBareMongoMandatoriesParameters?: string[]): Router => {
+        putMongoNativeMandatoriesParameters?: string[]): Router => {
 
     router.get(routeName, (req: Request, res: Response) => {
         abstractService.getRecords()
@@ -118,9 +118,9 @@ export const AbstractRoute = <T extends AbstractModel>(
     });
 
     router.put(routeName, (req: Request, res: Response, next: NextFunction) => {
-        if (putBareMongoMandatoriesParameters) {
-            putBareMongo(req, res, AbstractModelType, abstractService,
-                putBareMongoMandatoriesParameters);
+        if (putMongoNativeMandatoriesParameters) {
+            putMongoNative(req, res, AbstractModelType, abstractService,
+                putMongoNativeMandatoriesParameters);
         } else {
             put(req, res, AbstractModelType, abstractService, true);
         }
