@@ -98,6 +98,7 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
                 * See also how to manipulate it
                     * https://github.com/Automattic/mongoose/issues/2129
                     * https://github.com/DefinitelyTyped/DefinitelyTyped/blob/510f81374c99b2b985400faa92af10444c3b8127/types/mongodb/index.d.ts#L212,L228
+                    * https://github.com/matteodelabre/mongoose-beautiful-unique-validation
         * If HTTP Code 502: error that is not Validation Error
             (mongo server shutdown for instance)
     * IAbstract
@@ -110,11 +111,13 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         Done
         * See also https://mongoosejs.com/docs/validation.html
         * See also errors types
+        * Handle in Angular form
     * Custom object with ``{ e.error_message_origin: 'back'}`` with HTTP error 400
         * Only for baremongo error, check only mandatory parameters.
         * Not very well idea, should use Mongodb Schema instead,
             but Mongoose Validation is more powerful,
             more capabilities and definitions are more clear.
+        * Not handle in Angular Front
     * => See also
         * ./back/app/entities/abstract/abstract.baremongo.service.ts
         * ./back/app/entities/abstract/abstract.mongoose.service.ts

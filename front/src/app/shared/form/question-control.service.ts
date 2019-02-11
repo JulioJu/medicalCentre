@@ -63,6 +63,7 @@ export class QuestionControlService {
         const group: {[key: string]: FormControl} = {};
 
         // Emulate latency
+        // tslint:disable-next-line:no-inferred-empty-object-type
         await new Promise(((res: () => void): void => {
                 // tslint:disable-next-line:no-magic-numbers
                 setTimeout(res, 1000);
@@ -72,6 +73,9 @@ export class QuestionControlService {
         questions.forEach((question: QuestionBase<string>) => {
             const arrayValidators: ValidatorFn[] = [];
             if (question.required) {
+                // Could be ignore
+                // https://github.com/palantir/tslint/issues/2651
+                // tslint:disable-next-line:no-unbound-method
                 arrayValidators.push(Validators.required);
             }
             if (question.controlType === 'textbox') {

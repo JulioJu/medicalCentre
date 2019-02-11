@@ -2,6 +2,10 @@ import { HttpClient,
     HttpResponse,
     HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+// tested with `tsc -p tsconfig.json'
+// This import is not generated in the corresponding javascript file.
+// tslint:disable:no-implicit-dependencies
 import { FindAndModifyWriteOpResultObject,
     DeleteWriteOpResultObject
 } from 'mongodb';

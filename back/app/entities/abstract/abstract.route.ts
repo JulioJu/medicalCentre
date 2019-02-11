@@ -21,7 +21,8 @@ const ResInsertOrUpdate = (res: Response,
     console.error(JSON.stringify(e));
     if (isMongoose && (e as mongoose.Error.ValidationError).errors) {
         res.status(400);
-    } else if ((e as MongoError).code === 11000) {
+    } else if ((e as MongoError).code === 11000 ||
+                (e as MongoError).code === 11001) {
         res.status(400);
     } else {
         res.status(502);

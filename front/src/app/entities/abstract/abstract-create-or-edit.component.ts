@@ -1,15 +1,18 @@
 import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
-import { FindAndModifyWriteOpResultObject, } from 'mongodb';
+// tested with `tsc -p tsconfig.json'
+// This import is not generated in the corresponding javascript file.
+// tslint:disable:no-implicit-dependencies
+import { MongoError, FindAndModifyWriteOpResultObject } from 'mongodb';
+import * as mongoose from 'mongoose';
 
 import {
     QuestionBase,
     QuestionControlService,
     TriggerRemoveBanner,
-    ShowMongoError,
     ShowError,
     CatchAndDisplayError
 } from './../../shared';
@@ -22,7 +25,7 @@ import { AbstractService } from './abstract.service';
 
 export abstract class AbstractCreateOrEditComponent implements OnInit {
 
-    private questions: Array<QuestionBase<string>> = [];
+    private readonly questions: Array<QuestionBase<string>> = [];
     private form: FormGroup;
     private readonly formRoute: string;
     protected abstract entityName: string;
@@ -36,6 +39,37 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
     ) {
         this.questions = service.getQuestions;
         this.formRoute = router.url;
+    }
+
+    /* We don't parse mongoose.ValidationError,
+     *  as lot of checks are done in front
+     */
+    // See also ../../../../../back/app/entities/abstract/abstract.route.ts
+    private readonly ShowValidationError = (err: HttpErrorResponse): void => {
+        console.error(err);
+        let details = 'unknown';
+        // tslint:disable-next-line:no-magic-numbers
+        if (err.status === 400) {
+            // Errors that I manage me in my code relative to
+            // the Mongo DB native NodeJS Driver  is not managed
+            details = 'Form not valid';
+            if ((err.error as MongoError).errmsg
+                    // tslint:disable-next-line:no-magic-numbers
+                    && ((err.error as MongoError).code === 11000
+                        // tslint:disable-next-line:no-magic-numbers
+                        || (err.error as MongoError).code === 11001)) {
+                // Duplicate key error
+                details += (err.error as MongoError).errmsg;
+            } else if ((err.error as mongoose.Error.ValidationError).errors) {
+                details += (err.error as mongoose.Error.ValidationError).errors;
+            }
+        // tslint:disable-next-line:no-magic-numbers
+        } else if (err.status === 502 && (err.error as MongoError).errmsg) {
+            details += `Error with the mongo service: is it started? ` +
+                `${(err.error as MongoError).errmsg}`;
+        }
+        ShowError(
+            `code: ${err.status}  status:${err.statusText} Details:${details}`);
     }
 
     protected onSubmit(): void {
@@ -58,8 +92,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                         ShowError('Error unknown in request');
                     }
                 },
-                (ShowMongoError));
-    }
+                (this.ShowValidationError)); }
 
     protected reset = (): void => {
         TriggerRemoveBanner();
@@ -74,7 +107,8 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
 
     /** Load from node server */
     private async loadFromRouteParam(id: string): Promise<FormGroup> {
-        return new Promise((res: (value: FormGroup) => void): void => {
+        return new Promise((res: (value: FormGroup) => void,
+                rej: (value: FormData) => void): void => {
             console.info('Try to load the data of the form with id', id);
             this.abstractService
             .find(id)
@@ -84,7 +118,8 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                 // TODO display "loading"
                 if (formDatas) {
                     this.qcs.toFormGroup(this.questions, formDatas)
-                        .then(res);
+                        .then(res)
+                        .catch(rej);
                 } else {
                     // TODO display this error
                     throw new Error('Could not load the data with id "' + id +
@@ -105,7 +140,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                 JSON.parse(sessionStorageForm) as IAbstract;
             return this.qcs.toFormGroup(this.questions, formDatas);
         }
-        return this.qcs.toFormGroup(this.questions, undefined);
+        return this.qcs.toFormGroup(this.questions);
     }
 
     public ngOnInit(): void {
@@ -115,12 +150,20 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                 this.loadFromRouteParam(params.id as string)
                     .then(((form: FormGroup): void => {
                         this.instantiateForm(form);
-                    }));
+                    }))
+                    .catch((e: string) => {
+                        ShowError('Error when loading form.');
+                        console.error(e);
+                    });
             } else {
                 this.loadFromSessionStorage()
                     .then(((form: FormGroup): void => {
                         this.instantiateForm(form);
-                    }));
+                    }))
+                    .catch((e: string) => {
+                        ShowError('Error when loading form.');
+                        console.error(e);
+                    });
             }
         });
 

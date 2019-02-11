@@ -2,6 +2,10 @@ import { OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+// tested with `tsc -p tsconfig.json'
+// This import is not generated in the corresponding javascript file.
+// tslint:disable:no-implicit-dependencies
 import { DeleteWriteOpResultObject } from 'mongodb';
 
 import { AbstractService } from './abstract.service';

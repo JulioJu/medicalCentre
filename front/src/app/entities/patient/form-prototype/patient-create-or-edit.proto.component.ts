@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 import {
     QuestionBase,
-    QuestionControlService
+    QuestionControlService,
+    ShowError
 }     from './..//../../shared';
 import { PatientFormQuestionProtoComponent } from
     './patient-create-or-edit.proto.questions.service';
@@ -39,7 +40,7 @@ export class PatientCreateOrEditProtoComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.qcs.toFormGroup(this.questions, undefined)
+        this.qcs.toFormGroup(this.questions)
             .then((formRetrieved: FormGroup): void => {
                 this.form = formRetrieved;
                 if (sessionStorage.getItem(this.formRoute)) {
@@ -60,8 +61,12 @@ export class PatientCreateOrEditProtoComponent implements OnInit {
                         sessionStorage
                             .setItem(this.formRoute, JSON.stringify(val));
                     });
-            }
-        });
+                }
+            })
+            .catch((e: string) => {
+                ShowError('Error when loading form.');
+                console.error(e);
+            });
     }
 
     public onSubmit(): void {

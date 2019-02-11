@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 31 Jan 2019 01:41:44 AM CET
-  *       MODIFIED: Sat 02 Feb 2019 03:53:26 PM CET
+  *       MODIFIED: Mon 11 Feb 2019 08:54:08 AM CET
   *
   *          USAGE:
   *
@@ -21,12 +21,12 @@ const getPosition = async (): Promise<longLat> =>
     const url: string = 'https://freegeoip.app/json/';
 
     fetch(url)
-        .then((response: Response) => {
+        .then(async (response: Response) => {
             if (response.ok) {
                 return response.json();
             }
             // Or reject, same bellow
-            throw new Error('Fail because its got this response: ' + response);
+            throw new Error(`Fail because its got this response: ${response}`);
         })
         .then((response: {latitude: number; longitude: number}) => {
 
@@ -40,7 +40,8 @@ const getPosition = async (): Promise<longLat> =>
             } else {
                 reject(response);
             }
-        });
+        })
+        .catch(reject);
     });
 
 const retrieveGeoLocalisation = async (): Promise<longLat> =>

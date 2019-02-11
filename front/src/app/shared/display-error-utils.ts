@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 06 Feb 2019 07:01:26 PM CET
-  *       MODIFIED: Wed 06 Feb 2019 09:28:22 PM CET
+  *       MODIFIED: Mon 11 Feb 2019 12:04:32 PM CET
   *
   *          USAGE:
   *
@@ -11,6 +11,11 @@
   * ============================================================================
   */
 import { HttpErrorResponse } from '@angular/common/http';
+
+// tested with `tsc -p tsconfig.json'
+// This import is not generated in the corresponding javascript file.
+// tslint:disable:no-implicit-dependencies
+import { MongoError } from 'mongodb';
 
 const showError = (docErrorForm: HTMLElement,
     err: string): void => {
@@ -59,13 +64,10 @@ export const ShowError = (err: string): void => {
 export const ShowMongoError = (err: HttpErrorResponse): void => {
     console.error(err);
     let details = 'Can\'t be parsed';
-    // tslint:disable:no-unsafe-any
-    if (err.error.errmsg) {
-        details = err.error.errmsg;
-    } else if (err.error.name) {
-        details = err.error.name;
+    if (err.status === 502 && (err.error as MongoError).errmsg) {
+        details += `Error with the mongo service: is it started? ` +
+            `${(err.error as MongoError).errmsg}`;
     }
-    // tslint:enable:no-unsafe-any
     ShowError(
         `code: ${err.status}  status:${err.statusText} Details:${details}`);
 };
