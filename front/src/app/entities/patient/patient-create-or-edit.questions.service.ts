@@ -4,7 +4,10 @@ import {
     DropdownQuestion,
     QuestionBase,
     TextboxQuestion  }     from './../../shared';
-import { REGEXADDRESS, messageREGEXADDRESS }     from '../../app.constants';
+import { idSSNReg,
+    REGEXADDRESS, messageREGEXADDRESS,
+    birthdateMinDate, birthdateMaxDate
+}     from '../../shared/validator';
 
 import { IAbstractCreateOrEditQuestionsService } from
     '../abstract/abstract-create-or-edit.questions.service';
@@ -17,8 +20,6 @@ import { PersonFormQuestionService } from
 export class PatientCreateOrEditQuestionsService
     implements IAbstractCreateOrEditQuestionsService {
 
-    private readonly oneDay: number = 864e5;
-
     public getQuestions: Array<QuestionBase<string>> =
 
         PersonFormQuestionService.getQuestions.concat([
@@ -29,7 +30,7 @@ export class PatientCreateOrEditQuestionsService
                 required: true,
                 placeholder: '15 digits',
                 title: 'should match 15 digits',
-                pattern: /^[\d]{15}$/,
+                pattern: idSSNReg,
                 patternMessage: 'french social security number (15 digits)'
             }),
 
@@ -39,8 +40,8 @@ export class PatientCreateOrEditQuestionsService
                 required: true,
                 type: 'date',
                 placeholder: 'dd / mm / yyyy',
-                min: new Date(new Date('1900-01-01')),
-                max: new Date(Date.now() - this.oneDay)
+                min: birthdateMinDate,
+                max: birthdateMaxDate
             }),
 
             new DropdownQuestion({
@@ -72,7 +73,7 @@ export class PatientCreateOrEditQuestionsService
                 required: true,
                 placeholder: '45.190725',
                 type: 'number',
-                min: 0,
+                min: -90,
                 max: 90
             }),
 
@@ -82,7 +83,7 @@ export class PatientCreateOrEditQuestionsService
                 required: true,
                 placeholder: '5.734501',
                 type: 'number',
-                min: 0,
+                min: -90,
                 max: 90
             })
         ]);

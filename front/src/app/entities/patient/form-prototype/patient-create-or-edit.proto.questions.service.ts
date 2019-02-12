@@ -2,8 +2,9 @@ import { Injectable }       from '@angular/core';
 
 import {
     QuestionBase,
-    TextboxQuestion  }     from './../../../shared';
-import { messageREGEXSLASHW, REGEXSLASHW }     from '../../../app.constants';
+    TextboxQuestion  } from './../../../shared';
+import { messageREGEXSLASHW, REGEXSLASHW }
+    from '../../../shared/validator';
 
 import { IAbstractCreateOrEditQuestionsService } from
     '../../abstract/abstract-create-or-edit.questions.service';

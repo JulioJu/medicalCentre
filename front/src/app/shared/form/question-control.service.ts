@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators,
 
 import * as moment  from 'moment';
 
-import { REGEXW3CEMAIL } from '../../app.constants';
+import { REGEXW3CEMAIL } from '../../shared/validator';
 import { QuestionBase } from './question-base';
 import { TextboxQuestion } from './question-textbox';
 

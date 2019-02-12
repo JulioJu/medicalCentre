@@ -488,6 +488,15 @@ http://xhr.spec.whatwg.org/
 * https://github.com/angular/angular/issues/13721
     Reactive forms are not strongly typed
 
+* Symlink between Front and Back: so cool to use it but don't forget
+    https://github.com/angular/angular-cli/issues/9807
+    ```json
+    "build": {
+      "preserveSymlinks": true
+      },
+      ```
+
+
 # Linting
 
 * Use `typedef: true` is a very bad idea. Too much boilerplate,
@@ -524,7 +533,7 @@ http://xhr.spec.whatwg.org/
     @types/mongoose : validateSync returns ValidationError
 
 * https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32975
-    @types/mongoose `Error.ValidationError.errors: {[path: string]: ValidatorError}`
+    @types/mongoose improve MongooseError definitions
 
 * https://github.com/Automattic/mongoose/issues/7506
     [Docs] CRUD API, promise/thenable and callback.

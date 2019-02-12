@@ -1,6 +1,6 @@
 import { TextboxQuestion  }     from './../../shared';
 import { messageREGEXSLASHW, REGEXSLASHW,
-    REGEXFRENCH, messageREGEXFRENCH }     from '../../app.constants';
+    REGEXFRENCH, messageREGEXFRENCH } from '../../shared/validator';
 
 import { IAbstractCreateOrEditQuestionsService } from
     '../abstract/abstract-create-or-edit.questions.service';
