@@ -23,6 +23,33 @@ import { IAbstractCreateOrEditQuestionsService } from
     './abstract-create-or-edit.questions.service';
 import { AbstractService } from './abstract.service';
 
+// Could have only one Error 'Duplicate key' per request. I've tested.
+const displayDuplicateKeyError = (inputId: string,
+        messageError: string): void => {
+    const inputMessageQuery: string =
+        `app-main form app-question input#${inputId}`;
+    const inputDuplicateKey: HTMLInputElement | null
+        = document.querySelector(inputMessageQuery);
+    if (inputDuplicateKey) {
+        let errorHTMLElement: HTMLDivElement | null = document
+            .querySelector(`${inputMessageQuery} + .errorMessage`);
+        if (errorHTMLElement) {
+            // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+            while (errorHTMLElement.firstChild) {
+                errorHTMLElement
+                    .removeChild(errorHTMLElement.firstChild);
+            }
+        } else {
+            errorHTMLElement = document.createElement('div');
+        }
+        errorHTMLElement.classList.add('errorMessage');
+        const text: Text = document.createTextNode(messageError);
+        errorHTMLElement.appendChild(text);
+        inputDuplicateKey.insertAdjacentElement('afterend',
+                errorHTMLElement);
+    }
+};
+
 export abstract class AbstractCreateOrEditComponent implements OnInit {
 
     private readonly questions: Array<QuestionBase<string>> = [];
@@ -45,6 +72,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
      *  as lot of checks are done in front
      */
     // See also ../../../../../back/app/entities/abstract/abstract.route.ts
+    // tslint:disable:no-magic-numbers
     private readonly ShowValidationError = (err: HttpErrorResponse): void => {
         console.error(err);
         let details = 'unknown';
@@ -53,17 +81,37 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
             // Errors that I manage me in my code relative to
             // the Mongo DB native NodeJS Driver  is not managed
             details = 'Form not valid';
-            if ((err.error as MongoError).errmsg
-                    // tslint:disable-next-line:no-magic-numbers
-                    && ((err.error as MongoError).code === 11000
-                        // tslint:disable-next-line:no-magic-numbers
-                        || (err.error as MongoError).code === 11001)) {
-                // Duplicate key error
-                details += (err.error as MongoError).errmsg;
-            } else if ((err.error as mongoose.Error.ValidationError).errors) {
-                details += (err.error as mongoose.Error.ValidationError).errors;
+            // See https://github.com/Automattic/mongoose/issues/2129
+            const mongoError: MongoError = (err.error as MongoError);
+            const mongooseValidationError =
+                (err.error as mongoose.Error.ValidationError).errors;
+            if (mongoError && (mongoError.code === 11000
+                                || mongoError.code === 11001)) {
+                if (mongoError.errmsg) {
+                    details += mongoError.errmsg;
+                    const duplicateKeyArray: string[] | null =
+                        mongoError.errmsg.match(/index:\s(_?[a-z0-9]+).*"/i);
+                    if (duplicateKeyArray && duplicateKeyArray[1]) {
+                        displayDuplicateKeyError(duplicateKeyArray[1],
+                            'Duplicate: already exist in Database');
+                    }
+                }
+            } else if (mongooseValidationError) {
+
+                // TODO could be very long message ! Just for the teacher !!!
+                details += mongooseValidationError;
+
+                // Type CastError or ValidtorError
+                // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32975
+                // Enable when it will be merged and published
+                // tslint:disable:no-unsafe-any
+                for (const validatorError
+                    of Object.keys(mongooseValidationError)) {
+                    displayDuplicateKeyError(validatorError,
+                        mongooseValidationError[validatorError].message);
+                }
+                // tslint:enable:no-unsafe-any
             }
-        // tslint:disable-next-line:no-magic-numbers
         } else if (err.status === 502 && (err.error as MongoError).errmsg) {
             details += `Error with the mongo service: is it started? ` +
                 `${(err.error as MongoError).errmsg}`;
@@ -71,6 +119,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
         ShowError(
             `code: ${err.status}  status:${err.statusText} Details:${details}`);
     }
+    // tslint:enable:no-magic-numbers
 
     protected onSubmit(): void {
         const abstract: IAbstract = this.form.value as IAbstract;
@@ -92,7 +141,8 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                         ShowError('Error unknown in request');
                     }
                 },
-                (this.ShowValidationError)); }
+                (this.ShowValidationError));
+    }
 
     protected reset = (): void => {
         TriggerRemoveBanner();

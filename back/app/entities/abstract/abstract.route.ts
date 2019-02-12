@@ -19,7 +19,9 @@ const ResInsertOrUpdate = (res: Response,
         e: MongoError | mongoose.Error.ValidationError,
         isMongoose: boolean): void => {
     console.error(JSON.stringify(e));
-    if (isMongoose && (e as mongoose.Error.ValidationError).errors) {
+    if (isMongoose && (e instanceof mongoose.Error.ValidationError)) {
+            // I use option `multipleCastError` that send `ValidationError`
+            // || e instanceof mongoose.Error.CastError)) {
         res.status(400);
     } else if ((e as MongoError).code === 11000 ||
                 (e as MongoError).code === 11001) {

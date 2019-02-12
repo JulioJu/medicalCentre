@@ -6,8 +6,6 @@ import { FindAndModifyWriteOpResultObject,
     DeleteWriteOpResultObject } from 'mongodb';
 import { ObjectID } from 'bson';
 
-// tslint:disable:no-unsafe-any
-
 // tslint:disable:no-any interface-name
 declare module 'mongoose' {
     // See my pull request
@@ -32,6 +30,18 @@ declare module 'mongoose' {
     // interface SchemaTypeOpts<T> {
     interface Document {
         validateSync(): Error.ValidationError;
+    }
+
+    // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32976
+    interface QueryFindOneAndUpdateOptions
+            extends QueryFindOneAndRemoveOptions {
+        new?: boolean;
+        upsert?: boolean;
+        fields?: any | string;
+        runValidators?: boolean;
+        setDefaultsOnInsert?: boolean;
+        context?: string;
+        multipleCastError?: boolean;
     }
 }
 // tslint:enable:no-any
@@ -103,10 +113,10 @@ export const AbstractServiceMongoose: IAbstractServiceMongooseType = {
                 // find a document with that filter
                 {_id: myEntity.id},
                 // document to insert when nothing was found
-                { $set: myEntity } ,
+                { $set: myEntity },
                 // options
                 {upsert: true, new: true, runValidators: true,
-                        rawResult: true });
+                    rawResult: true, multipleCastError: true });
         let savedOrUpdated = 'saved';
         // tslint:disable-next-line:no-unsafe-any
         if (result.lastErrorObject.updatedExisting) {

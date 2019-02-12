@@ -22,9 +22,10 @@
     * [Secondary TODO](#secondary-todo)
     * [Principal TODO](#principal-todo)
 * [Notes for developers](#notes-for-developers)
-    * [Linting](#linting)
-    * [Update](#update)
-    * [Credit](#credit)
+* [Linting](#linting)
+* [Issues and PR opened by me for this project:](#issues-and-pr-opened-by-me-for-this-project)
+* [Update](#update)
+* [Credit](#credit)
 
 <!-- vim-markdown-toc -->
 
@@ -99,6 +100,15 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
                     * https://github.com/Automattic/mongoose/issues/2129
                     * https://github.com/DefinitelyTyped/DefinitelyTyped/blob/510f81374c99b2b985400faa92af10444c3b8127/types/mongodb/index.d.ts#L212,L228
                     * https://github.com/matteodelabre/mongoose-beautiful-unique-validation
+                        * Not very maintained
+                    * Note: when there are several unique duplicated values
+                        in a document, the error message 11000 give a message.
+                        only for only one. It's a very very very bad thing.
+                    * Big warning, my Regex to extract is:
+                        `/index:\s(_?[a-z0-9]+).*"/i`
+                        It matches alphanumerics key that
+                        could also optionally is leading by an underscore.
+                        Big big warning: doesn't match Unicode key.
         * If HTTP Code 502: error that is not Validation Error
             (mongo server shutdown for instance)
     * IAbstract
@@ -106,12 +116,12 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     * FindAndModifyWriteOpResultObject
     * ValidationError (only for mongoose) with HTTP Code 400
         https://mongoosejs.com/docs/api.html#Error
-        ~~(but not handle properly in front and in back). Even if it's
-        a validation error, send  502. Should send error 400.~~
-        Done
         * See also https://mongoosejs.com/docs/validation.html
         * See also errors types
         * Handle in Angular form
+    * ~~CastError (only for mongoose) with HTTP Code 400
+        * Note: could be have only one CastError per result (I've tested)~~
+        * use option `multipleCastError` that send `ValidationError`
     * Custom object with ``{ e.error_message_origin: 'back'}`` with HTTP error 400
         * Only for mongonative error, check only mandatory parameters.
         * Not very well idea, should use Mongodb Schema instead,
@@ -122,6 +132,14 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         * ./back/app/entities/abstract/abstract.mongonative.service.ts
         * ./back/app/entities/abstract/abstract.mongoose.service.ts
         * ./back/app/entities/abstract/abstract.route.ts
+
+
+* On the Angular Client, this errors are properly displayed for each field
+    and on the top of the form.
+    * To test it, in `submit` button remove attribute 'disabled' thanks inspector
+    tool in Firefox and enjoy ;-).
+    * When we navigate, the red banner displayed at the front of the page is
+    removed of the page
 
 ## Create a service with Angular-cli
 * To create a new module with its service and component. With Angular-cli
@@ -423,8 +441,6 @@ http://xhr.spec.whatwg.org/
 
 * WARNING depreciation warnings for CRUD in back. Correct it.
 
-* Use better mongoose Validation. See also section REST API above
-
 # Notes for developers
 
 * BIG WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
@@ -472,7 +488,7 @@ http://xhr.spec.whatwg.org/
 * https://github.com/angular/angular/issues/13721
     Reactive forms are not strongly typed
 
-## Linting
+# Linting
 
 * Use `typedef: true` is a very bad idea. Too much boilerplate,
     sometimes with this rule typedef are redundant e.g
@@ -486,7 +502,8 @@ http://xhr.spec.whatwg.org/
     * For a complet beginner it's could be cool, as it now I understand
         know it off by heart how to define types. But not cool when
         I come back to the code, too much boilerplate.
-    * Therefore for back I use `typdef: true` except for `variable-declaration`
+    * Therefore for back and front I use `typdef: true` except for
+        `variable-declaration`
 
 * In this project, `// tslint:disable:no-unsafe-any` in:
     * back/app/utils/route-main.ts
@@ -494,11 +511,44 @@ http://xhr.spec.whatwg.org/
     * back/app/ObserverTests.ts
     * back/no-unsafe-any: false
 
-## Update
+# Issues and PR opened by me for this project:
+
+* https://github.com/jhipster/generator-jhipster/pull/7311
+    @types/mongoose findOneAndUpdate with option { rawResult: true }
+    (corresponding issue: https://github.com/jhipster/generator-jhipster/issues/7302)
+
+* https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32874
+    @types/mongoose findOneAndUpdate with option { rawResult: true }
+
+* https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32923
+    @types/mongoose : validateSync returns ValidationError
+
+* https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32975
+    @types/mongoose `Error.ValidationError.errors: {[path: string]: ValidatorError}`
+
+* https://github.com/Automattic/mongoose/issues/7506
+    [Docs] CRUD API, promise/thenable and callback.
+
+* https://github.com/Automattic/mongoose/issues/7509
+    [Doc] MongooseError should become simply Error
+
+* https://github.com/Automattic/mongoose/pull/7513
+    Doc: add an asterisk before comment, otherwise the comment line is not generated
+
+* https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32976
+    @types/mongoose update(): add option multipleCastError
+
+* https://github.com/Automattic/mongoose/pull/7515
+    Doc ValidationError
+
+* https://github.com/Automattic/mongoose/issues/7514
+     Doc: Add Cast error exemple in validation.jade
+
+# Update
 * Note for update, check
     https://github.com/Automattic/mongoose/issues/4768
     timestamps: updatedAt after findByIdAndUpdate
 
-## Credit
+# Credit
 
 * For css animation https://loading.io/css/

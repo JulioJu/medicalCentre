@@ -115,8 +115,10 @@ export class QuestionControlService {
 
             group[question.key] = new FormControl(question.value || '',
                 arrayValidators);
-            group[question.key].markAsUntouched({ onlySelf: true });
-            group[question.key].markAsPristine({ onlySelf: true});
+            if (!question.value) {
+                group[question.key].markAsUntouched({ onlySelf: true });
+                group[question.key].markAsPristine({ onlySelf: true});
+            }
         });
 
         return new FormGroup(group);

@@ -130,6 +130,10 @@ deleteTooMuchDatabaseRecord() {
         then
             i="${i/    \"_id\": \"/}"
             i="${i/\",/}"
+            if [[ "${i}" == '' ]]
+            then
+                i='null'
+            fi
             if [[ ${numberOfRecords} -ge ${numberOfRecordsToKeep} ]]
             then
                 set -x

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Wed 06 Feb 2019 07:01:26 PM CET
-  *       MODIFIED: Mon 11 Feb 2019 12:04:32 PM CET
+  *       MODIFIED: Mon 11 Feb 2019 10:32:36 PM CET
   *
   *          USAGE:
   *
@@ -64,6 +64,7 @@ export const ShowError = (err: string): void => {
 export const ShowMongoError = (err: HttpErrorResponse): void => {
     console.error(err);
     let details = 'Can\'t be parsed';
+    // tslint:disable-next-line:no-magic-numbers
     if (err.status === 502 && (err.error as MongoError).errmsg) {
         details += `Error with the mongo service: is it started? ` +
             `${(err.error as MongoError).errmsg}`;
