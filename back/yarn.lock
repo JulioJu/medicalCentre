@@ -76,10 +76,10 @@
     "@types/mongodb" "*"
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^10.12.21":
-  version "10.12.21"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.21.tgz#7e8a0c34cf29f4e17a36e9bd0ea72d45ba03908e"
-  integrity sha512-CBgLNk4o3XMnqMc0rhb6lc77IwShMEglz05deDcn2lQxyXEZivfwgYJu7SMha9V5XcrP6qZuevTHV/QrN2vjKQ==
+"@types/node@*", "@types/node@^11.9.0":
+  version "11.9.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.0.tgz#35fea17653490dab82e1d5e69731abfdbf13160d"
+  integrity sha512-ry4DOrC+xenhQbzk1iIPzCZGhhPGEFv7ia7Iu6XXSLVluiJIe9FfG7Iu3mObH9mpxEXCWLCMU4JWbCCR9Oy1Zg==
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -1531,10 +1531,10 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
-mongoose@^5.4.8:
-  version "5.4.10"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.4.10.tgz#640ee516449bc736a729e49e3eba873ae63a0030"
-  integrity sha512-yJl+A7p8QF++tyBl6fRGFON5GV57MTXLKNiaiqgX5vZs1qJpcZpPiUGU5odBiqTHFYPybuRp8dW9Qtv4K6SxBQ==
+mongoose@^5.4.11:
+  version "5.4.11"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.4.11.tgz#db1cbbabbd6287cbdecdf52c2ea8d43194bc517a"
+  integrity sha512-Ah/JaZj4vhYP2CEjIy1ictJguzGJczHMtUQmLrBUpnQ4WhhQl5jOo6JHzKiRJ/PdLV25y22kt8WOdsc0DIojww==
   dependencies:
     async "2.6.1"
     bson "~1.1.0"
@@ -1722,9 +1722,9 @@ object-copy@^0.1.0:
     kind-of "^3.0.3"
 
 object-keys@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.0.12.tgz#09c53855377575310cca62f55bb334abff7b3ed2"
-  integrity sha512-FTMyFUm2wBcGHnH2eXmz7tC6IwlqQZ6mVZ+6dm6vZ4IQIHjs6FdNsQBuKGPuUUUY6NfJw2PshC08Tn6LzLDOag==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-1.1.0.tgz#11bd22348dd2e096a045ab06f6c85bcc340fa032"
+  integrity sha512-6OO5X1+2tYkNyNEx6TsCxEqFfRWaqx6EtMiSbGrw8Ob8v9Ne+Hl8rBAgLBZn5wjEz3s/s6U1WXFUFOcxxAwUpg==
 
 object-visit@^1.0.0:
   version "1.0.1"
@@ -2438,10 +2438,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-tsc-watch@^1.1.36:
-  version "1.1.36"
-  resolved "https://registry.yarnpkg.com/tsc-watch/-/tsc-watch-1.1.36.tgz#cdabc471595f74004cb8052b2d128ce276b8519c"
-  integrity sha512-jPPpQ2JBC3V/kN2zc58+zNVms6/AwdC4iADS6s3rWaubhzEcfj/ahBLPx79dG7tpPLJtE27dZz0UBF00P8ezEA==
+tsc-watch@^1.1.37:
+  version "1.1.37"
+  resolved "https://registry.yarnpkg.com/tsc-watch/-/tsc-watch-1.1.37.tgz#f5e5dcdf4ff1c9aa180e0eb9e781d44151e5453e"
+  integrity sha512-A1tZhfZMT3xDxKMfPbCBvmVCGtQy3GTmLzry7YENGJhODIiIoG6VRl5muBfmeiampCJfpKjRqaLUG9aKEuPEhA==
   dependencies:
     cross-spawn "^5.1.0"
     node-cleanup "^2.1.2"
@@ -2494,10 +2494,10 @@ type-is@~1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
-typescript@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.1.tgz#6de14e1db4b8a006ac535e482c8ba018c55f750b"
-  integrity sha512-cTmIDFW7O0IHbn1DPYjkiebHxwtCMU+eTy30ZtJNBPF9j2O1ITu5XH2YnBeVRKWHqF+3JQwWJv0Q0aUgX8W7IA==
+typescript@^3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.3.tgz#f1657fc7daa27e1a8930758ace9ae8da31403221"
+  integrity sha512-Y21Xqe54TBVp+VDSNbuDYdGw0BpoR/Q6wo/+35M8PAU0vipahnyduJWirxxdxjsAkS7hue53x2zp8gz7F05u0A==
 
 union-value@^1.0.0:
   version "1.0.0"
