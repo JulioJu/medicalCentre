@@ -14,11 +14,6 @@ export class PersonDetailComponent {
         TemplateRef<string>;
     @ContentChild('appPersonTbodyAttr') public appPersonTbody:
         TemplateRef<string>;
-
+    @ContentChild('appAfterTableAttr') public appAfterTable:
+        TemplateRef<string>;
 }
-
-// 15 C chemin de chemin de la raude Tassin la Demin Lune.
-// deuxième portail à gauche.
-// Appel.
-// Entre 10 heure et 11 heure Tassin de la Demi Lune !
-// 06 71 58 70 19

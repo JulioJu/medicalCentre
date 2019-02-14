@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
         <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
+        <!-- COMPLETLY OUTDATED, BUILD YOUR OWN ONE  -->
         <!-- Should be defined at the end, otherwise conflict with leaflet-routing-machine -->
         <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
         <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
@@ -31,7 +32,7 @@
             body {
                 text-align: center;
             }
-            #orsmCyclist, #orsmWalker, #orsmCar, #geocoder {
+            #osrmCyclist, #osrmWalker, #osrmCar, #geocoder {
                 display: inline-block;
                 width: 50%;
                 min-width: 500px;
@@ -40,14 +41,14 @@
         </style>
     </head>
     <body>
-        <h4> ORSM for cyclist </h4>
-        <div id="orsmCyclist"></div>
+        <h4> osrm for cyclist </h4>
+        <div id="osrmCyclist"></div>
 
-        <h4> ORSM for walker </h4>
-        <div id="orsmWalker"></div>
+        <h4> osrm for walker </h4>
+        <div id="osrmWalker"></div>
 
-        <h4> ORSM for car drivers </h4>
-        <div id="orsmCar"></div>
+        <h4> osrm for car drivers </h4>
+        <div id="osrmCar"></div>
 
         <h4> Geocoder to locate place </h4>
         <div id="geocoder"></div>
@@ -57,9 +58,17 @@
         <!-- https://stackoverflow.com/questions/16194398/inject-a-javascript-function-into-an-iframe -->
         <iframe src="https://www.metromobilite.fr/iti.html?dep=truc&arr=machin&lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924&iFrame=true&tc=true" frameborder="0" width="100%" height="800"></iframe>
 
-        <script src="./getPositionsFreegeoip.js"></script>
-        <script>
+        <!-- <script src="./getPositionsFreegeoip.js"></script> -->
 
+        <script nomodule src="./nomodule.js"></script>
+
+        <script type="module">
+
+            // Can't work  standalone (with scheme file:///) with Chromium, only
+            // with Firefox due to cross-orign policy restriction.
+            // See also https://github.com/JulioJu/ArtificialIntelligenceConnectFourGame
+            import { retrieveGeoLocalisation } from
+                './getPositionsFreegeoip.js';
 
             const instantiateMap = (htmlDivMap, setView = false) => {
 
@@ -82,15 +91,15 @@
                 return map;
             }
 
-            const orsmMapInitialiser = (htmlDivMap,
-                                        urlOrsm,
+            const osrmMapInitialiser = (htmlDivMap,
+                                        urlosrm,
                                         coordinateStart,
                                         coordinateArrival) => {
 
                 const map = instantiateMap(htmlDivMap);
 
                 L.Routing.control({
-                    serviceUrl: urlOrsm,
+                    serviceUrl: urlosrm,
                     waypoints: [
                         L.latLng(coordinateStart),
                         L.latLng(coordinateArrival)
@@ -98,24 +107,24 @@
                 }).addTo(map);
             }
 
-            const instantiateORSMMaps = async () => {
+            const instantiateosrmMaps = async () => {
                 const coordinateStart = await retrieveGeoLocalisation();
                 console.log(coordinateStart);
                 const coordinateArrival = [57.74, 11.94];
-                const urlOrsmCyclist = "http://localhost:5005/route/v1"
-                const urlOrsmWalker = "http://localhost:5006/route/v1"
-                const urlOrsmDriver = "http://localhost:5007/route/v1"
+                const urlosrmCyclist = "http://localhost:5005/route/v1"
+                const urlosrmWalker = "http://localhost:5006/route/v1"
+                const urlosrmDriver = "http://localhost:5007/route/v1"
 
-                orsmMapInitialiser("orsmCyclist", urlOrsmCyclist,
+                osrmMapInitialiser("osrmCyclist", urlosrmCyclist,
                                    coordinateStart, coordinateArrival);
-                orsmMapInitialiser("orsmWalker", urlOrsmWalker,
+                osrmMapInitialiser("osrmWalker", urlosrmWalker,
                                    coordinateStart, coordinateArrival);
-                orsmMapInitialiser("orsmCar", urlOrsmDriver,
+                osrmMapInitialiser("osrmCar", urlosrmDriver,
                                    coordinateStart, coordinateArrival);
 
             }
 
-            instantiateORSMMaps().catch((e) => alert(e));
+            instantiateosrmMaps().catch((e) => alert(e));
 
             const mapGeocoder = instantiateMap('geocoder', true)
 

@@ -13,11 +13,14 @@
 * [Observables](#observables)
 * [Slippy Map](#slippy-map)
     * [OpenStreetMap solutions](#openstreetmap-solutions)
+    * [How use Leaflet in an Angular app](#how-use-leaflet-in-an-angular-app)
+        * [Leaflet fullscreen](#leaflet-fullscreen)
     * [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
     * [See also iframe with metromobilite (for updated traffic info in Grenoble)](#see-also-iframe-with-metromobilite-for-updated-traffic-info-in-grenoble)
     * [Geocoder](#geocoder)
     * [Get current location](#get-current-location)
         * [Note: XMLHttpRequest is deprecated](#note-xmlhttprequest-is-deprecated)
+        * [Note about my Standalone example](#note-about-my-standalone-example)
 * [TODO](#todo)
     * [Secondary TODO](#secondary-todo)
     * [Principal TODO](#principal-todo)
@@ -232,6 +235,81 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
 
 
+## How use Leaflet in an Angular app
+
+* There are lot of built-in Angular solution, for instance:
+    * https://github.com/Asymmetrik/ngx-leaflet
+    * https://github.com/yagajs/leaflet-ng2 ()
+    * But probably there is no interest to be dependent of this library.
+        Mains problems are if the library dead, or issues added with this
+        new layer. Furthermore, I don't know performance of that.
+
+* I use directly Leaflet native library, imported in the folder node_modules.
+    The main problem is with the css files in node_modules couldn't be linked
+    in the app. We could add it in the `angular.json`, but very bad
+    as the big library will be loaded in all pages of the app.
+
+* There are webpack solutions, but bad idea as we add a layer
+    * See https://github.com/Leaflet/Leaflet/issues/4849
+    * https://github.com/ghybs/leaflet-defaulticon-compatibility
+        (a library that done that for Leaflet)
+    * https://github.com/webpack-contrib/css-loader/issues/253
+        (probably the more general answer)
+    * Very cool explanation:
+        https://medium.com/making-internets/better-css-with-javascript-88463deecf3
+
+* The easier, reliable and extensible solution is simply to create a
+    symlink in the `assets` folder like it:.
+    ```sh
+    ln -s ../../node_modules/leaflet/dist leaflet
+    ```
+    * Then in map.component.html, add
+    ```html
+    <link rel="stylesheet" type="text/css" href="/assets/leaflet/leaflet.css">
+    ```
+    * Note: *the stylesheet link type is body-ok, and therefore <link
+    rel="stylesheet"> is permitted in the body*
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
+    * As it all plugins of Leaflet could be easy added ;-)
+
+* There are several ways to import `leaflet`.
+    * A cool solution could be:
+        ```typescript
+            import 'leaflet';
+            import 'leaflet-fullscreen';
+            const L = window['L'];
+        ```
+        (found at https://github.com/Leaflet/Leaflet.markercluster/issues/874#issuecomment-404605516)
+    * We could also use more common es6 like:
+        https://github.com/Leaflet/Leaflet/issues/3229
+    * Or use this solution found https://github.com/StratoDem/SDLeafletDraw
+        ```typescript
+            import * as L from 'leaflet';
+            // tslint:disable-next-line:no-import-side-effect
+            import 'leaflet-fullscreen';
+
+        ```
+
+* I've tested event `tilerror` and `map.on('error)`, when there the tile is
+    not found (e.g. no network) it isn't fire.
+    Maybe test https://github.com/ghybs/Leaflet.TileLayer.Fallback
+
+### Leaflet fullscreen
+
+* Warning, the plugin `leaflet-fullscreen` by `mapbox` has an npm version
+    completely outdated. Build your own one.
+    * Tickets are not answered.
+    * More starts that below
+    * See also https://github.com/Leaflet/Leaflet.fullscreen
+    * In package.json I've simply added:
+        ```json
+        "leaflet-fullscreen": "git://github.com/Leaflet/Leaflet.fullscreen",
+        ```
+        and all work perfectly!! I've tested!!
+* There is a powerful alternative, `leaflet.fullscreen`, but the maintainer seems
+    not be maintained anymbore.
+    https://github.com/brunob/leaflet.fullscreen
+
 ## OSRM and leaflet-routing-machine
 
 * To build OSRM see https://github.com/Project-OSRM/osrm-backend/wiki/Running-OSRM
@@ -395,6 +473,14 @@ detrimental effects to the end user’s experience. For more help
 http://xhr.spec.whatwg.org/
 ```
 
+### Note about my Standalone example
+
+* See ./front/src/assets/standalone-leaflet-test.html
+    Lot of comments !!!!!!!
+* Can't work  standalone (with scheme file:///) with Chromium, only with Firefox
+    due to cross-orign policy restriction.
+* See also https://github.com/JulioJu/ArtificialIntelligenceConnectFourGame
+
 # TODO
 
 ## Secondary TODO
@@ -495,7 +581,6 @@ http://xhr.spec.whatwg.org/
       "preserveSymlinks": true
       },
       ```
-
 
 # Linting
 

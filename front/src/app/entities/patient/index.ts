@@ -4,3 +4,4 @@ export * from './patient-detail.component';
 export * from './form-prototype/patient-create-or-edit.proto.component';
 export * from './patient-create-or-edit.component';
 export * from './patient-delete.component';
+export * from './map.component';

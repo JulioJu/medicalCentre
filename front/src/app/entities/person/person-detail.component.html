@@ -18,4 +18,8 @@
         <ng-container *ngTemplateOutlet="appPersonTbody,
                 context: {$implicit: person}"> </ng-container>
     </ng-template>
+    <ng-template #appAfterTableAttr>
+        <ng-container *ngTemplateOutlet="appAfterTable">
+        </ng-container>
+    </ng-template>
 </app-entity-detail>

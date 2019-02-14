@@ -2,7 +2,7 @@
 import { PersonSchemaObject } from '../person';
 import { EnumGenderMongoose } from '../entities-interface/enum-gender';
 import { idSSNReg,
-    REGEXADDRESS, messageREGEXADDRESS
+    REGEXADDRESS, messageREGEXADDRESS,
     birthdateMinDate, birthdateMaxDate } from '../../utils/validator';
 
 export const PatientSchema = {

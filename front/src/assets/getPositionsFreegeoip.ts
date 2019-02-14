@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 31 Jan 2019 01:41:44 AM CET
-  *       MODIFIED: Mon 11 Feb 2019 08:54:08 AM CET
+  *       MODIFIED: Fri 15 Feb 2019 12:19:06 AM CET
   *
   *          USAGE:
   *
@@ -35,7 +35,6 @@ const getPosition = async (): Promise<longLat> =>
                 result[0] = response.latitude;
                 result[1] = response.longitude;
                 resolve(result);
-                console.debug('coucou from getPositionFreegoip.ts', result);
 
             } else {
                 reject(response);
@@ -44,7 +43,7 @@ const getPosition = async (): Promise<longLat> =>
         .catch(reject);
     });
 
-const retrieveGeoLocalisation = async (): Promise<longLat> =>
+export const retrieveGeoLocalisation = async (): Promise<longLat> =>
 // See https://medium.com/@adeyinkaadegbenro/how-to-detect-the-location-of-your-websites-visitor-using-javascript-92f9e91c095f
     new Promise((resolve: (r: longLat) => void,
             reject: (e: string) => void): void => {

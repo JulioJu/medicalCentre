@@ -16,6 +16,8 @@ export class EntityDetailComponent {
         TemplateRef<string>;
     @ContentChild('appAbstractTbodyAttr') public appAbstractTbody:
         TemplateRef<string>;
+    @ContentChild('appAfterTableAttr') public appAfterTable:
+        TemplateRef<string>;
 
     protected displayMomentDate =
         (momentDate: string | undefined): string | undefined => {
