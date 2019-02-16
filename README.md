@@ -15,6 +15,7 @@
     * [OpenStreetMap solutions](#openstreetmap-solutions)
     * [How use Leaflet in an Angular app](#how-use-leaflet-in-an-angular-app)
         * [Leaflet fullscreen](#leaflet-fullscreen)
+        * [DON'T USE LEAFLET, USE OPENLAYERS](#dont-use-leaflet-use-openlayers)
     * [OSRM and leaflet-routing-machine](#osrm-and-leaflet-routing-machine)
     * [See also iframe with metromobilite (for updated traffic info in Grenoble)](#see-also-iframe-with-metromobilite-for-updated-traffic-info-in-grenoble)
     * [Geocoder](#geocoder)
@@ -234,6 +235,9 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 * Note: StackOverflow trends says that Leaflet is more used that OpenLayers
     https://www.metromobilite.fr/iti.html?lonlatDep=45.149,5.709965&lonlatArr=45.15857,5.70924
 
+* TODO IMPORTANT, USE OPENLAYERS, LEAFLET IS SO BAD !! COMPLETLY OUTDATED
+    WRITTEN IN ES5, PROJECT NO DYNAMIC CONTRARY TO OPENLAYERS
+    OPENLAYERS IS THE SOLUTION
 
 ## How use Leaflet in an Angular app
 
@@ -309,6 +313,13 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
 * There is a powerful alternative, `leaflet.fullscreen`, but the maintainer seems
     not be maintained anymbore.
     https://github.com/brunob/leaflet.fullscreen
+
+### DON'T USE LEAFLET, USE OPENLAYERS
+
+* TODO IMPORTANT, USE OPENLAYERS, LEAFLET IS SO BAD !! COMPLETLY OUTDATED
+    WRITTEN IN ES5, PROJECT NO DYNAMIC CONTRARY TO OPENLAYERS
+    OPENLAYERS IS THE SOLUTION
+
 
 ## OSRM and leaflet-routing-machine
 
@@ -612,7 +623,8 @@ http://xhr.spec.whatwg.org/
     (corresponding issue: https://github.com/jhipster/generator-jhipster/issues/7302)
 
 * https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32874
-    @types/mongoose findOneAndUpdate with option { rawResult: true }
+    mongoose: complete and factorize FindAndRemove/Delete/Update Query
+    NOTE: VERY IMPORTANT TO LEARN HOW MONGOOSE WORK, with thenable objects
 
 * https://github.com/DefinitelyTyped/DefinitelyTyped/pull/32923
     @types/mongoose : validateSync returns ValidationError

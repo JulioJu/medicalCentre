@@ -68,8 +68,8 @@ export class PatientCreateOrEditQuestionsService
             }),
 
             new TextboxQuestion({
-                key: '_longitude',
-                label: 'Longitude',
+                key: '_latitude',
+                label: 'Latitude',
                 required: true,
                 placeholder: '45.190725',
                 type: 'number',
@@ -78,14 +78,15 @@ export class PatientCreateOrEditQuestionsService
             }),
 
             new TextboxQuestion({
-                key: '_latitude',
-                label: 'Latitude',
+                key: '_longitude',
+                label: 'Longitude',
                 required: true,
                 placeholder: '5.734501',
                 type: 'number',
                 min: -90,
                 max: 90
             })
+
         ]);
 
 }

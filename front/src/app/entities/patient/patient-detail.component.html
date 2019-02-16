@@ -5,14 +5,22 @@
         <th>_idSSN</th>
         <th>_gender</th>
         <th>_birthday</th>
+        <th>_latitude</th>
+        <th>_longitude</th>
     </ng-template>
     <ng-template #appPersonTbodyAttr let-entity>
         <td>{{rowTable._idSSN}}</td>
         <td>{{rowTable._gender}}</td>
         <td>{{rowTable._birthday}}</td>
+        <td>{{rowTable._latitude}}</td>
+        <td>{{rowTable._longitude}}</td>
     </ng-template>
     <ng-template #appAfterTableAttr>
-        <app-map></app-map>
+        <div *ngIf="rowTable">
+            <app-map [latitudeArrival]='rowTable._latitude'
+                     [longitudeArrival]='rowTable._longitude' >
+            </app-map>
+        </div>
     </ng-template>
 </app-person-detail>
 
