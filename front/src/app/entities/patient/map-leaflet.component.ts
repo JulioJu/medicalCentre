@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-j *       MODIFIED: Sat 16 Feb 2019 09:40:41 AM CET
+  *       MODIFIED: Sat 23 Feb 2019 10:44:20 AM CET
   *
   *          USAGE:
   *
@@ -15,14 +15,14 @@ j *       MODIFIED: Sat 16 Feb 2019 09:40:41 AM CET
 // written in es5, project no dynamic contrary to OpenLayers
 
 // tslint:disable:prefer-function-over-method no-magic-numbers typedef
-// tslint:disable:no-any ban-ts-ignore no-import-side-effect
+// tslint:disable:no-any ban-ts-ignore no-import-side-effect no-unsafe-any
 
 import { Component, OnInit, Input } from '@angular/core';
 
 import { URL_OSRM_CYCLIST } from '../../app.constants';
 
 import * as L from 'leaflet';
-import 'leaflet-control-geocoder';
+// import 'leaflet-control-geocoder';
 import 'leaflet-routing-machine';
 import 'leaflet-fullscreen';
 
@@ -31,16 +31,14 @@ import { retrieveGeoLocalisation } from
 
 import { ShowError } from './../../shared';
 
-export const OSRMProfil = { cyclist: 0,  walker: 1, driver: 2};
-
 @Component({
-    selector: 'app-map',
+    selector: 'app-map-leaflet',
     styleUrls: [
         './map.component.css'
     ],
-    templateUrl: './map.component.html'
+    templateUrl: './map-leaflet.component.html'
 })
-export class MapComponent implements OnInit {
+export class MapLeafletComponent implements OnInit {
 
     @Input() protected latitudeArrival: number;
     @Input() protected longitudeArrival: number;

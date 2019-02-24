@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -8,7 +10,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
+    "target": "es2018",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -30,6 +32,14 @@
     "noUnusedParameters": false,
     "strictNullChecks": true,
     "module": "es2015",
-    "baseUrl": "./"
-  }
+    "baseUrl": "./",
+    "paths": {
+      "ol": ["node_modules/ol/src"],
+      "ol/*": ["node_modules/ol/src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "node_modules/ol/src/**/*.js"
+  ]
 }

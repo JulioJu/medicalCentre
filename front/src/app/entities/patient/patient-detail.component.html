@@ -17,9 +17,40 @@
     </ng-template>
     <ng-template #appAfterTableAttr>
         <div *ngIf="rowTable">
-            <app-map [latitudeArrival]='rowTable._latitude'
-                     [longitudeArrival]='rowTable._longitude' >
-            </app-map>
+
+            <form [formGroup]="formOpenLayerOrLeaflet">
+                <div>
+                    <input
+                        id="openlayers"
+                        type="radio"
+                        formControlName="leafletOrOpenLayers"
+                        value="openlayers"
+                        (change)="leafletOrOpenLayers($event)"
+                        />
+                    <label for="openlayers">OpenLayers</label>
+                </div>
+                <div>
+                    <input
+                        id="leaflet"
+                        type="radio"
+                        formControlName="leafletOrOpenLayers"
+                        value="leaflet"
+                        (change)="leafletOrOpenLayers($event)"
+                        />
+                    <label for="leaflet">Leaflet</label>
+                </div>
+            </form>
+
+            <div *ngIf="displayOpenlayersInsteadOfLeaflet ; else leaflet">
+                <app-map-openlayers [latitudeArrival]='rowTable._latitude'
+                        [longitudeArrival]='rowTable._longitude' >
+                </app-map-openlayers>
+            </div>
+            <ng-template #leaflet>
+                <app-map-leaflet [latitudeArrival]='rowTable._latitude'
+                        [longitudeArrival]='rowTable._longitude' >
+                </app-map-leaflet>
+            </ng-template>
         </div>
     </ng-template>
 </app-person-detail>

@@ -3,13 +3,15 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Tue 12 Feb 2019 05:41:38 PM CET
-  *       MODIFIED: Tue 12 Feb 2019 09:54:42 PM CET
+  *       MODIFIED: Sat 23 Feb 2019 10:47:09 AM CET
   *
   *          USAGE:
   *
   *    DESCRIPTION:
   * ============================================================================
   */
+
+// tslint:disable:no-magic-numbers
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 export const messageREGEXSLASHW: string = 'french alphanumeric characters,'

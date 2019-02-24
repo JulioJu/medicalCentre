@@ -14,7 +14,8 @@ import  {
     PatientCreateOrEditComponent,
     PatientDeleteComponent,
     PatientService,
-    MapComponent
+    MapOpenLayersComponent,
+    MapLeafletComponent
 } from './';
 
 import { PATIENT_ROUTE } from './patient.route';
@@ -38,7 +39,8 @@ const ENTITY_STATES: Routes = [
         PatientCreateOrEditProtoComponent,
         PatientCreateOrEditComponent,
         PatientDeleteComponent,
-        MapComponent
+        MapOpenLayersComponent,
+        MapLeafletComponent
     ],
     providers: [PatientService]
 })
