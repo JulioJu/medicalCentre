@@ -263,21 +263,43 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
         https://medium.com/making-internets/better-css-with-javascript-88463deecf3
 
 * The easier, reliable and extensible solution is simply to create a
-    symlink in the `assets` folder like it:.
-    ```sh
-    ln -s ../../node_modules/leaflet/dist leaflet
-    ```
-    * Then in map.component.html, add
-    ```html
-    <link rel="stylesheet" type="text/css" href="/assets/leaflet/leaflet.css">
-    ```
-    * Note: *the stylesheet link type is body-ok, and therefore <link
-    rel="stylesheet"> is permitted in the body*
-    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
-    * As it all plugins of Leaflet could be easy added ;-)
-    * Don't use `@import` in css file (it prevents parallel download)
-    * TODO never minified
-    * TODO see https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
+    symlink
+    * Either in the `assets` folder like it:.
+        ```sh
+        ln -s ../../node_modules/leaflet/dist leaflet
+        ```
+        * Then in map.component.html, add
+        ```html
+        <link rel="stylesheet" type="text/css" href="/assets/leaflet/leaflet.css">
+        ```
+        * But never minified
+        * Note: *the stylesheet link type is body-ok, and therefore <link
+        rel="stylesheet"> is permitted in the body*
+        https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
+        * As it all plugins of Leaflet could be easy added ;-)
+        * If in the stylesheet there is `body { background-color: red ;}`
+            the background become red only if the component is loaded !!
+            ***Nothing is stored globally !!!!!!***
+        * But nothing is minified in dev.
+    * Following is not a solution:
+        1. create a symlink to the css file in the component's folder
+        1. Then in the component
+        ```javascript
+        @Component({
+            styleUrls: [ './node_modules/openlayers/ol.css' ],
+            // See https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
+            encapsulation: ViewEncapsulation.None
+        })
+        ```
+        * Styles are stored globally!!!
+    * Following is not a cool solution:
+        simply we could also change angular.json, without make symlink.
+        https://github.com/angular/angular-cli/wiki/stories-global-styles
+        * Styles are stored globally!!!
+    * Important note : don't use `@import` in css file (it prevents parallel
+        download)
+    * Probably the best solution is to use Native Shadow Dom, but implemented
+        from version 63 of Firefox.
 * There are several ways to import `leaflet`.
     * A cool solution could be:
         ```typescript
@@ -595,11 +617,6 @@ http://xhr.spec.whatwg.org/
       },
       ```
 
-* BIG TODO in ./front/src/app/entities/patient/map-openlayers.component.ts
-    I've disabled the Shadow DOM to inject HtmlElement
-    https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
-    Enable the Shadow DOM again, and correct to code accordingly.
-
 # Linting
 
 * Use `typedef: true` is a very bad idea. Too much boilerplate,
@@ -668,3 +685,6 @@ http://xhr.spec.whatwg.org/
 # Credit
 
 * For css animation https://loading.io/css/
+
+* In ./front/src/app/entities/patient/map/map-openlayers.component.css
+    https://github.com/perliedman/leaflet-routing-machine/blob/master/dist/leaflet-routing-machine.css#L76,L100

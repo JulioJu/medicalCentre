@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Tue 26 Feb 2019 04:40:16 PM CET
+  *       MODIFIED: Tue 26 Feb 2019 09:04:58 PM CET
   *
   *          USAGE:
   *
@@ -12,10 +12,9 @@
   */
 
 // tslint:disable:no-magic-numbers ban-ts-ignore no-unsafe-any interface-name
-// tslint:disable:no-namespace
-// tslint:disable
+// tslint:disable:no-namespace switch-default
 
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Renderer2, ElementRef } from '@angular/core';
 
 import * as OSRM from 'osrm';
 // @ts-ignore
@@ -45,9 +44,9 @@ import { OSM, Vector as VectorSource } from 'ol/source.js';
 // @ts-ignore
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js';
 
-// import { URL_OSRM_CYCLIST } from '../../app.constants';
+// import { URL_OSRM_CYCLIST } from '../../../app.constants';
 
-import { ShowError } from './../../shared';
+import { ShowError } from './../../../shared';
 
 // Check my question at
 // https://github.com/openlayers/openlayers/issues/8448#issuecomment-464871327
@@ -131,7 +130,7 @@ const fetchDataFromOSRM =
 //         osrmJSON.waypoints[0].location[1] as number);
 // };
 
-const drawPolyline = (polyline: string, map: Map) => {
+const drawPolyline = (polyline: string, map: Map): void => {
     const route = (new Polyline({
         factor: 1e5
     })).readGeometry(polyline, {
@@ -202,23 +201,24 @@ const getIconName = (instr: OSRM.StepManeuver): string => {
     }
 };
 
-// Inspired from https://github.com/perliedman/leaflet-routing-machine/blob/8b7a084edad5bc47851763f36872df986eea67aa/src/formatter.js#L72,L90
+// Inspired from
+// https://github.com/perliedman/leaflet-routing-machine/blob/8b7a084edad5bc47851763f36872df986eea67aa/src/formatter.js#L72,L90
 const formatTime = (t: number /* Number (seconds) */): string => {
     // More than 30 seconds precision looks ridiculous
-    t = Math.round(t / 30) * 30;
+    const time = Math.round(t / 30) * 30;
 
-    if (t > 86400) {
-        return `${Math.round(t / 3600)} heures` ;
-    } else if (t > 3600) {
-        return `${Math.floor(t / 3600)} heures` +
-            ` ${Math.round((t % 3600) / 60)} minutes`;
-    } else if (t > 300) {
-        return `${Math.round(t / 60)} minutes`
-    } else if (t > 60) {
-        return `${Math.floor(t / 60)} minutes` +
-            (t % 60 !== 0 ? ` ${(t % 60)} secondes` : '');
+    if (time > 86400) {
+        return `${Math.round(time / 3600)} heures` ;
+    } else if (time > 3600) {
+        return `${Math.floor(time / 3600)} heures` +
+            ` ${Math.round((time % 3600) / 60)} minutes`;
+    } else if (time > 300) {
+        return `${Math.round(time / 60)} minutes`;
+    } else if (time > 60) {
+        return `${Math.floor(time / 60)} minutes` +
+            (time % 60 !== 0 ? ` ${(time % 60)} secondes` : '');
     } else {
-        return `${t} secondes`;
+        return `${time} secondes`;
     }
 };
 
@@ -230,44 +230,73 @@ const formatDistance = (meters: number /* Number (meters) */): string => {
     return `${meters} mètres`;
 };
 
-const divAppendChildText = (div: HTMLElement, text: string) => {
-    const span = document.createElement('span');
-    const textNode = document.createTextNode(text);
-    span.appendChild(textNode);
-    div.appendChild(span);
+const divAppendChildText = (div: HTMLElement,
+    text: string,
+    renderer: Renderer2
+): void => {
+    // const span = document.createElement('span');
+    // const textNode = document.createTextNode(text);
+    // span.appendChild(textNode);
+    // div.appendChild(span);
+    const span = renderer.createElement('span');
+    const textNode = renderer.createText(text);
+    renderer.appendChild(span, textNode);
+    renderer.appendChild(div, span);
 };
 
-const createTextDirection = (legs: OSRM.RouteLeg[], map: Map) => {
-    const directionInstructions: HTMLDivElement = document.createElement('div');
-    legs.forEach((leg) => {
-        leg.steps.forEach((step) => {
-            const img = document.createElement('span');
-            img.classList.add('leaflet-routing-icon');
-            img.classList
-                .add(`leaflet-routing-icon-${getIconName(step.maneuver)}`);
-            directionInstructions.appendChild(img);
+const createTextDirection = (legs: OSRM.RouteLeg[],
+    map: Map,
+    renderer: Renderer2,
+    el: ElementRef
+): void => {
+    // const directionInstructions: HTMLDivElement =
+    // document.createElement('div');
+    const directionInstructions: HTMLDivElement = renderer.createElement('div');
+    legs.forEach((leg: OSRM.RouteLeg) => {
+        leg.steps.forEach((step: OSRM.RouteStep) => {
+            // const img = document.createElement('span');
+            // img.classList.add('leaflet-routing-icon');
+            // img.classList
+            //     .add(`leaflet-routing-icon-${getIconName(step.maneuver)}`);
+            // directionInstructions.appendChild(img);
+            const img = renderer.createElement('span');
+            renderer.addClass(img, 'leaflet-routing-icon');
+            renderer.addClass(img,
+                `leaflet-routing-icon-${getIconName(step.maneuver)}`);
+            renderer.appendChild(directionInstructions, img);
 
             divAppendChildText(directionInstructions,
-                OsrmTextInstructions('v5').compile('fr', step, {}));
+                OsrmTextInstructions('v5')
+                .compile('fr', step, {}),
+                renderer
+            );
 
             divAppendChildText(directionInstructions,
-                formatTime(step.duration));
+                formatTime(step.duration),
+                renderer
+            );
 
             divAppendChildText(directionInstructions,
-                formatDistance(step.distance));
+                formatDistance(step.distance),
+                renderer
+            );
         });
     });
 
-    const mapDiv: HTMLElement = map.getTargetElement();
-    if (mapDiv.parentNode) {
-        mapDiv.parentNode
-            .insertBefore(directionInstructions, mapDiv.nextSibling);
-    }
+    // const mapDiv: HTMLElement = map.getTargetElement();
+    // if (mapDiv.parentNode) {
+    //     mapDiv.parentNode
+    //         .insertBefore(directionInstructions, mapDiv.nextSibling);
+    // }
+    renderer.appendChild(el.nativeElement, directionInstructions);
 
-}
+};
 
 const createRoute = async (map: Map,
-        ...points: PointLongLat[]): Promise<void> => {
+        renderer: Renderer2,
+        el: ElementRef,
+        ...points: PointLongLat[]
+): Promise<void> => {
     // Work without that!!!
     // https://stackoverflow.com/questions/40140149/use-async-await-with-array-map
     // const pointsParsedNearest = await Promise.all(points.map(
@@ -281,7 +310,11 @@ const createRoute = async (map: Map,
     // osrmJSON.routes[0].geometry !== osrmJSON.routes[0].legs[].geometry
     drawPolyline(osrmJSON.routes[0].geometry, map);
 
-    createTextDirection(osrmJSON.routes[0].legs, map);
+    createTextDirection(osrmJSON.routes[0].legs,
+        map,
+        renderer,
+        el
+    );
 
 };
 
@@ -310,13 +343,16 @@ const createAPoint = (arrivalPointProj: number[], color: string):
     });
 };
 
-// TODO use ../../../assets/getPositionsFreegeoip.js
+// TODO use ../../../../assets/getPositionsFreegeoip.js
 // probably better
 const geolocationFunction = (
         map: Map,
         view: View,
         arrivalPointProj: number[],
-        pointLongLat: PointLongLat): void => {
+        pointLongLat: PointLongLat,
+        renderer: Renderer2,
+        el: ElementRef
+): void => {
     // https://openlayers.org/en/latest/examples/geolocation.html
 
     const geolocation = new Geolocation({
@@ -347,10 +383,13 @@ const geolocationFunction = (
             positionAlreadyChanged = true;
             // view.setCenter(coordinates);
             createRoute(map,
+                renderer,
+                el,
                 pointLongLat,
                 // @ts-ignore
-                new PointLongLat(...proj.toLonLat(coordinates)))
-                .catch((e: Error) => ShowError(e.message));
+                new PointLongLat(...proj.toLonLat(coordinates))
+            )
+            .catch((e: Error) => ShowError(e.message));
         }
     });
 
@@ -368,16 +407,14 @@ const geolocationFunction = (
     styleUrls: [
         'map.component.css',
         'map-openlayers.component.css'
-    ],
-    // TODO DO NOT DISABLE SHADOW DOM
-    // Search how to append child and inject the '_ngcontent-*' element
-    // See https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
-    encapsulation: ViewEncapsulation.None
+    ]
 })
 export class MapOpenLayersComponent implements OnInit {
 
     @Input() protected latitudeArrival: number;
     @Input() protected longitudeArrival: number;
+
+    public constructor(private renderer: Renderer2, private el: ElementRef) {}
 
     public ngOnInit(): void {
 
@@ -446,8 +483,12 @@ export class MapOpenLayersComponent implements OnInit {
 
         // Geolocation
         // ==========
-        geolocationFunction(map, view, arrivalPointProj,
-            new PointLongLat(this.longitudeArrival, this.latitudeArrival));
+        geolocationFunction(map,
+            view,
+            arrivalPointProj,
+            new PointLongLat(this.longitudeArrival, this.latitudeArrival),
+            this.renderer,
+            this.el);
 
     }
 

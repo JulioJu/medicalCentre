@@ -19,7 +19,7 @@
 
 import { Component, OnInit, Input } from '@angular/core';
 
-import { URL_OSRM_CYCLIST } from '../../app.constants';
+import { URL_OSRM_CYCLIST } from '../../../app.constants';
 
 import * as L from 'leaflet';
 // import 'leaflet-control-geocoder';
@@ -27,9 +27,9 @@ import 'leaflet-routing-machine';
 import 'leaflet-fullscreen';
 
 import { retrieveGeoLocalisation } from
-'../../../assets/getPositionsFreegeoip.js';
+'../../../../assets/getPositionsFreegeoip.js';
 
-import { ShowError } from './../../shared';
+import { ShowError } from './../../../shared';
 
 @Component({
     selector: 'app-map-leaflet',

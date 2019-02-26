@@ -4,16 +4,16 @@
     /* grid-template-rows:    auto auto; */
 }
 
-/* Copied from */
-/* https://github.com/perliedman/leaflet-routing-machine/blob/8b7a084edad5bc47851763f36872df986eea67aa/dist/leaflet-routing-machine.css#L76,L100 */
+/* Following, copied from  */
+/* https://github.com/perliedman/leaflet-routing-machine/blob/master/dist/leaflet-routing-machine.css#L76,L100  */
 
 .leaflet-routing-icon {
-    background-image: url("/assets/node_modules/leaflet-routing-machine/leaflet.routing.icons.png");
+    background-image: url('/assets/node_modules/leaflet-routing-machine/leaflet.routing.icons.png');
     -webkit-background-size: 240px 20px;
     background-size: 240px 20px;
     background-repeat: no-repeat;
     margin: 0;
-    content: " ";
+    content: "";
     display: inline-block;
     vertical-align: top;
     width: 20px;
