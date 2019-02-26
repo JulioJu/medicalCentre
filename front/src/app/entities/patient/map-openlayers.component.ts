@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Sun 24 Feb 2019 05:42:17 PM CET
+  *       MODIFIED: Tue 26 Feb 2019 04:40:16 PM CET
   *
   *          USAGE:
   *
@@ -11,9 +11,15 @@
   * ============================================================================
   */
 
-// tslint:disable:no-magic-numbers ban-ts-ignore no-unsafe-any
+// tslint:disable:no-magic-numbers ban-ts-ignore no-unsafe-any interface-name
+// tslint:disable:no-namespace
+// tslint:disable
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+
+import * as OSRM from 'osrm';
+// @ts-ignore
+import * as OsrmTextInstructions from 'osrm-text-instructions';
 
 // @ts-ignore
 import Feature from 'ol/Feature.js';
@@ -53,14 +59,44 @@ class PointLongLat {
     }
 }
 
-interface IOSRMResponse {
-    code: string;
-    waypoints: Array<{location: number}>;
-    routes: Array<{geometry: string}>;
+declare namespace OSRMLocal {
+    type Response =
+        // Request could be processed as expected.
+        'Ok' |
+        // URL string is invalid.
+        'InvalidUrl' |
+        // Service name is invalid.
+        'InvalidService' |
+        // Version is not found.
+        'InvalidVersion' |
+        // Options are invalid.
+        'InvalidOptions' |
+        // The query string is synctactically malformed.
+        'InvalidQuery' |
+        // The successfully parsed query parameters are invalid.
+        'InvalidValue' |
+        // One of the supplied input coordinates could not snap to street
+        // segment.
+        'NoSegment' |
+        // The request size violates one of the service specific request size
+        // restrictions.
+        'TooBig' ;
+
+    // Finds the fastest route between coordinates in the supplied order.
+    interface RouteService {
+        // if the request was successful Ok otherwise see the service dependent
+        // and general status codes.  In case of error the following codes are
+        // supported in addition to the general ones: NoRoute
+        code: Response | 'NoRoute';
+        // Array of Waypoint objects representing all waypoints in order:
+        waypoints: OSRM.Waypoint[];
+        // An array of Route objects, ordered by descending recommendation rank.
+        routes: OSRM.Route[];
+    }
 }
 
 const fetchDataFromOSRM =
-        async (url: string): Promise<IOSRMResponse> => {
+        async (url: string): Promise<OSRMLocal.RouteService> => {
     let serverResponse: Response;
     const messageError = 'Fail to retieve route at url:' + url;
     try {
@@ -76,7 +112,7 @@ const fetchDataFromOSRM =
          + ` (${serverResponse.status}: ${serverResponse.statusText})`);
     }
     // See http://project-osrm.org/docs/v5.5.1/api/
-    const osrmResponse = await serverResponse.json() as IOSRMResponse;
+    const osrmResponse = await serverResponse.json() as OSRMLocal.RouteService;
     if (osrmResponse.code !== 'Ok') {
         console.error(osrmResponse);
         throw new Error(`Message from route server: `
@@ -84,14 +120,6 @@ const fetchDataFromOSRM =
     }
     console.debug(osrmResponse);
     return osrmResponse;
-};
-
-const getPolylineRoute = async (...points: PointLongLat[]): Promise<string> => {
-    const urlOSRMDriving =
-        'http://localhost:5005/route/v1/driving/' + points.join(';')
-        + '?overview=full';
-    const osrmJSON = await fetchDataFromOSRM(urlOSRMDriving);
-    return osrmJSON.routes[0].geometry;
 };
 
 // const getNearest4326Point = async (coord4326: PointLongLat):
@@ -103,13 +131,7 @@ const getPolylineRoute = async (...points: PointLongLat[]): Promise<string> => {
 //         osrmJSON.waypoints[0].location[1] as number);
 // };
 
-const createRoute = async (map: Map,
-        ...points: PointLongLat[]): Promise<void> => {
-    // Work without that!!!
-    // https://stackoverflow.com/questions/40140149/use-async-await-with-array-map
-    // const pointsParsedNearest = await Promise.all(points.map(
-    //     getNearest4326Point));
-    const polyline: string = await getPolylineRoute(...points);
+const drawPolyline = (polyline: string, map: Map) => {
     const route = (new Polyline({
         factor: 1e5
     })).readGeometry(polyline, {
@@ -138,10 +160,129 @@ const createRoute = async (map: Map,
     // https://openlayers.org/en/latest/examples/center.html
     const view = map.getView();
     const point = routeFeature.getGeometry();
+    // `view.fit' triggered a second time
     view.fit(
         // @ts-ignore:2345
         point,
         {padding: [20, 20, 20, 20], minResolution: 50});
+};
+
+// Inspired from
+// https://github.com/perliedman/leaflet-routing-machine/blob/8b7a084edad5bc47851763f36872df986eea67aa/src/formatter.js#L105,L139
+const getIconName = (instr: OSRM.StepManeuver): string => {
+    switch (instr.type) {
+        case 'depart':
+            return 'depart';
+            break;
+        // case 'WaypointReached':
+        //     return 'via';
+        // case 'Roundabout':
+        //     return 'enter-roundabout';
+        case 'arrive':
+            return 'arrive';
+    }
+
+    switch (instr.modifier) {
+        case 'straight':
+            return 'continue';
+        case 'slight rigth':
+            return 'bear-right';
+        case 'right':
+            return 'turn-right';
+        case 'sharp right':
+            return 'sharp-right';
+        case 'uturn':
+            return 'u-turn';
+        case 'sharp left':
+            return 'sharp-left';
+        case 'left':
+            return 'turn-left';
+        case 'slight left':
+            return 'bear-left';
+    }
+};
+
+// Inspired from https://github.com/perliedman/leaflet-routing-machine/blob/8b7a084edad5bc47851763f36872df986eea67aa/src/formatter.js#L72,L90
+const formatTime = (t: number /* Number (seconds) */): string => {
+    // More than 30 seconds precision looks ridiculous
+    t = Math.round(t / 30) * 30;
+
+    if (t > 86400) {
+        return `${Math.round(t / 3600)} heures` ;
+    } else if (t > 3600) {
+        return `${Math.floor(t / 3600)} heures` +
+            ` ${Math.round((t % 3600) / 60)} minutes`;
+    } else if (t > 300) {
+        return `${Math.round(t / 60)} minutes`
+    } else if (t > 60) {
+        return `${Math.floor(t / 60)} minutes` +
+            (t % 60 !== 0 ? ` ${(t % 60)} secondes` : '');
+    } else {
+        return `${t} secondes`;
+    }
+};
+
+const formatDistance = (meters: number /* Number (meters) */): string => {
+    if (meters >= 1000) {
+        return `${Math.floor(meters / 1000)} km` +
+            ` ${Math.round(meters % 1000)} mètres`;
+    }
+    return `${meters} mètres`;
+};
+
+const divAppendChildText = (div: HTMLElement, text: string) => {
+    const span = document.createElement('span');
+    const textNode = document.createTextNode(text);
+    span.appendChild(textNode);
+    div.appendChild(span);
+};
+
+const createTextDirection = (legs: OSRM.RouteLeg[], map: Map) => {
+    const directionInstructions: HTMLDivElement = document.createElement('div');
+    legs.forEach((leg) => {
+        leg.steps.forEach((step) => {
+            const img = document.createElement('span');
+            img.classList.add('leaflet-routing-icon');
+            img.classList
+                .add(`leaflet-routing-icon-${getIconName(step.maneuver)}`);
+            directionInstructions.appendChild(img);
+
+            divAppendChildText(directionInstructions,
+                OsrmTextInstructions('v5').compile('fr', step, {}));
+
+            divAppendChildText(directionInstructions,
+                formatTime(step.duration));
+
+            divAppendChildText(directionInstructions,
+                formatDistance(step.distance));
+        });
+    });
+
+    const mapDiv: HTMLElement = map.getTargetElement();
+    if (mapDiv.parentNode) {
+        mapDiv.parentNode
+            .insertBefore(directionInstructions, mapDiv.nextSibling);
+    }
+
+}
+
+const createRoute = async (map: Map,
+        ...points: PointLongLat[]): Promise<void> => {
+    // Work without that!!!
+    // https://stackoverflow.com/questions/40140149/use-async-await-with-array-map
+    // const pointsParsedNearest = await Promise.all(points.map(
+    //     getNearest4326Point));
+
+    const urlOSRMDriving =
+        'http://localhost:5005/route/v1/driving/' + points.join(';')
+        + '?overview=full&steps=true';
+    const osrmJSON = await fetchDataFromOSRM(urlOSRMDriving);
+
+    // osrmJSON.routes[0].geometry !== osrmJSON.routes[0].legs[].geometry
+    drawPolyline(osrmJSON.routes[0].geometry, map);
+
+    createTextDirection(osrmJSON.routes[0].legs, map);
+
 };
 
 const createAPoint = (arrivalPointProj: number[], color: string):
@@ -169,7 +310,7 @@ const createAPoint = (arrivalPointProj: number[], color: string):
     });
 };
 
-// TODO use ../../../assets/outdated-leaflet/getPositionsFreegeoip.js
+// TODO use ../../../assets/getPositionsFreegeoip.js
 // probably better
 const geolocationFunction = (
         map: Map,
@@ -201,6 +342,7 @@ const geolocationFunction = (
             const extent =
                 arrivalPointProj
                 .concat(coordinates);
+            // `view.fit' triggered a first time
             view.fit(extent);
             positionAlreadyChanged = true;
             // view.setCenter(coordinates);
@@ -222,10 +364,15 @@ const geolocationFunction = (
 // tslint:disable:max-classes-per-file
 @Component({
     selector: 'app-map-openlayers',
+    templateUrl: './map-openlayers.component.html',
     styleUrls: [
-        './map.component.css'
+        'map.component.css',
+        'map-openlayers.component.css'
     ],
-    templateUrl: './map-openlayers.component.html'
+    // TODO DO NOT DISABLE SHADOW DOM
+    // Search how to append child and inject the '_ngcontent-*' element
+    // See https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
+    encapsulation: ViewEncapsulation.None
 })
 export class MapOpenLayersComponent implements OnInit {
 

@@ -275,7 +275,9 @@ N.B. Form fields are cached in SessionStorage to prevent the loss of data
     rel="stylesheet"> is permitted in the body*
     https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
     * As it all plugins of Leaflet could be easy added ;-)
-
+    * Don't use `@import` in css file (it prevents parallel download)
+    * TODO never minified
+    * TODO see https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
 * There are several ways to import `leaflet`.
     * A cool solution could be:
         ```typescript
@@ -593,6 +595,11 @@ http://xhr.spec.whatwg.org/
       },
       ```
 
+* BIG TODO in ./front/src/app/entities/patient/map-openlayers.component.ts
+    I've disabled the Shadow DOM to inject HtmlElement
+    https://medium.com/google-developer-experts/angular-advanced-styling-guide-v4-f0765616e635
+    Enable the Shadow DOM again, and correct to code accordingly.
+
 # Linting
 
 * Use `typedef: true` is a very bad idea. Too much boilerplate,
@@ -649,6 +656,9 @@ http://xhr.spec.whatwg.org/
 
 * https://github.com/Automattic/mongoose/issues/7514
      Doc: Add Cast error exemple in validation.jade
+
+* https://github.com/openlayers/openlayers/pull/9259
+    Doc: precisions for IntelliSense configuration
 
 # Update
 * Note for update, check

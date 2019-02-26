@@ -27,6 +27,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "moment": "^2.24.0",
     "ol": "^6.0.0-beta.1",
+    "osrm-text-instructions": "https://github.com/Project-OSRM/osrm-text-instructions",
     "rxjs": "^6.4.0",
     "tslib": "^1.9.0",
     "zone.js": "^0.8.29"
@@ -42,6 +43,7 @@
     "@types/mongodb": "^3.1.19",
     "@types/mongoose": "^5.3.19",
     "@types/node": "^11.9.4",
+    "@types/osrm": "^5.12.0",
     "codelyzer": "^4.5.0",
     "jasmine-core": "^3.3.0",
     "jasmine-spec-reporter": "^4.2.1",

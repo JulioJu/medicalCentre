@@ -388,6 +388,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-11.9.4.tgz#ceb0048a546db453f6248f2d1d95e937a6f00a14"
   integrity sha512-Zl8dGvAcEmadgs1tmSPcvwzO1YRsz38bVJQvH1RvRqSR9/5n61Q1ktcDL0ht3FXWR+ZpVmXVwN1LuH4Ax23NsA==
 
+"@types/osrm@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@types/osrm/-/osrm-5.12.0.tgz#0a1deda201e407b4d51d2bbefbf73b5c33d6912d"
+  integrity sha512-ZwqDgHmxj8j84KYdaVR2sFPBnYC1Qp8HrdNJRHlOp6kjm6Ifocq3Y1xY0Pvk7sVDPdNMx5CrNOn1ZUx3NvodGA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/q@^0.0.32":
   version "0.0.32"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-0.0.32.tgz#bd284e57c84f1325da702babfc82a5328190c0c5"
@@ -4868,6 +4875,10 @@ osrm-text-instructions@^0.13.2:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/osrm-text-instructions/-/osrm-text-instructions-0.13.2.tgz#c7e483477028b95fd06469bcd72f5443adc8a59e"
   integrity sha512-J6DJp0P7bB6/F8U8GBdIL8S+igMkRLgBP6e4pQ2NP8syMh+sREz4zCK79jV7XajtsS54Grl93y0my6OUp68cMg==
+
+"osrm-text-instructions@https://github.com/Project-OSRM/osrm-text-instructions":
+  version "0.13.2"
+  resolved "https://github.com/Project-OSRM/osrm-text-instructions#ed1a4a97647e6bb18eea4bcc8fa098c7d9f35f20"
 
 p-defer@^1.0.0:
   version "1.0.0"
