@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Tue 26 Feb 2019 09:04:58 PM CET
+  *       MODIFIED: Wed 27 Feb 2019 04:10:40 PM CET
   *
   *          USAGE:
   *
@@ -20,6 +20,8 @@ import * as OSRM from 'osrm';
 // @ts-ignore
 import * as OsrmTextInstructions from 'osrm-text-instructions';
 
+// @ts-ignore
+import { extend } from 'ol/extent.js';
 // @ts-ignore
 import Feature from 'ol/Feature.js';
 // @ts-ignore
@@ -44,12 +46,26 @@ import { OSM, Vector as VectorSource } from 'ol/source.js';
 // @ts-ignore
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js';
 
-// import { URL_OSRM_CYCLIST } from '../../../app.constants';
+import {
+    URL_OSRM_CYCLIST ,
+    URL_OSRM_WALKER,
+    URL_OSRM_DRIVER
+} from '../../../app.constants';
 
-import { ShowError } from './../../../shared';
+import { ShowError, CatchAndDisplayError } from './../../../shared';
 
-// Check my question at
-// https://github.com/openlayers/openlayers/issues/8448#issuecomment-464871327
+interface IProfil {
+    title: string;
+    colorRGB: number[];
+    url: string;
+    extent?: number[];
+}
+
+interface IElements {
+    map: Map;
+    el: ElementRef;
+    renderer: Renderer2;
+}
 
 class PointLongLat {
     public constructor(public longitude: number, public latitude: number) {}
@@ -130,7 +146,8 @@ const fetchDataFromOSRM =
 //         osrmJSON.waypoints[0].location[1] as number);
 // };
 
-const drawPolyline = (polyline: string, map: Map): void => {
+const drawPolyline =
+(polyline: string, map: Map, profil: IProfil): void => {
     const route = (new Polyline({
         factor: 1e5
     })).readGeometry(polyline, {
@@ -144,7 +161,7 @@ const drawPolyline = (polyline: string, map: Map): void => {
     const styles = {
         route: new Style({
             stroke: new Stroke({
-                width: 6, color: [237, 212, 0, 0.8]
+                width: 6, color: profil.colorRGB.concat(0.8)
             })
         })
     };
@@ -156,14 +173,7 @@ const drawPolyline = (polyline: string, map: Map): void => {
     vectorSource.addFeature(routeFeature);
     map.addLayer(vectorLayer);
 
-    // https://openlayers.org/en/latest/examples/center.html
-    const view = map.getView();
-    const point = routeFeature.getGeometry();
-    // `view.fit' triggered a second time
-    view.fit(
-        // @ts-ignore:2345
-        point,
-        {padding: [20, 20, 20, 20], minResolution: 50});
+    profil.extent = vectorSource.getExtent();
 };
 
 // Inspired from
@@ -230,92 +240,140 @@ const formatDistance = (meters: number /* Number (meters) */): string => {
     return `${meters} mètres`;
 };
 
-const divAppendChildText = (div: HTMLElement,
+const appendChildText = (htmlElement: HTMLElement,
     text: string,
-    renderer: Renderer2
+    renderer: Renderer2,
+    tag?: string
 ): void => {
     // const span = document.createElement('span');
     // const textNode = document.createTextNode(text);
     // span.appendChild(textNode);
-    // div.appendChild(span);
-    const span = renderer.createElement('span');
+    // htmlElement.appendChild(span);
+    const tagToAppend = tag ? tag : 'span';
+    const span = renderer.createElement(tagToAppend);
     const textNode = renderer.createText(text);
     renderer.appendChild(span, textNode);
-    renderer.appendChild(div, span);
+    renderer.appendChild(htmlElement, span);
 };
 
-const createTextDirection = (legs: OSRM.RouteLeg[],
-    map: Map,
-    renderer: Renderer2,
-    el: ElementRef
+const createTextDirection = (elements: IElements, legs: OSRM.RouteLeg[],
+    profil: IProfil
 ): void => {
-    // const directionInstructions: HTMLDivElement =
-    // document.createElement('div');
-    const directionInstructions: HTMLDivElement = renderer.createElement('div');
+
+    const directionInfo: HTMLDivElement =
+        elements.renderer.createElement('div');
+    directionInfo.style.backgroundColor =
+        `rgba(${profil.colorRGB.concat(0.2)})`;
+    appendChildText(directionInfo, profil.title, elements.renderer, 'h4');
+
+    const directionInstructions: HTMLDivElement =
+        elements.renderer.createElement('div');
     legs.forEach((leg: OSRM.RouteLeg) => {
         leg.steps.forEach((step: OSRM.RouteStep) => {
-            // const img = document.createElement('span');
-            // img.classList.add('leaflet-routing-icon');
-            // img.classList
-            //     .add(`leaflet-routing-icon-${getIconName(step.maneuver)}`);
-            // directionInstructions.appendChild(img);
-            const img = renderer.createElement('span');
-            renderer.addClass(img, 'leaflet-routing-icon');
-            renderer.addClass(img,
-                `leaflet-routing-icon-${getIconName(step.maneuver)}`);
-            renderer.appendChild(directionInstructions, img);
 
-            divAppendChildText(directionInstructions,
+            const directionSpan = elements.renderer.createElement('span');
+            const directionImg = elements.renderer.createElement('span');
+            elements.renderer.addClass(directionImg, 'leaflet-routing-icon');
+            elements.renderer.addClass(directionImg,
+                `leaflet-routing-icon-${getIconName(step.maneuver)}`);
+            elements.renderer.appendChild(directionSpan, directionImg);
+            appendChildText(directionSpan,
                 OsrmTextInstructions('v5')
                 .compile('fr', step, {}),
-                renderer
+                elements.renderer
             );
+            elements.renderer.appendChild(directionInstructions, directionSpan);
 
-            divAppendChildText(directionInstructions,
+            appendChildText(directionInstructions,
                 formatTime(step.duration),
-                renderer
+                elements.renderer
             );
 
-            divAppendChildText(directionInstructions,
+            appendChildText(directionInstructions,
                 formatDistance(step.distance),
-                renderer
+                elements.renderer
             );
         });
     });
 
-    // const mapDiv: HTMLElement = map.getTargetElement();
-    // if (mapDiv.parentNode) {
-    //     mapDiv.parentNode
-    //         .insertBefore(directionInstructions, mapDiv.nextSibling);
-    // }
-    renderer.appendChild(el.nativeElement, directionInstructions);
+    elements.renderer.appendChild(directionInfo, directionInstructions);
+    elements.renderer.appendChild(elements.el.nativeElement, directionInfo);
 
 };
 
 const createRoute = async (map: Map,
-        renderer: Renderer2,
-        el: ElementRef,
-        ...points: PointLongLat[]
-): Promise<void> => {
+    profil: IProfil
+): Promise<OSRMLocal.RouteService> => {
     // Work without that!!!
     // https://stackoverflow.com/questions/40140149/use-async-await-with-array-map
     // const pointsParsedNearest = await Promise.all(points.map(
     //     getNearest4326Point));
 
-    const urlOSRMDriving =
-        'http://localhost:5005/route/v1/driving/' + points.join(';')
-        + '?overview=full&steps=true';
-    const osrmJSON = await fetchDataFromOSRM(urlOSRMDriving);
+    const osrmJSON = await fetchDataFromOSRM(profil.url);
 
     // osrmJSON.routes[0].geometry !== osrmJSON.routes[0].legs[].geometry
-    drawPolyline(osrmJSON.routes[0].geometry, map);
+    drawPolyline(osrmJSON.routes[0].geometry, map, profil);
 
-    createTextDirection(osrmJSON.routes[0].legs,
-        map,
-        renderer,
-        el
+    return osrmJSON;
+};
+
+/**
+ * Async functions
+ *
+ */
+const createRoutes = async (
+        elements: IElements,
+        pointDeparture: PointLongLat,
+        pointArrival: PointLongLat
+): Promise<void> => {
+    const urlEnd = `/${pointDeparture};${pointArrival}`
+        + '?overview=full&steps=true';
+
+    const cyclist: IProfil = {
+        title: 'Vélo (c\'est très bien)',
+        colorRGB: [0, 255, 0],
+        url: `${URL_OSRM_CYCLIST}${urlEnd}`
+    };
+
+    const walker: IProfil = {
+        title: 'Marcheur (c\'est bien)',
+        colorRGB: [0, 0, 255],
+        url: `${URL_OSRM_WALKER}${urlEnd}`
+    };
+
+    const driver: IProfil = {
+        title: 'Conducteur (c\'est mal)',
+        colorRGB: [255, 0, 0],
+        url: `${URL_OSRM_DRIVER}${urlEnd}`
+    };
+
+    const profils = [cyclist, walker, driver];
+
+    const osrmJSONArray = await Promise.all(
+        profils.map((profil: IProfil): Promise<OSRMLocal.RouteService> =>
+            createRoute(elements.map, profil)
+        )
     );
 
+    const view = elements.map.getView();
+
+    let newExtent = view.calculateExtent();
+    for (let index = 0 ; index < profils.length ; index++) {
+        if (profils[index].extent) {
+            // https://stackoverflow.com/questions/49746970/openlayers-4-fit-to-extent-of-selected-features
+            newExtent = extend(newExtent, profils[index].extent as number[]);
+            createTextDirection(
+                elements,
+                osrmJSONArray[index].routes[0].legs,
+                profils[index]
+            );
+        }
+    }
+
+    // https://openlayers.org/en/latest/examples/center.html
+    view.fit(
+        newExtent,
+        {padding: [20, 20, 20, 20], minResolution: 50});
 };
 
 const createAPoint = (arrivalPointProj: number[], color: string):
@@ -346,12 +404,9 @@ const createAPoint = (arrivalPointProj: number[], color: string):
 // TODO use ../../../../assets/getPositionsFreegeoip.js
 // probably better
 const geolocationFunction = (
-        map: Map,
-        view: View,
+        elements: IElements,
         arrivalPointProj: number[],
-        pointLongLat: PointLongLat,
-        renderer: Renderer2,
-        el: ElementRef
+        pointLongLat: PointLongLat
 ): void => {
     // https://openlayers.org/en/latest/examples/geolocation.html
 
@@ -360,7 +415,8 @@ const geolocationFunction = (
         // trackingOptions: {
         // enableHighAccuracy: true
         // },
-        projection: view.getProjection()
+        projection: elements.map.getView()
+            .getProjection()
     });
     // enable with true
     geolocation.setTracking(true);
@@ -374,30 +430,32 @@ const geolocationFunction = (
             && coordinates
             && coordinates[0]
             && coordinates[1]) {
-            map.addLayer(createAPoint(coordinates, 'red'));
+            elements.map.addLayer(createAPoint(coordinates, 'red'));
             const extent =
                 arrivalPointProj
                 .concat(coordinates);
-            // `view.fit' triggered a first time
-            view.fit(extent);
             positionAlreadyChanged = true;
             // view.setCenter(coordinates);
-            createRoute(map,
-                renderer,
-                el,
+            createRoutes(elements,
                 pointLongLat,
                 // @ts-ignore
                 new PointLongLat(...proj.toLonLat(coordinates))
             )
-            .catch((e: Error) => ShowError(e.message));
+            .catch((e: Error): void => {
+                console.error(e);
+                CatchAndDisplayError(e);
+                elements.map.getView()
+                    .fit(extent);
+            });
         }
     });
 
     // handle geolocation error.
-    geolocation.on('error', (error: Error) => {
-        console.error(error);
-        ShowError(error.message);
-    });
+    geolocation.on('error',
+        (e: Error): void => {
+            console.error(e);
+            CatchAndDisplayError(e);
+        });
 };
 
 // tslint:disable:max-classes-per-file
@@ -425,8 +483,8 @@ export class MapOpenLayersComponent implements OnInit {
             || this.longitudeArrival < -90
             || this.longitudeArrival > 90
         ) {
-            ShowError('Destination should have latitude or'
-                + ' longitude > 90 and < -90');
+            ShowError(new Error('Destination should have latitude or'
+                + ' longitude > 90 and < -90'));
             return;
         }
 
@@ -483,12 +541,11 @@ export class MapOpenLayersComponent implements OnInit {
 
         // Geolocation
         // ==========
-        geolocationFunction(map,
-            view,
+        geolocationFunction(
+            { map, el: this.el, renderer: this.renderer},
             arrivalPointProj,
-            new PointLongLat(this.longitudeArrival, this.latitudeArrival),
-            this.renderer,
-            this.el);
+            new PointLongLat(this.longitudeArrival, this.latitudeArrival)
+        );
 
     }
 

@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Sat 23 Feb 2019 10:44:20 AM CET
+  *       MODIFIED: Wed 27 Feb 2019 03:51:35 PM CET
   *
   *          USAGE:
   *
@@ -29,7 +29,7 @@ import 'leaflet-fullscreen';
 import { retrieveGeoLocalisation } from
 '../../../../assets/getPositionsFreegeoip.js';
 
-import { ShowError } from './../../../shared';
+import { CatchAndDisplayError, ShowError } from './../../../shared';
 
 @Component({
     selector: 'app-map-leaflet',
@@ -52,8 +52,8 @@ export class MapLeafletComponent implements OnInit {
             || this.longitudeArrival < -90
             || this.longitudeArrival > 90
         ) {
-            ShowError('Destination should have latitude or'
-                + ' longitude > 90 and < -90');
+            ShowError(new Error('Destination should have latitude or'
+                + ' longitude > 90 and < -90'));
             return;
         }
 
@@ -71,14 +71,17 @@ export class MapLeafletComponent implements OnInit {
         })
         .addTo(map);
 
-        map.on('error', (e) => {
-            ShowError(e.toString());
+        map.on('error',
+            (e: Event): void => {
+            console.error(e);
+            CatchAndDisplayError(new Error(e.toString()));
         });
 
         // Don't know if this event as a sens, probably it's an event of
         // a tile object
-        map.on('tileerror', (e) => {
-            ShowError(e.toString());
+        map.on('tileerror', (e: Event): void => {
+            console.error(e);
+            CatchAndDisplayError(new Error(e.toString()));
         });
 
         map.addControl(new (L.Control as any).Fullscreen());
@@ -91,10 +94,12 @@ export class MapLeafletComponent implements OnInit {
                 defaultErrorHandler: (e: any) => {
                     console.error(e);
                     if (e.error.url) {
-                        ShowError(`Can't display map as there is error with ` +
-                        `${e.error.url}`);
+                        ShowError(
+                            e,
+                            `Can't display map as there is error with ` +
+                            `${e.error.url}`);
                     } else {
-                        ShowError(e.message);
+                        CatchAndDisplayError(e);
                     }
                 },
                 waypoints: [
@@ -107,7 +112,7 @@ export class MapLeafletComponent implements OnInit {
         })
         .catch((e): void => {
             console.error(e);
-            ShowError(e.toString());
+            CatchAndDisplayError(e);
         });
 
         // routingControl.on('routingerror', (e: Error) => {

@@ -63,9 +63,9 @@ export class PatientCreateOrEditProtoComponent implements OnInit {
                     });
                 }
             })
-            .catch((e: string) => {
-                ShowError('Error when loading form.');
+            .catch((e: Error) => {
                 console.error(e);
+                ShowError(e, 'Error when loading form.');
             });
     }
 

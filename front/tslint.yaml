@@ -147,6 +147,9 @@ rules:
   # Ensures proper spacing between import statement keywords
   import-spacing: false
 
+  # Enforces using explicit += 1 or -= 1 operators.
+  increment-decrement: false
+
   file-name-casing:
     - true
     - kebab-case

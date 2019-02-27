@@ -116,7 +116,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
             details += `Error with the mongo service: is it started? ` +
                 `${(err.error as MongoError).errmsg}`;
         }
-        ShowError(
+        ShowError(err,
             `code: ${err.status}  status:${err.statusText} Details:${details}`);
     }
     // tslint:enable:no-magic-numbers
@@ -138,7 +138,7 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                         ])
                         .catch(CatchAndDisplayError);
                     } else {
-                        ShowError('Error unknown in request');
+                        ShowError(new Error('Error unknown in request'));
                     }
                 },
                 (this.ShowValidationError));
@@ -201,18 +201,18 @@ export abstract class AbstractCreateOrEditComponent implements OnInit {
                     .then(((form: FormGroup): void => {
                         this.instantiateForm(form);
                     }))
-                    .catch((e: string) => {
-                        ShowError('Error when loading form.');
+                    .catch((e: Error) => {
                         console.error(e);
+                        ShowError(e, 'Error when loading form.');
                     });
             } else {
                 this.loadFromSessionStorage()
                     .then(((form: FormGroup): void => {
                         this.instantiateForm(form);
                     }))
-                    .catch((e: string) => {
-                        ShowError('Error when loading form.');
+                    .catch((e: Error) => {
                         console.error(e);
+                        ShowError(e, 'Error when loading form.');
                     });
             }
         });
