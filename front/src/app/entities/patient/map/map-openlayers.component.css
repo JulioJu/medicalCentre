@@ -1,4 +1,4 @@
-#mapOSRM ~ div div:nth-child(2) {
+.directionInstructions {
     margin-top: 4em;
     display: grid;
     grid-template-columns: auto auto auto;

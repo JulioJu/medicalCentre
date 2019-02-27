@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Wed 27 Feb 2019 04:10:40 PM CET
+  *       MODIFIED: Wed 27 Feb 2019 06:19:16 PM CET
   *
   *          USAGE:
   *
@@ -59,6 +59,8 @@ interface IProfil {
     colorRGB: number[];
     url: string;
     extent?: number[];
+    distance?: string;
+    duration?: string;
 }
 
 interface IElements {
@@ -244,30 +246,37 @@ const appendChildText = (htmlElement: HTMLElement,
     text: string,
     renderer: Renderer2,
     tag?: string
-): void => {
+): HTMLElement => {
     // const span = document.createElement('span');
     // const textNode = document.createTextNode(text);
     // span.appendChild(textNode);
     // htmlElement.appendChild(span);
     const tagToAppend = tag ? tag : 'span';
-    const span = renderer.createElement(tagToAppend);
+    const element = renderer.createElement(tagToAppend);
     const textNode = renderer.createText(text);
-    renderer.appendChild(span, textNode);
-    renderer.appendChild(htmlElement, span);
+    renderer.appendChild(element, textNode);
+    renderer.appendChild(htmlElement, element);
+    return element;
 };
 
 const createTextDirection = (elements: IElements, legs: OSRM.RouteLeg[],
     profil: IProfil
 ): void => {
 
-    const directionInfo: HTMLDivElement =
+    const textDirection: HTMLDivElement =
         elements.renderer.createElement('div');
-    directionInfo.style.backgroundColor =
+    textDirection.style.backgroundColor =
         `rgba(${profil.colorRGB.concat(0.2)})`;
-    appendChildText(directionInfo, profil.title, elements.renderer, 'h4');
+    appendChildText(textDirection, profil.title, elements.renderer, 'h4');
+    appendChildText(textDirection,
+        `Distance: ${profil.distance} Durée: ${profil.duration}`,
+        elements.renderer,
+        'h4');
 
     const directionInstructions: HTMLDivElement =
         elements.renderer.createElement('div');
+    // directionInstructions.classList.add('directionInstructions');
+    elements.renderer.addClass(directionInstructions, 'directionInstructions');
     legs.forEach((leg: OSRM.RouteLeg) => {
         leg.steps.forEach((step: OSRM.RouteStep) => {
 
@@ -296,8 +305,8 @@ const createTextDirection = (elements: IElements, legs: OSRM.RouteLeg[],
         });
     });
 
-    elements.renderer.appendChild(directionInfo, directionInstructions);
-    elements.renderer.appendChild(elements.el.nativeElement, directionInfo);
+    elements.renderer.appendChild(textDirection, directionInstructions);
+    elements.renderer.appendChild(elements.el.nativeElement, textDirection);
 
 };
 
@@ -310,6 +319,13 @@ const createRoute = async (map: Map,
     //     getNearest4326Point));
 
     const osrmJSON = await fetchDataFromOSRM(profil.url);
+
+    if (!osrmJSON.routes && !osrmJSON.routes[0]) {
+        throw new Error('Can\'t fetch any route');
+    }
+
+    profil.distance = formatDistance(osrmJSON.routes[0].distance);
+    profil.duration = formatTime(osrmJSON.routes[0].duration);
 
     // osrmJSON.routes[0].geometry !== osrmJSON.routes[0].legs[].geometry
     drawPolyline(osrmJSON.routes[0].geometry, map, profil);
@@ -326,7 +342,7 @@ const createRoutes = async (
         pointDeparture: PointLongLat,
         pointArrival: PointLongLat
 ): Promise<void> => {
-    const urlEnd = `/${pointDeparture};${pointArrival}`
+    const urlEnd = `/driving/${pointDeparture};${pointArrival}`
         + '?overview=full&steps=true';
 
     const cyclist: IProfil = {
@@ -355,11 +371,20 @@ const createRoutes = async (
         )
     );
 
+    const summary: HTMLDivElement =
+        elements.renderer.createElement('div');
+    elements.renderer.appendChild(elements.el.nativeElement, summary);
+
     const view = elements.map.getView();
 
     let newExtent = view.calculateExtent();
     for (let index = 0 ; index < profils.length ; index++) {
         if (profils[index].extent) {
+            const profilDiv = appendChildText(summary,
+                `${profils[index].title}: ${profils[index].duration}`
+                + ` | ${profils[index].distance}`, elements.renderer, 'div');
+            profilDiv.style.backgroundColor =
+                `rgba(${profils[index].colorRGB.concat(0.2)})`;
             // https://stackoverflow.com/questions/49746970/openlayers-4-fit-to-extent-of-selected-features
             newExtent = extend(newExtent, profils[index].extent as number[]);
             createTextDirection(
@@ -374,6 +399,16 @@ const createRoutes = async (
     view.fit(
         newExtent,
         {padding: [20, 20, 20, 20], minResolution: 50});
+
+    const vectorSourceAttributation = new VectorSource({attributions:
+            ' | Routes from <a href="http://project-osrm.org/">OSRM</a>,'
+            + ' data uses <a href="http://opendatacommons.org/licenses/odbl/">'
+            + 'ODbL</a> license'
+    });
+    const vectorLayerAttributions = new VectorLayer({
+      source: vectorSourceAttributation
+    });
+    elements.map.addLayer(vectorLayerAttributions);
 };
 
 const createAPoint = (arrivalPointProj: number[], color: string):
