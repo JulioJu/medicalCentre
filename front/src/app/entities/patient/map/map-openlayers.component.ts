@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Thu 28 Feb 2019 11:32:45 AM CET
+  *       MODIFIED: Thu 28 Feb 2019 04:09:07 PM CET
   *
   *          USAGE:
   *
@@ -12,7 +12,7 @@
   */
 
 // tslint:disable:no-magic-numbers ban-ts-ignore no-unsafe-any interface-name
-// tslint:disable:no-namespace switch-default
+// tslint:disable:no-namespace switch-default no-implicit-dependencies
 
 import { Component, OnInit, Input, Renderer2, ElementRef } from '@angular/core';
 
@@ -372,7 +372,7 @@ const createRoutes = async (
     const profils = [cyclist, walker, driver];
 
     const osrmJSONArray = await Promise.all(
-        profils.map((profil: IProfil): Promise<OSRMLocal.RouteService> =>
+        profils.map(async (profil: IProfil): Promise<OSRMLocal.RouteService> =>
             createRoute(elements.map, profil)
         )
     );
@@ -527,7 +527,8 @@ export class MapOpenLayersComponent implements OnInit {
     @Input() protected latitudeArrival: number;
     @Input() protected longitudeArrival: number;
 
-    public constructor(private renderer: Renderer2, private el: ElementRef) {}
+    public constructor(private readonly renderer: Renderer2,
+      private readonly el: ElementRef) {}
 
     public ngOnInit(): void {
 

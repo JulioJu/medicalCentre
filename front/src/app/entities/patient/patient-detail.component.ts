@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators }
+import { AbstractControl, FormGroup, FormControl, Validators }
     from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -19,6 +19,9 @@ export class PatientDetailComponent extends AbstractDetailComponent
     protected displayOpenlayersInsteadOfLeaflet: boolean = true;
 
     public formOpenLayerOrLeaflet: FormGroup = new FormGroup({
+      // Could be ignore
+      // https://github.com/palantir/tslint/issues/2651
+      // tslint:disable-next-line:no-unbound-method
         leafletOrOpenLayers: new FormControl('openlayers', Validators.required)
     });
 
@@ -28,15 +31,16 @@ export class PatientDetailComponent extends AbstractDetailComponent
     }
 
     public leafletOrOpenLayers(event: Event): void {
-        const input = this.formOpenLayerOrLeaflet.get('leafletOrOpenLayers');
-        if (input) {
-            const value: string = input.value;
-            if (value === 'openlayers') {
-                this.displayOpenlayersInsteadOfLeaflet = true;
-            } else if (value === 'leaflet') {
-                this.displayOpenlayersInsteadOfLeaflet = false;
-            }
-        }
+      const input: AbstractControl | null =
+        this.formOpenLayerOrLeaflet.get('leafletOrOpenLayers');
+      if (input) {
+          const value: string = input.value as string;
+          if (value === 'openlayers') {
+              this.displayOpenlayersInsteadOfLeaflet = true;
+          } else if (value === 'leaflet') {
+              this.displayOpenlayersInsteadOfLeaflet = false;
+          }
+      }
     }
 
     public ngOnInit(): void {
