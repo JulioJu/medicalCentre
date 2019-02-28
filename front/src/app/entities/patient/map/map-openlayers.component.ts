@@ -3,7 +3,7 @@
   *         GITHUB: https://github.com/JulioJu
   *        LICENSE: MIT (https://opensource.org/licenses/MIT)
   *        CREATED: Thu 14 Feb 2019 11:25:40 AM CET
-  *       MODIFIED: Wed 27 Feb 2019 06:19:16 PM CET
+  *       MODIFIED: Thu 28 Feb 2019 11:32:45 AM CET
   *
   *          USAGE:
   *
@@ -56,11 +56,13 @@ import { ShowError, CatchAndDisplayError } from './../../../shared';
 
 interface IProfil {
     title: string;
+    textTitle: string;
     colorRGB: number[];
     url: string;
     extent?: number[];
     distance?: string;
     duration?: string;
+    textDirection?: HTMLDivElement;
 }
 
 interface IElements {
@@ -220,15 +222,15 @@ const formatTime = (t: number /* Number (seconds) */): string => {
     const time = Math.round(t / 30) * 30;
 
     if (time > 86400) {
-        return `${Math.round(time / 3600)} heures` ;
+        return `${Math.round(time / 3600)} h` ;
     } else if (time > 3600) {
-        return `${Math.floor(time / 3600)} heures` +
-            ` ${Math.round((time % 3600) / 60)} minutes`;
+        return `${Math.floor(time / 3600)} h` +
+            ` ${Math.round((time % 3600) / 60)} m`;
     } else if (time > 300) {
-        return `${Math.round(time / 60)} minutes`;
+        return `${Math.round(time / 60)} m`;
     } else if (time > 60) {
-        return `${Math.floor(time / 60)} minutes` +
-            (time % 60 !== 0 ? ` ${(time % 60)} secondes` : '');
+        return `${Math.floor(time / 60)} m` +
+            (time % 60 !== 0 ? ` ${(time % 60)} s` : '');
     } else {
         return `${time} secondes`;
     }
@@ -237,7 +239,7 @@ const formatTime = (t: number /* Number (seconds) */): string => {
 const formatDistance = (meters: number /* Number (meters) */): string => {
     if (meters >= 1000) {
         return `${Math.floor(meters / 1000)} km` +
-            ` ${Math.round(meters % 1000)} mètres`;
+            ` ${Math.round(meters % 1000)} m`;
     }
     return `${meters} mètres`;
 };
@@ -267,7 +269,7 @@ const createTextDirection = (elements: IElements, legs: OSRM.RouteLeg[],
         elements.renderer.createElement('div');
     textDirection.style.backgroundColor =
         `rgba(${profil.colorRGB.concat(0.2)})`;
-    appendChildText(textDirection, profil.title, elements.renderer, 'h4');
+    appendChildText(textDirection, profil.textTitle, elements.renderer, 'h4');
     appendChildText(textDirection,
         `Distance: ${profil.distance} Durée: ${profil.duration}`,
         elements.renderer,
@@ -308,6 +310,7 @@ const createTextDirection = (elements: IElements, legs: OSRM.RouteLeg[],
     elements.renderer.appendChild(textDirection, directionInstructions);
     elements.renderer.appendChild(elements.el.nativeElement, textDirection);
 
+    profil.textDirection = textDirection;
 };
 
 const createRoute = async (map: Map,
@@ -346,19 +349,22 @@ const createRoutes = async (
         + '?overview=full&steps=true';
 
     const cyclist: IProfil = {
-        title: 'Vélo (c\'est très bien)',
+        title: 'cyclist',
+        textTitle: 'Vélo (c\'est très bien)',
         colorRGB: [0, 255, 0],
         url: `${URL_OSRM_CYCLIST}${urlEnd}`
     };
 
     const walker: IProfil = {
-        title: 'Marcheur (c\'est bien)',
+        title: 'walker',
+        textTitle: 'Marcheur (c\'est bien)',
         colorRGB: [0, 0, 255],
         url: `${URL_OSRM_WALKER}${urlEnd}`
     };
 
     const driver: IProfil = {
-        title: 'Conducteur (c\'est mal)',
+        title: 'driver',
+        textTitle: 'Conducteur (c\'est mal)',
         colorRGB: [255, 0, 0],
         url: `${URL_OSRM_DRIVER}${urlEnd}`
     };
@@ -381,7 +387,7 @@ const createRoutes = async (
     for (let index = 0 ; index < profils.length ; index++) {
         if (profils[index].extent) {
             const profilDiv = appendChildText(summary,
-                `${profils[index].title}: ${profils[index].duration}`
+                `${profils[index].textTitle}: ${profils[index].duration}`
                 + ` | ${profils[index].distance}`, elements.renderer, 'div');
             profilDiv.style.backgroundColor =
                 `rgba(${profils[index].colorRGB.concat(0.2)})`;
@@ -392,13 +398,27 @@ const createRoutes = async (
                 osrmJSONArray[index].routes[0].legs,
                 profils[index]
             );
+
+            if (profils[index].title !== 'cyclist') {
+                continue;
+            }
+            const olViewport = document.querySelector(
+                '#mapOSRM > div.ol-viewport');
+            if (olViewport) {
+                const instructionsOnMap: HTMLDivElement = (profils[index]
+                    .textDirection as HTMLDivElement)
+                    .cloneNode(true) as HTMLDivElement;
+                instructionsOnMap
+                    .classList.add('ol-viewport-custom-direction-instruction');
+                olViewport.appendChild(instructionsOnMap);
+            }
         }
     }
 
     // https://openlayers.org/en/latest/examples/center.html
     view.fit(
         newExtent,
-        {padding: [20, 20, 20, 20], minResolution: 50});
+        {padding: [20, 150, 20, 20], minResolution: 50});
 
     const vectorSourceAttributation = new VectorSource({attributions:
             ' | Routes from <a href="http://project-osrm.org/">OSRM</a>,'

@@ -562,6 +562,9 @@ http://xhr.spec.whatwg.org/
 
 * WARNING depreciation warnings for CRUD in back. Correct it.
 
+* When we edit an existing form, and if nothing is found, we have
+    a perpetual message 'Loading Form'
+
 # Notes for developers
 
 * BIG WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input

@@ -5,6 +5,15 @@
     /* grid-template-rows:    auto auto; */
 }
 
+.ol-viewport-custom-direction-instruction {
+    position: absolute;
+    z-index: 50;
+    right: 3em;
+    overflow-y: scroll;
+    width: 360px;
+    height: 100%
+}
+
 /* Following, copied from  */
 /* https://github.com/perliedman/leaflet-routing-machine/blob/master/dist/leaflet-routing-machine.css#L76,L100  */
 
