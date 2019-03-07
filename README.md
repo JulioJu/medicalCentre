@@ -565,6 +565,9 @@ http://xhr.spec.whatwg.org/
 * When we edit an existing form, and if nothing is found, we have
     a perpetual message 'Loading Form'
 
+* Improve Openlayers map
+    see also https://openlayers.org/en/latest/examples/draw-and-modify-features.html
+
 # Notes for developers
 
 * BIG WARNING:https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
@@ -676,6 +679,18 @@ http://xhr.spec.whatwg.org/
 
 * https://github.com/Automattic/mongoose/issues/7514
      Doc: Add Cast error exemple in validation.jade
+
+* https://github.com/openlayers/openlayers/pull/9259
+    Doc: precisions for IntelliSense configuration
+
+* https://github.com/perliedman/leaflet-routing-machine/issues/516
+    Doc: now OSRM supports routes for cars and bicycle
+
+* https://github.com/openlayers/openlayers/issues/9228
+    View.center seems not work
+
+* https://github.com/OSHistory/ng7-ol5-demo/issues/2
+    Cannot find module ol-integration
 
 * https://github.com/openlayers/openlayers/pull/9259
     Doc: precisions for IntelliSense configuration
